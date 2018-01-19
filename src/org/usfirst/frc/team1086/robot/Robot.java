@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
-
-	//Comment on Kevin's repo
 	@Override public void robotInit() {
 	}
 
