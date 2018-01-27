@@ -108,6 +108,8 @@ public class MotionProfiling {
         }
         else {
             System.out.println("MP is finished");
+            left.closeFile();
+            right.closeFile();
             drivetrain.drive(0,0);
             turnController.disable();
         }
