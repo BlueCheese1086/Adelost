@@ -78,8 +78,8 @@ public class MotionProfiling {
             Trajectory trajectory = Pathfinder.generate(points, config);
             TankModifier modifier = new TankModifier(trajectory).modify(MPConstants.WHEELBASE_WIDTH);
 
-            left = new EncoderFollower(modifier.getLeftTrajectory());
-            right = new EncoderFollower(modifier.getRightTrajectory());
+            left = new EncoderFollower(modifier.getLeftTrajectory(), "/home/lvuser/leftPath.csv");
+            right = new EncoderFollower(modifier.getRightTrajectory(), "/home/lvuser/rightPath.csv");
 
             left.configureEncoder(drivetrain.frontLeft.getSelectedSensorPosition(0), 4096, Constants.WHEEL_DIAMETER);
             right.configureEncoder(drivetrain.frontRight.getSelectedSensorPosition(0), 4096, Constants.WHEEL_DIAMETER);

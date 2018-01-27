@@ -18,9 +18,9 @@ public class EncoderFollower {
     Trajectory trajectory;
     File file;
     BufferedWriter bw;
-    public EncoderFollower(Trajectory traj) {
+    public EncoderFollower(Trajectory traj, String filePath) {
         this.trajectory = traj;
-        file = new File("/home/lvuser/path.csv");
+        file = new File(filePath);
         try {
             bw = new BufferedWriter(new FileWriter(file));
             bw.write("Distance, Position, Velocity, Acceleration, Enc_Velocity, Output");
