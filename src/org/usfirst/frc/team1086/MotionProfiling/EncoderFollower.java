@@ -7,12 +7,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class EncoderFollower {
-    File file;
-    BufferedWriter bw;
-    double encoder_offset, encoder_tick_count, wheel_circumference;
-    double kp, ki, kd, kv, ka;
+    private File file;
+    private BufferedWriter bw;
+    private double encoder_offset, encoder_tick_count, wheel_circumference;
+    private double kp, ki, kd, kv, ka;
 
-    double last_error, heading;
+    private double last_error, heading;
 
     int segment;
     Trajectory trajectory;
@@ -40,7 +40,7 @@ public class EncoderFollower {
     public double calculate(int encoder_tick, double vel) {
         Trajectory.Segment seg = trajectory.get(segment);
         double calculate_value = calculate(encoder_tick);
-        double distance_covered = ((double)(encoder_tick - encoder_offset) / encoder_tick_count)
+        double distance_covered = ((encoder_tick - encoder_offset) / encoder_tick_count)
                 * wheel_circumference;
         try {
             String line = distance_covered + ", " + seg.position + ", " + seg.velocity + ", " + seg.acceleration + ", " + vel + ", " + calculate_value +  "\n";
@@ -61,11 +61,9 @@ public class EncoderFollower {
         }
     }
 
-    public EncoderFollower(Trajectory traj) {
+    private EncoderFollower(Trajectory traj) {
         this.trajectory = traj;
     }
-
-    public EncoderFollower() { }
 
     /**
      * Set a new trajectory to follow, and reset the cumulative errors and segment counts
@@ -118,8 +116,7 @@ public class EncoderFollower {
      * @return             The desired output for your motor controller
      */
     public double calculate(int encoder_tick) {
-        // Number of Revolutions * Wheel Circumference
-        double distance_covered = ((double)(encoder_tick - encoder_offset) / encoder_tick_count)
+        double distance_covered = ((encoder_tick - encoder_offset) / encoder_tick_count)
                 * wheel_circumference;
         if (segment < trajectory.length()) {
             Trajectory.Segment seg = trajectory.get(segment);
