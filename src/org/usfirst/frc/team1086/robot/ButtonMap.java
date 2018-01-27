@@ -15,4 +15,5 @@ public class ButtonMap {
      */
     public static final int EVICT = 1;
     public static final int INTAKE = 2;
+    public static final int MOTION_PROFILE = 3;
 }

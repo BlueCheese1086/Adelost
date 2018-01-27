@@ -9,6 +9,10 @@ public class InputManager {
     Joystick rightStick;
     Joystick auxStick;
 
+    static {
+        instance = new InputManager();
+    }
+
     private InputManager(){
         leftStick = new Joystick(0);
         rightStick = new Joystick(1);
@@ -17,12 +21,7 @@ public class InputManager {
     }
 
     public static InputManager getInstance(){
-        if(instance != null){
-            return instance;
-        }
-        else {
-            return new InputManager();
-        }
+        return instance;
     }
 
     public boolean getSafety() {
@@ -39,5 +38,11 @@ public class InputManager {
     }
     public boolean getEvict() {
         return auxStick.getRawButton(ButtonMap.EVICT);
+    }
+    public boolean getMotionProfileStart(){
+        return auxStick.getRawButtonPressed(ButtonMap.MOTION_PROFILE);
+    }
+    public boolean getMotionProfileTick(){
+        return auxStick.getRawButton(ButtonMap.MOTION_PROFILE);
     }
 }

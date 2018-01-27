@@ -1,24 +1,39 @@
 package org.usfirst.frc.team1086.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import org.usfirst.frc.team1086.robot.Constants;
 import org.usfirst.frc.team1086.robot.InputManager;
 import org.usfirst.frc.team1086.robot.RobotMap;
 
 public class Drivetrain {
-	private TalonSRX frontLeft, frontRight, backLeft, backRight;
+	private static Drivetrain instance;
+
+	public TalonSRX frontLeft, frontRight, backLeft, backRight;
 	private InputManager im;
+
+	static {
+		instance = new Drivetrain();
+	}
+
 	/**
 	 * Initializer for the Drivetrain class.
 	 */
-	public Drivetrain() {
+	private Drivetrain() {
 		frontLeft = new TalonSRX(RobotMap.DRIVE_FRONT_LEFT);
 		frontRight = new TalonSRX(RobotMap.DRIVE_FRONT_RIGHT);
 		backLeft = new TalonSRX(RobotMap.DRIVE_BACK_LEFT);
 		backRight = new TalonSRX(RobotMap.DRIVE_BACK_RIGHT);
 		frontLeft.setInverted(true);
 		backLeft.setInverted(true);
+		frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		im = InputManager.getInstance();
+	}
+
+	public static Drivetrain getInstance(){
+		return instance;
 	}
 
 	public void teleopTick(){
@@ -40,5 +55,28 @@ public class Drivetrain {
 		frontRight.set(ControlMode.PercentOutput, drive - turn);
 		backLeft.set(ControlMode.PercentOutput, drive + turn);
 		backRight.set(ControlMode.PercentOutput, drive - turn);
+	}
+
+	public void driveMP(double left, double right, double turn){
+		frontLeft.set(ControlMode.PercentOutput, left + turn);
+		backLeft.set(ControlMode.PercentOutput, left + turn);
+		frontRight.set(ControlMode.PercentOutput, right - turn);
+		backRight.set(ControlMode.PercentOutput, right - turn);
+	}
+
+	public double getLeftDistance(){
+		return frontLeft.getSelectedSensorPosition(0) / 4096 * Constants.WHEEL_DIAMETER;
+	}
+
+	public double getRightDistance(){
+		return frontRight.getSelectedSensorPosition(0) / 4096 * Constants.WHEEL_DIAMETER;
+	}
+
+	public double getEncDistance(){
+		return (getLeftDistance() + getRightDistance()) / 2.0;
+	}
+
+	public void logSmartDashboard(){
+
 	}
 }

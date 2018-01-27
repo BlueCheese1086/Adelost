@@ -7,14 +7,16 @@
 
 package org.usfirst.frc.team1086.robot;
 
+import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot {
-	private Drivetrain drivetrain;
-	
+	Drivetrain drivetrain;
+	MotionProfiling motionProfiling;
+
 	@Override public void robotInit() {
-		drivetrain = new Drivetrain();
+		drivetrain = Drivetrain.getInstance();
 	}
 
 	@Override public void autonomousInit() {
@@ -31,9 +33,15 @@ public class Robot extends TimedRobot {
 
 	@Override public void teleopPeriodic() {
 		drivetrain.teleopTick();
+		motionProfiling.teleopTick();
+		logSmartDashboard();
 	}
 
 	@Override public void testPeriodic() {
 		teleopPeriodic();
+	}
+
+	private void logSmartDashboard(){
+		drivetrain.logSmartDashboard();
 	}
 }
