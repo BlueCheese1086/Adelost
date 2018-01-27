@@ -11,10 +11,10 @@ import org.usfirst.frc.team1086.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot {
-	private Drivetrain mainDrivetrain;
+	private Drivetrain drivetrain;
 	
 	@Override public void robotInit() {
-		mainDrivetrain = new Drivetrain(1, 2, 3, 4, (char) (Drivetrain.frontLeftInverted | Drivetrain.backLeftInverted));
+		drivetrain = new Drivetrain();
 	}
 
 	@Override public void autonomousInit() {
