@@ -25,6 +25,7 @@ public class EncoderFollower extends jaci.pathfinder.followers.EncoderFollower {
         try {
             bw = new BufferedWriter(new FileWriter(file));
             bw.write("Distance, Position, Velocity, Acceleration, Enc_Velocity, Output");
+            bw.newLine();
             bw.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -41,18 +42,18 @@ public class EncoderFollower extends jaci.pathfinder.followers.EncoderFollower {
      */
     public double calculate(int encoder_tick, double vel) {
         Trajectory.Segment seg = trajectory.get(segment);
-        double calcuate_value = super.calculate(encoder_tick);
+        double calculate_value = super.calculate(encoder_tick);
         double distance_covered = ((double)(encoder_tick - encoder_offset) / encoder_tick_count)
                 * wheel_circumference;
         try {
-            String line = distance_covered + ", " + seg.position + ", " + seg.velocity + ", " + seg.acceleration + ", " + vel + ", " + calcuate_value +  "\n";
+            String line = distance_covered + ", " + seg.position + ", " + seg.velocity + ", " + seg.acceleration + ", " + vel + ", " + calculate_value +  "\n";
             bw.write(line);
             bw.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return calcuate_value;
+        return calculate_value;
     }
 
     public void closeFile(){
