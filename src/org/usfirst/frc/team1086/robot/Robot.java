@@ -7,15 +7,16 @@
 
 package org.usfirst.frc.team1086.robot;
 
+import org.usfirst.frc.team1086.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
+	private Drivetrain mainDrivetrain;
+	
 	@Override public void robotInit() {
+		mainDrivetrain = new Drivetrain(1, 2, 3, 4, (char) (Drivetrain.frontLeftInverted | Drivetrain.backLeftInverted));
 	}
 
-	
 	@Override public void autonomousInit() {
 		
 	}
@@ -25,8 +26,10 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override public void teleopPeriodic() {
+		
 	}
 
 	@Override public void testPeriodic() {
+		
 	}
 }
