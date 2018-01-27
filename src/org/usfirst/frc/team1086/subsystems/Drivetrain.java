@@ -2,11 +2,12 @@ package org.usfirst.frc.team1086.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import org.usfirst.frc.team1086.robot.InputManager;
 import org.usfirst.frc.team1086.robot.RobotMap;
 
 public class Drivetrain {
 	private TalonSRX frontLeft, frontRight, backLeft, backRight;
-
+	private InputManager im;
 	/**
 	 * Initializer for the Drivetrain class.
 	 */
@@ -17,6 +18,16 @@ public class Drivetrain {
 		backRight = new TalonSRX(RobotMap.DRIVE_BACK_RIGHT);
 		frontLeft.setInverted(true);
 		backLeft.setInverted(true);
+		im = InputManager.getInstance();
+	}
+
+	public void teleopTick(){
+		if(im.getSafety()){
+			drive(im.getDrive(), im.getTurn());
+		}
+		else {
+			drive(0, 0);
+		}
 	}
 
 	/**
