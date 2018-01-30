@@ -3,6 +3,7 @@ package org.usfirst.frc.team1086.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1086.robot.Constants;
 import org.usfirst.frc.team1086.robot.InputManager;
 import org.usfirst.frc.team1086.robot.RobotMap;
@@ -64,6 +65,11 @@ public class Drivetrain {
 		backRight.set(ControlMode.PercentOutput, right - turn);
 	}
 
+	public void resetEncoders(){
+		frontLeft.setSelectedSensorPosition(0, 0, 0);
+		frontRight.setSelectedSensorPosition(0, 0, 0);
+	}
+
 	public double getLeftDistance(){
 		return frontLeft.getSelectedSensorPosition(0) / 4096 * Constants.WHEEL_DIAMETER;
 	}
@@ -77,6 +83,8 @@ public class Drivetrain {
 	}
 
 	public void logSmartDashboard(){
-
+		SmartDashboard.putNumber("Encoder Left Distance", getLeftDistance());
+		SmartDashboard.putNumber("Encoder Right Distance", getRightDistance());
+		SmartDashboard.putNumber("Encoder Distance", getEncDistance());
 	}
 }
