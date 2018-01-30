@@ -56,6 +56,8 @@ git commit -m "Insert a descriptive message here. Should describe what you did."
 git push origin master
 ```
 
+Note how we said `git add *.java` and not add `git add *.*`. We only want our Java file here.
+
 Finally, go to your personal repository and create a pull request into Blue Cheese prototype branch. Kevin/Jack will review it and merge into the Blue Cheese code.
 
 ## Deployment
