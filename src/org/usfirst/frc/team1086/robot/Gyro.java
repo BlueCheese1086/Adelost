@@ -32,7 +32,7 @@ public class Gyro implements PIDSource {
     }
 
     public double getNormalizedAngle(){
-        return Utils.normalizeAngle(getNormalizedAngle());
+        return Utils.normalizeAngle(getAngle());
     }
 
 
