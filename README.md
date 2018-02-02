@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-You need to have completed the setup outlined in https://wpilib.screenstepslive.com/s/currentCS/m/getting_started. This includes Eclipse set up with the WPILib FRC Java plugins, the NI suite, CTRE TalonSRX Libraries, and the Kauai Labs NavX Library. 
+You need to have completed the setup outlined in https://wpilib.screenstepslive.com/s/currentCS/m/getting_started. This includes Eclipse set up with the WPILib FRC Java plugins, the NI suite, CTRE TalonSRX Libraries, the Kauai Labs NavX Library, and Jaci's Pathfinder Library.
 
 You also need to have a working understanding of Git and GitHub. Please refer to https://try.github.io/levels/1/challenges/1 and other tutorials online to obtain a basic understanding of Git.
 
