@@ -8,6 +8,7 @@
 package org.usfirst.frc.team1086.robot;
 
 import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
+import org.usfirst.frc.team1086.autonomous.AutonomousStarter;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.TimedRobot;
 import org.usfirst.frc.team1086.subsystems.Elevator;
@@ -18,14 +19,17 @@ public class Robot extends TimedRobot {
 	Elevator elevator;
 	Intake intake;
 	MotionProfiling motionProfiling;
+	AutonomousStarter autoStarter;
 
 	@Override public void robotInit() {
 		drivetrain = Drivetrain.getInstance();
 		drivetrain.resetEncoders();
+		autoStarter = new AutonomousStarter();
+		autoStarter.initAutoModes();
 	}
 
 	@Override public void autonomousInit() {
-		
+		autoStarter.start();
 	}
 	
 	@Override public void autonomousPeriodic() {

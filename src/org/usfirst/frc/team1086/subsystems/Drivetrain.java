@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1086.robot.Constants;
+import org.usfirst.frc.team1086.robot.EncoderManager;
 import org.usfirst.frc.team1086.robot.InputManager;
 import org.usfirst.frc.team1086.robot.RobotMap;
 
@@ -13,6 +14,7 @@ public class Drivetrain {
 
 	public TalonSRX frontLeft, frontRight, backLeft, backRight;
 	private InputManager im;
+	public EncoderManager em;
 
 	static {
 		instance = new Drivetrain();
@@ -28,9 +30,8 @@ public class Drivetrain {
 		backRight = new TalonSRX(RobotMap.DRIVE_BACK_RIGHT);
 		frontLeft.setInverted(true);
 		backLeft.setInverted(true);
-		frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		im = InputManager.getInstance();
+		em = new EncoderManager();
 	}
 
 	public static Drivetrain getInstance(){
@@ -58,6 +59,12 @@ public class Drivetrain {
 		backRight.set(ControlMode.PercentOutput, drive - turn);
 	}
 
+	/**
+	 * Applies power to the Drivetrain motors to move the robot in the context of Motion Profiling
+	 * @param left - the power to send to move the left side of the drivetrain. 1 is full speed forwards, -1 is full speed backwards
+	 * @param right - the power to send to move the right side of the drivetrain. 1 is full speed forwards, -1 is full speed backwards
+	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
+	 */
 	public void driveMP(double left, double right, double turn){
 		frontLeft.set(ControlMode.PercentOutput, left + turn);
 		backLeft.set(ControlMode.PercentOutput, left + turn);
@@ -65,26 +72,7 @@ public class Drivetrain {
 		backRight.set(ControlMode.PercentOutput, right - turn);
 	}
 
-	public void resetEncoders(){
-		frontLeft.setSelectedSensorPosition(0, 0, 0);
-		frontRight.setSelectedSensorPosition(0, 0, 0);
-	}
-
-	public double getLeftDistance(){
-		return frontLeft.getSelectedSensorPosition(0) / 4096 * Constants.WHEEL_DIAMETER;
-	}
-
-	public double getRightDistance(){
-		return frontRight.getSelectedSensorPosition(0) / 4096 * Constants.WHEEL_DIAMETER;
-	}
-
-	public double getEncDistance(){
-		return (getLeftDistance() + getRightDistance()) / 2.0;
-	}
-
 	public void logSmartDashboard(){
-		SmartDashboard.putNumber("Encoder Left Distance", getLeftDistance());
-		SmartDashboard.putNumber("Encoder Right Distance", getRightDistance());
-		SmartDashboard.putNumber("Encoder Distance", getEncDistance());
+		em.logSmartDashboard();
 	}
 }
