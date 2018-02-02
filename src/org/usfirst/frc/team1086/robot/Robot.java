@@ -23,7 +23,7 @@ public class Robot extends TimedRobot {
 
 	@Override public void robotInit() {
 		drivetrain = Drivetrain.getInstance();
-		drivetrain.resetEncoders();
+		drivetrain.em.resetEncoders();
 		autoStarter = new AutonomousStarter();
 		autoStarter.initAutoModes();
 	}
