@@ -1,34 +1,78 @@
 package org.usfirst.frc.team1086.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team1086.robot.Constants;
+import org.usfirst.frc.team1086.robot.EncoderManager;
+import org.usfirst.frc.team1086.robot.InputManager;
+import org.usfirst.frc.team1086.robot.RobotMap;
 
 public class Drivetrain {
-	private TalonSRX frontLeft, frontRight, backLeft, backRight;
-	public static final char frontLeftInverted = 1 << 0, frontRightInverted = 1 << 1, backLeftInverted = 1 << 2, backRightInverted = 1 << 3;
+	private static Drivetrain instance;
+
+	public TalonSRX frontLeft, frontRight, backLeft, backRight;
+	private InputManager im;
+	public EncoderManager em;
+
+	static {
+		instance = new Drivetrain();
+	}
+
 	/**
 	 * Initializer for the Drivetrain class.
-	 * @param	frontLeftID		the CAN ID of the front left talon
-	 * @param	frontRightID	the CAN ID of the front right talon
-	 * @param	backLeftID		the CAN ID of the back left talon
-	 * @param	backRightID		the CAN ID of the back right talon
-	 * @param	invertedFlags	the inverted talons' flags OR'd together
 	 */
-	public Drivetrain(int frontLeftID, int frontRightID, int backLeftID, int backRightID, char invertedFlags) {
-		frontLeft = new TalonSRX(frontLeftID);
-		frontRight = new TalonSRX(frontRightID);
-		backLeft = new TalonSRX(backLeftID);
-		backRight = new TalonSRX(backRightID);
-		frontLeft.setInverted((invertedFlags & frontLeftInverted) != 0);
-		frontRight.setInverted((invertedFlags & frontRightInverted) != 0);
-		backLeft.setInverted((invertedFlags & backLeftInverted) != 0);
-		backRight.setInverted((invertedFlags & backRightInverted) != 0);
+	private Drivetrain() {
+		frontLeft = new TalonSRX(RobotMap.DRIVE_FRONT_LEFT);
+		frontRight = new TalonSRX(RobotMap.DRIVE_FRONT_RIGHT);
+		backLeft = new TalonSRX(RobotMap.DRIVE_BACK_LEFT);
+		backRight = new TalonSRX(RobotMap.DRIVE_BACK_RIGHT);
+		frontLeft.setInverted(true);
+		backLeft.setInverted(true);
+		im = InputManager.getInstance();
+		em = new EncoderManager();
 	}
-	
-	public void UserControl(double leftY, double rightX) {
-		frontLeft.set(ControlMode.PercentOutput, -leftY - rightX);
-		frontRight.set(ControlMode.PercentOutput, -leftY + rightX);
-		backLeft.set(ControlMode.PercentOutput, leftY - rightX);
-		backRight.set(ControlMode.PercentOutput, leftY + rightX);
+
+	public static Drivetrain getInstance(){
+		return instance;
+	}
+
+	public void teleopTick(){
+		if(im.getSafety()){
+			drive(im.getDrive(), im.getTurn());
+		}
+		else {
+			drive(0, 0);
+		}
+	}
+
+	/**
+	 * Applies power to the Drivetrain motors to move the robot.
+	 * @param drive - the power to send to move forwards and backwards. 1 is full speed forwards, -1 is full speed backwards
+	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
+	 */
+	public void drive(double drive, double turn) {
+		frontLeft.set(ControlMode.PercentOutput, drive + turn);
+		frontRight.set(ControlMode.PercentOutput, drive - turn);
+		backLeft.set(ControlMode.PercentOutput, drive + turn);
+		backRight.set(ControlMode.PercentOutput, drive - turn);
+	}
+
+	/**
+	 * Applies power to the Drivetrain motors to move the robot in the context of Motion Profiling
+	 * @param left - the power to send to move the left side of the drivetrain. 1 is full speed forwards, -1 is full speed backwards
+	 * @param right - the power to send to move the right side of the drivetrain. 1 is full speed forwards, -1 is full speed backwards
+	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
+	 */
+	public void driveMP(double left, double right, double turn){
+		frontLeft.set(ControlMode.PercentOutput, left + turn);
+		backLeft.set(ControlMode.PercentOutput, left + turn);
+		frontRight.set(ControlMode.PercentOutput, right - turn);
+		backRight.set(ControlMode.PercentOutput, right - turn);
+	}
+
+	public void logSmartDashboard(){
+		em.logSmartDashboard();
 	}
 }

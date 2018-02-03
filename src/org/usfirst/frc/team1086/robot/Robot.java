@@ -7,29 +7,50 @@
 
 package org.usfirst.frc.team1086.robot;
 
+import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
+import org.usfirst.frc.team1086.autonomous.AutonomousStarter;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.TimedRobot;
+import org.usfirst.frc.team1086.subsystems.Elevator;
+import org.usfirst.frc.team1086.subsystems.Intake;
 
 public class Robot extends TimedRobot {
-	private Drivetrain mainDrivetrain;
-	
+	Drivetrain drivetrain;
+	Elevator elevator;
+	Intake intake;
+	MotionProfiling motionProfiling;
+	AutonomousStarter autoStarter;
+
 	@Override public void robotInit() {
-		mainDrivetrain = new Drivetrain(1, 2, 3, 4, (char) (Drivetrain.frontLeftInverted | Drivetrain.backLeftInverted));
+		drivetrain = Drivetrain.getInstance();
+		drivetrain.em.resetEncoders();
+		autoStarter = new AutonomousStarter();
+		autoStarter.initAutoModes();
 	}
 
 	@Override public void autonomousInit() {
-		
+		autoStarter.start();
 	}
 	
 	@Override public void autonomousPeriodic() {
 		
 	}
 
+	@Override public void teleopInit(){
+
+	}
+
 	@Override public void teleopPeriodic() {
-		
+		drivetrain.teleopTick();
+		motionProfiling.teleopTick();
+		logSmartDashboard();
 	}
 
 	@Override public void testPeriodic() {
-		
+		teleopPeriodic();
+	}
+
+	private void logSmartDashboard(){
+		drivetrain.logSmartDashboard();
 	}
 }
