@@ -96,8 +96,8 @@ public class MotionProfiling {
 
     public void tick(){
         if(!left.isFinished() && !right.isFinished()){
-            double leftSpeed = left.calculate(drivetrain.frontLeft.getSelectedSensorPosition(0), drivetrain.getLeftDistance());
-            double rightSpeed = right.calculate(drivetrain.frontRight.getSelectedSensorPosition(0), drivetrain.getRightDistance());
+            double leftSpeed = left.calculate(drivetrain.frontLeft.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
+            double rightSpeed = right.calculate(drivetrain.frontRight.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
 
             double gyroHeading = gyro.getAngle();
             double desiredHeading = Pathfinder.r2d(left.getHeading());
