@@ -214,7 +214,6 @@ Violations of these rules are permitted if fixing them would require large amoun
 Here's a script to fix some of the less-complicated errors. Feel free to contribute!
 
 ```
-
 for i in "$(find . -name *.java )";
 do sed \
 -e "s/if(/if (/g" \
@@ -227,7 +226,7 @@ do sed \
 -e "s/\( *\)}\n\1catch/\1} catch/g" \
 -e "s/\( *\)}\n\1finally/\1} finally/g" \
 -e "s/do{/do {/g" \
--e "s/}while/} while" \
+-e "s/}while/} while/g" \
 -e "s/\t/    /g" \
 -i $i;
 dos2unix $i; 
