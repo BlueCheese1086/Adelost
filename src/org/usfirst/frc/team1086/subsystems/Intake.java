@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1086.subsystems;
 
+import org.usfirst.frc.team1086.robot.RobotMap;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -8,8 +9,8 @@ public class Intake {
 	TalonSRX intake2;
 	
 	public Intake() {
-		intake1 = new TalonSRX(0); // Filler numbers for motor ports 
-		intake2 = new TalonSRX(0);
+		intake1 = new TalonSRX(RobotMap.INTAKE1); 
+		intake2 = new TalonSRX(RobotMap.INTAKE2);
 	}
 	public void motorIn() {
 		intake1.set(ControlMode.PercentOutput, 0.5);
