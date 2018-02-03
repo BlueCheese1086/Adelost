@@ -53,7 +53,7 @@ public class EncoderFollower {
         return calculate_value;
     }
 
-    public void closeFile(){
+    public void closeFile() {
         try {
             bw.close();
         } catch (IOException e) {

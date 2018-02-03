@@ -7,7 +7,7 @@ public class AutonomousStarter {
         instance = new AutonomousStarter();
     }
 
-    public AutonomousStarter getInstance(){
+    public AutonomousStarter getInstance() {
         return instance;
     }
 
@@ -17,14 +17,14 @@ public class AutonomousStarter {
     /**
      * Initializes the sections of all the auto modes.
      */
-    public void initAutoModes(){
+    public void initAutoModes() {
 
     }
 
     /**
      * Retrieves the FMS field randomization and Autonomous Chooser data and calls the appropriate auto mode.
      */
-    public AutonomousManager start(){
+    public AutonomousManager start() {
 
 
         return driveForward;

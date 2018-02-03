@@ -51,11 +51,11 @@ public class MotionProfiling {
         };
     }
 
-    public void teleopTick(){
-        if(im.getMotionProfileStart()){
+    public void teleopTick() {
+        if (im.getMotionProfileStart()) {
             init();
         }
-        if(im.getMotionProfileTick()){
+        if (im.getMotionProfileTick()) {
             tick();
         }
     }
@@ -64,15 +64,15 @@ public class MotionProfiling {
      * Sets the waypoints
      * @param points - the desired Waypoints to generate a trajectory
      */
-    public void setWaypoints(Waypoint[] points){
+    public void setWaypoints(Waypoint[] points) {
         this.points = points;
     }
 
     /**
      * Initializes Motion Profiling and prepares a path to be followed
      */
-    public void init(){
-        if(points != null){
+    public void init() {
+        if (points != null) {
             Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST,
                                                             MPConstants.DELTA_TIME, MPConstants.MAX_VELOCITY, MPConstants.MAX_ACCELERATION, MPConstants.MAX_JERK);
             Trajectory trajectory = Pathfinder.generate(points, config);
@@ -88,14 +88,13 @@ public class MotionProfiling {
             right.configurePIDVA(MPConstants.MP_KP, MPConstants.MP_KI, MPConstants.TURN_KD, MPConstants.MP_KV, MPConstants.MP_KA);
 
             turnController.enable();
-        }
-        else {
+        } else {
             System.out.println("Waypoints is null when calling init() in Motion Profiling");
         }
     }
 
-    public void tick(){
-        if(!left.isFinished() && !right.isFinished()){
+    public void tick() {
+        if (!left.isFinished() && !right.isFinished()) {
             double leftSpeed = left.calculate(drivetrain.frontLeft.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
             double rightSpeed = right.calculate(drivetrain.frontRight.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
 
@@ -105,8 +104,7 @@ public class MotionProfiling {
 
             double turn = turnController.get();
             drivetrain.driveMP(leftSpeed, rightSpeed, turn);
-        }
-        else {
+        } else {
             System.out.println("MP is finished");
             left.closeFile();
             right.closeFile();

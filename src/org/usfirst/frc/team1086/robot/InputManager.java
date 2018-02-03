@@ -13,14 +13,14 @@ public class InputManager {
         instance = new InputManager();
     }
 
-    private InputManager(){
+    private InputManager() {
         leftStick = new Joystick(0);
         rightStick = new Joystick(1);
         auxStick = new Joystick(5);
         instance = this;
     }
 
-    public static InputManager getInstance(){
+    public static InputManager getInstance() {
         return instance;
     }
 
@@ -33,16 +33,16 @@ public class InputManager {
     public double getTurn() {
         return rightStick.getX() * Math.abs(rightStick.getX());
     }
-    public boolean getIntake(){
+    public boolean getIntake() {
         return auxStick.getRawButton(ButtonMap.INTAKE);
     }
     public boolean getEvict() {
         return auxStick.getRawButton(ButtonMap.EVICT);
     }
-    public boolean getMotionProfileStart(){
+    public boolean getMotionProfileStart() {
         return auxStick.getRawButtonPressed(ButtonMap.MOTION_PROFILE);
     }
-    public boolean getMotionProfileTick(){
+    public boolean getMotionProfileTick() {
         return auxStick.getRawButton(ButtonMap.MOTION_PROFILE);
     }
 }

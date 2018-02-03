@@ -16,42 +16,42 @@ import org.usfirst.frc.team1086.subsystems.Intake;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot {
-	Drivetrain drivetrain;
-	Elevator elevator;
-	Intake intake;
-	MotionProfiling motionProfiling;
-	AutonomousStarter autoStarter;
+    Drivetrain drivetrain;
+    Elevator elevator;
+    Intake intake;
+    MotionProfiling motionProfiling;
+    AutonomousStarter autoStarter;
 
-	@Override public void robotInit() {
-		drivetrain = Drivetrain.getInstance();
-		drivetrain.em.resetEncoders();
-		autoStarter = new AutonomousStarter();
-		autoStarter.initAutoModes();
-	}
+    @Override public void robotInit() {
+        drivetrain = Drivetrain.getInstance();
+        drivetrain.em.resetEncoders();
+        autoStarter = new AutonomousStarter();
+        autoStarter.initAutoModes();
+    }
 
-	@Override public void autonomousInit() {
-		autoStarter.start();
-	}
-	
-	@Override public void autonomousPeriodic() {
-		
-	}
+    @Override public void autonomousInit() {
+        autoStarter.start();
+    }
+    
+    @Override public void autonomousPeriodic() {
+        
+    }
 
-	@Override public void teleopInit(){
+    @Override public void teleopInit() {
 
-	}
+    }
 
-	@Override public void teleopPeriodic() {
-		drivetrain.teleopTick();
-		motionProfiling.teleopTick();
-		logSmartDashboard();
-	}
+    @Override public void teleopPeriodic() {
+        drivetrain.teleopTick();
+        motionProfiling.teleopTick();
+        logSmartDashboard();
+    }
 
-	@Override public void testPeriodic() {
-		teleopPeriodic();
-	}
+    @Override public void testPeriodic() {
+        teleopPeriodic();
+    }
 
-	private void logSmartDashboard(){
-		drivetrain.logSmartDashboard();
-	}
+    private void logSmartDashboard() {
+        drivetrain.logSmartDashboard();
+    }
 }

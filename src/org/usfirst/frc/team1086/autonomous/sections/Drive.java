@@ -7,7 +7,7 @@ public class Drive extends AutonomousSection {
     double forward, turn;
     Drivetrain drive;
 
-    public Drive(long duration, double forward, double turn){
+    public Drive(long duration, double forward, double turn) {
         drive = Drivetrain.getInstance();
         this.duration = duration;
         this.forward = forward;
