@@ -48,15 +48,13 @@ Whenever you want to start working on code, make sure you are up to date with an
 git pull upstream prototype
 ```
 
-Next, write your code. When you are done, follow these steps:
+Next, write your code. When you are done, navigate to the root of the Adelost project and follow these steps:
 
 ```
-git add *.java
+git add .
 git commit -m "Insert a descriptive message here. Should describe what you did."
 git push origin master
 ```
-
-Note how we said `git add *.java` and not add `git add *.*`. We only want our Java file here.
 
 Finally, go to your personal repository and create a pull request into Blue Cheese prototype branch. Kevin/Jack will review it and merge into the Blue Cheese code.
 
