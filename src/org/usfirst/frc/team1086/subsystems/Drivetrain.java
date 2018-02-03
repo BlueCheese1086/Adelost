@@ -24,10 +24,10 @@ public class Drivetrain {
 	 * Initializer for the Drivetrain class.
 	 */
 	private Drivetrain() {
-		frontLeft = new TalonSRX(RobotMap.DRIVE_FRONT_LEFT);
-		frontRight = new TalonSRX(RobotMap.DRIVE_FRONT_RIGHT);
-		backLeft = new TalonSRX(RobotMap.DRIVE_BACK_LEFT);
-		backRight = new TalonSRX(RobotMap.DRIVE_BACK_RIGHT);
+		frontLeft = new TalonSRX(RobotMap.DRIVE_LEFT_1);
+		frontRight = new TalonSRX(RobotMap.DRIVE_RIGHT_1);
+		backLeft = new TalonSRX(RobotMap.DRIVE_LEFT_2);
+		backRight = new TalonSRX(RobotMap.DRIVE_RIGHT_2);
 		frontLeft.setInverted(true);
 		backLeft.setInverted(true);
 		im = InputManager.getInstance();
