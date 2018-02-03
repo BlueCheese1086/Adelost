@@ -4,7 +4,7 @@ This document should help clear up some confusion about styles.
 
 ## In general
 
-Adelost, and Blue Cheese in general, follows a modified version of the K&R style guide. This is modified specifically for Java programs.
+Adelost, and Blue Cheese in general, follows (or is supposed to follow) a modified version of the K&R style guide. This is modified specifically for Java programs.
 
 ### Braces
 
@@ -74,7 +74,7 @@ Adelost, and Blue Cheese in general, follows a modified version of the K&R style
 
 * Class properties and other class-level variables, private or public, should also be descriptive
 
-* Arguments and other Varibles in functions are to be as short as possible while still somewhat conveying their meaning
+* Arguments and other varibles in functions are to be as short as possible while still somewhat conveying their meaning
 
 * Temporary variables, if their meaning is obvious from code regardless of name, should use the highest available name from the below list:
 
@@ -218,9 +218,10 @@ for i in $(find . -name *.java ); do
 sed -i -e 's/for(/for (/g' $i 
 sed -i -e 's/while(/while (/g' $i 
 sed -i -e 's/){/) {/g' $i
-sed -i -e ':begin;$!N;s/}\n[ ]*else/} else/;tbegin;P;D' $i
-sed -i -e ':begin;$!N;s/}\n[ ]*catch/} catch/;tbegin;P;D' $i
-sed -i -e ':begin;$!N;s/}\n[ ]*finally/} finally/;tbegin;P;D' $i
+sed -i -e 's/{ *$/{/g' $i
+sed -i -e ':begin;$!N;s/}\n *else/} else/;tbegin;P;D' $i
+sed -i -e ':begin;$!N;s/}\n *catch/} catch/;tbegin;P;D' $i
+sed -i -e ':begin;$!N;s/}\n *finally/} finally/;tbegin;P;D' $i
 sed -i -e 's/do{/do {/g' $i
 sed -i -e 's/}while/} while/g' $i
 sed -i -e 's/\t/    /g' $i
