@@ -164,7 +164,7 @@ Adelost, and Blue Cheese in general, follows (or is supposed to follow) a modifi
 
 * Unary operators should always be placed directly next to their operands
 
-* `Where possible, `a++` and `a--` should be used in place of `++a` and `--a`
+* Where possible, `a++` and `a--` should be used in place of `++a` and `--a`
 
     * `a++` and `a--` should never appear in even remotely complex statements
 
