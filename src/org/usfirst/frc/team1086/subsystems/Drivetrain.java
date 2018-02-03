@@ -41,8 +41,7 @@ public class Drivetrain {
     public void teleopTick() {
         if (im.getSafety()) {
             drive(im.getDrive(), im.getTurn());
-        }
-        else {
+        } else {
             drive(0, 0);
         }
     }

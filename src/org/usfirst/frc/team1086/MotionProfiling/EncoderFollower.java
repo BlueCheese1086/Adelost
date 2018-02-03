@@ -130,8 +130,7 @@ public class EncoderFollower {
             segment++;
 
             return calculated_value;
-        }
-        else return 0;
+        } else return 0;
     }
 
     /**

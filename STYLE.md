@@ -214,19 +214,16 @@ Violations of these rules are permitted if fixing them would require large amoun
 Here's a script to fix some of the less-complicated errors. Feel free to contribute!
 
 ```
-for i in "$(find . -name *.java )";
-do sed \
--e "s/if(/if (/g" \
--e "s/for(/for (/g" \
--e "s/while(/while (/g" \
--e "s/){/) {/g" \
--e "s/}[\n ]*else/} else/g" \
--e "s/}[\n ]*catch/} catch/g" \
--e "s/}[\n ]*finally/} finally/g" \
--e "s/do{/do {/g" \
--e "s/}while/} while/g" \
--e "s/\t/    /g" \
--i $i;
-dos2unix $i; 
+for i in $(find . -name *.java ); do
+sed -i -e 's/for(/for (/g' $i 
+sed -i -e 's/while(/while (/g' $i 
+sed -i -e 's/){/) {/g' $i
+sed -i -e ':begin;$!N;s/}\n[ ]*else/} else/;tbegin;P;D' $i
+sed -i -e ':begin;$!N;s/}\n[ ]*catch/} catch/;tbegin;P;D' $i
+sed -i -e ':begin;$!N;s/}\n[ ]*finally/} finally/;tbegin;P;D' $i
+sed -i -e 's/do{/do {/g' $i
+sed -i -e 's/}while/} while/g' $i
+sed -i -e 's/\t/    /g' $i
+dos2unix $i
 done
 ```

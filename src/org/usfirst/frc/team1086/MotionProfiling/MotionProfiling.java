@@ -88,8 +88,7 @@ public class MotionProfiling {
             right.configurePIDVA(MPConstants.MP_KP, MPConstants.MP_KI, MPConstants.TURN_KD, MPConstants.MP_KV, MPConstants.MP_KA);
 
             turnController.enable();
-        }
-        else {
+        } else {
             System.out.println("Waypoints is null when calling init() in Motion Profiling");
         }
     }
@@ -105,8 +104,7 @@ public class MotionProfiling {
 
             double turn = turnController.get();
             drivetrain.driveMP(leftSpeed, rightSpeed, turn);
-        }
-        else {
+        } else {
             System.out.println("MP is finished");
             left.closeFile();
             right.closeFile();
