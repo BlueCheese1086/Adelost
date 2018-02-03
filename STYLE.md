@@ -220,11 +220,11 @@ do sed \
 -e "s/for(/for (/g" \
 -e "s/while(/while (/g" \
 -e "s/){/) {/g" \
--e "s/\( *\)}\n\1else/\1} else/g" \
+-e "s/}\n *else/} else/g" \
 -e "s/}else/} else/g" \
 -e "s/}catch/} catch/g" \
--e "s/\( *\)}\n\1catch/\1} catch/g" \
--e "s/\( *\)}\n\1finally/\1} finally/g" \
+-e "s/}\n *catch/} catch/g" \
+-e "s/}\n *finally/} finally/g" \
 -e "s/do{/do {/g" \
 -e "s/}while/} while/g" \
 -e "s/\t/    /g" \
