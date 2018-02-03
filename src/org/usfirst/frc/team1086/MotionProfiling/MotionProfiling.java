@@ -52,10 +52,10 @@ public class MotionProfiling {
     }
 
     public void teleopTick(){
-        if(im.getMotionProfileStart()){
+        if (im.getMotionProfileStart()){
             init();
         }
-        if(im.getMotionProfileTick()){
+        if (im.getMotionProfileTick()){
             tick();
         }
     }
@@ -72,7 +72,7 @@ public class MotionProfiling {
      * Initializes Motion Profiling and prepares a path to be followed
      */
     public void init(){
-        if(points != null){
+        if (points != null){
             Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST,
                                                             MPConstants.DELTA_TIME, MPConstants.MAX_VELOCITY, MPConstants.MAX_ACCELERATION, MPConstants.MAX_JERK);
             Trajectory trajectory = Pathfinder.generate(points, config);
@@ -95,7 +95,7 @@ public class MotionProfiling {
     }
 
     public void tick(){
-        if(!left.isFinished() && !right.isFinished()){
+        if (!left.isFinished() && !right.isFinished()){
             double leftSpeed = left.calculate(drivetrain.frontLeft.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
             double rightSpeed = right.calculate(drivetrain.frontRight.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
 

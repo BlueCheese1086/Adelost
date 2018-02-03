@@ -2,7 +2,7 @@ package org.usfirst.frc.team1086.autonomous;
 import java.util.ArrayList;
 
 public class AutonomousManager {
-    ArrayList<AutonomousSection> sections = new ArrayList();
+    ArrayList<AutonomousSection> sections = new ArrayList<AutonomousSection>();
     int currectionSection = 0;
     boolean started = false;
     
@@ -11,7 +11,7 @@ public class AutonomousManager {
      * @param sectionNumber the section to go to.
      */
     public void goToSection(int sectionNumber){
-        if(sectionNumber >= sections.size() || sectionNumber < 0)
+        if (sectionNumber >= sections.size() || sectionNumber < 0)
             throw new IndexOutOfBoundsException("sectionNumber must be non-negative and less than the number of autonomous sections.");
         sections.get(currectionSection).finish();
         currectionSection = sectionNumber;
@@ -46,10 +46,10 @@ public class AutonomousManager {
      * Updates the current section and goes to the next section if the current is finished.
      */
     public void update(){
-        if(started){
+        if (started){
             sections.get(currectionSection).update();
-            if(sections.get(currectionSection).isFinished()){
-                if(currectionSection + 1 < sections.size())
+            if (sections.get(currectionSection).isFinished()){
+                if (currectionSection + 1 < sections.size())
                     next();
                 else 
                     finish();
