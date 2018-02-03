@@ -34,12 +34,12 @@ public class Drivetrain {
 		em = new EncoderManager();
 	}
 
-	public static Drivetrain getInstance(){
+	public static Drivetrain getInstance() {
 		return instance;
 	}
 
-	public void teleopTick(){
-		if (im.getSafety()){
+	public void teleopTick() {
+		if (im.getSafety()) {
 			drive(im.getDrive(), im.getTurn());
 		}
 		else {
@@ -65,14 +65,14 @@ public class Drivetrain {
 	 * @param right - the power to send to move the right side of the drivetrain. 1 is full speed forwards, -1 is full speed backwards
 	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
 	 */
-	public void driveMP(double left, double right, double turn){
+	public void driveMP(double left, double right, double turn) {
 		frontLeft.set(ControlMode.PercentOutput, left + turn);
 		backLeft.set(ControlMode.PercentOutput, left + turn);
 		frontRight.set(ControlMode.PercentOutput, right - turn);
 		backRight.set(ControlMode.PercentOutput, right - turn);
 	}
 
-	public void logSmartDashboard(){
+	public void logSmartDashboard() {
 		em.logSmartDashboard();
 	}
 }

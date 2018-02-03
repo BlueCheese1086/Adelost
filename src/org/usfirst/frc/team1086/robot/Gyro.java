@@ -13,25 +13,25 @@ public class Gyro implements PIDSource {
         instance = new Gyro();
     }
 
-    private Gyro(){
+    private Gyro() {
         try {
             gyro = new AHRS(SerialPort.Port.kUSB1);
             System.out.println("VMX successfully instantiated");
-        } catch(Exception e){
+        } catch(Exception e) {
             System.out.println("VMX was unable to be found");
             e.printStackTrace();
         }
     }
 
-    public static Gyro getInstance(){
+    public static Gyro getInstance() {
         return instance;
     }
 
-    public double getAngle(){
+    public double getAngle() {
         return gyro.getYaw();
     }
 
-    public double getNormalizedAngle(){
+    public double getNormalizedAngle() {
         return Utils.normalizeAngle(getAngle());
     }
 

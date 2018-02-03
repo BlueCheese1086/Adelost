@@ -12,7 +12,7 @@ public abstract class AutonomousSection {
     /**
      * Creates the autonomous section.
      */
-    public AutonomousSection(){}
+    public AutonomousSection() {}
     
     /**
      * Determines whether the section has exceeded its given runtime.
@@ -20,7 +20,7 @@ public abstract class AutonomousSection {
      * Returns false if the section has not yet been started.
      * @return Whether or not the section is timed out.
      */
-    public boolean isTimedOut(){
+    public boolean isTimedOut() {
         return duration != -1 && isStarted && System.currentTimeMillis() - startTime > duration;
     }
     
@@ -29,7 +29,7 @@ public abstract class AutonomousSection {
      * started, call super.start(). This is called when the section is started. This can be used to 
      * start PID controllers and set certain values for the section.
      */
-    public void start(){
+    public void start() {
         isStarted = true;
         startTime = System.currentTimeMillis();
     }
@@ -54,7 +54,7 @@ public abstract class AutonomousSection {
      * if the robot has driven a certain distance. 
      * @return whether or not the section is finished.
      */
-    public boolean isFinished(){
+    public boolean isFinished() {
         return isTimedOut();
     }
 }

@@ -7,30 +7,30 @@ import org.usfirst.frc.team1086.subsystems.Drivetrain;
 
 public class EncoderManager {
     Drivetrain drive;
-    public EncoderManager(){
+    public EncoderManager() {
         drive = Drivetrain.getInstance();
         drive.frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         drive.frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
     }
 
-    public void resetEncoders(){
+    public void resetEncoders() {
         drive.frontLeft.setSelectedSensorPosition(0, 0, 0);
         drive.frontRight.setSelectedSensorPosition(0, 0, 0);
     }
 
-    public double getLeftDistance(){
+    public double getLeftDistance() {
         return drive.frontLeft.getSelectedSensorPosition(0) / 4096 * Constants.WHEEL_DIAMETER;
     }
 
-    public double getRightDistance(){
+    public double getRightDistance() {
         return drive.frontRight.getSelectedSensorPosition(0) / 4096 * Constants.WHEEL_DIAMETER;
     }
 
-    public double getEncDistance(){
+    public double getEncDistance() {
         return (getLeftDistance() + getRightDistance()) / 2.0;
     }
 
-    public void logSmartDashboard(){
+    public void logSmartDashboard() {
 
     }
 }

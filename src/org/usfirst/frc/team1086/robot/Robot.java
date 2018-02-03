@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
 		
 	}
 
-	@Override public void teleopInit(){
+	@Override public void teleopInit() {
 
 	}
 
@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
 		teleopPeriodic();
 	}
 
-	private void logSmartDashboard(){
+	private void logSmartDashboard() {
 		drivetrain.logSmartDashboard();
 	}
 }
