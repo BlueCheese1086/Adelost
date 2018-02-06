@@ -9,8 +9,8 @@ public class Intake {
 	TalonSRX intake2;
 	
 	public Intake() {
-		intake1 = new TalonSRX(RobotMap.INTAKE1); 
-		intake2 = new TalonSRX(RobotMap.INTAKE2);
+		intake1 = new TalonSRX(RobotMap.INTAKE_1); 
+		intake2 = new TalonSRX(RobotMap.INTAKE_2);
 	}
 	
 	public void motorIn() {
