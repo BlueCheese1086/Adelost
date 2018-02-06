@@ -1,46 +1,45 @@
 package org.usfirst.frc.team1086.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team1086.robot.Constants;
 import org.usfirst.frc.team1086.robot.EncoderManager;
+import org.usfirst.frc.team1086.robot.Globals;
 import org.usfirst.frc.team1086.robot.InputManager;
 import org.usfirst.frc.team1086.robot.RobotMap;
 
-public class Drivetrain {
-	private static Drivetrain instance;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+public class Drivetrain {
 	public TalonSRX frontLeft, frontRight, backLeft, backRight;
 	private InputManager im;
 	public EncoderManager em;
 
-	static {
-		instance = new Drivetrain();
-	}
-
 	/**
 	 * Initializer for the Drivetrain class.
 	 */
-	private Drivetrain() {
+	public Drivetrain() {
 		frontLeft = new TalonSRX(RobotMap.DRIVE_LEFT_1);
 		frontRight = new TalonSRX(RobotMap.DRIVE_RIGHT_1);
 		backLeft = new TalonSRX(RobotMap.DRIVE_LEFT_2);
 		backRight = new TalonSRX(RobotMap.DRIVE_RIGHT_2);
 		frontLeft.setInverted(true);
-		backLeft.setInverted(true);
-		im = InputManager.getInstance();
+		backLeft.setInverted(true);	
+	}
+
+	public void init() {
+		im = Globals.im;
 		em = new EncoderManager();
 	}
-
-	public static Drivetrain getInstance(){
-		return instance;
-	}
-
+	
 	public void teleopTick(){
 		if(im.getSafety()){
-			drive(im.getDrive(), im.getTurn());
+			if(im.getEncodersDriveStart()) {
+				em.setPosition(50);
+			}
+			else if(im.getEncodersDriveTick()) {
+				
+			}
+			else
+				drive(im.getDrive(), im.getTurn());
 		}
 		else {
 			drive(0, 0);
@@ -53,10 +52,10 @@ public class Drivetrain {
 	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
 	 */
 	public void drive(double drive, double turn) {
-		frontLeft.set(ControlMode.PercentOutput, drive + turn);
-		frontRight.set(ControlMode.PercentOutput, drive - turn);
-		backLeft.set(ControlMode.PercentOutput, drive + turn);
-		backRight.set(ControlMode.PercentOutput, drive - turn);
+		frontLeft.set(ControlMode.PercentOutput, drive - turn);
+		frontRight.set(ControlMode.PercentOutput, drive + turn);
+		backLeft.set(ControlMode.PercentOutput, drive - turn);
+		backRight.set(ControlMode.PercentOutput, drive + turn);
 	}
 
 	/**

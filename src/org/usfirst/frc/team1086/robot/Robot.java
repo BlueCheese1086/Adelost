@@ -23,10 +23,13 @@ public class Robot extends TimedRobot {
 	AutonomousStarter autoStarter;
 
 	@Override public void robotInit() {
-		drivetrain = Drivetrain.getInstance();
+		Globals.init();
+		drivetrain = Globals.drivetrain;
+		
 		drivetrain.em.resetEncoders();
 		autoStarter = new AutonomousStarter();
 		autoStarter.initAutoModes();
+		motionProfiling = new MotionProfiling();
 	}
 
 	@Override public void autonomousInit() {
@@ -38,7 +41,7 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override public void teleopInit(){
-
+		drivetrain.em.resetEncoders();
 	}
 
 	@Override public void teleopPeriodic() {

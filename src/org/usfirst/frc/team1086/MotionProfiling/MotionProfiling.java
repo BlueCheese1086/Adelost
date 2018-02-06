@@ -1,5 +1,11 @@
 package org.usfirst.frc.team1086.MotionProfiling;
 
+import org.usfirst.frc.team1086.robot.Constants;
+import org.usfirst.frc.team1086.robot.Globals;
+import org.usfirst.frc.team1086.robot.Gyro;
+import org.usfirst.frc.team1086.robot.InputManager;
+import org.usfirst.frc.team1086.subsystems.Drivetrain;
+
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -7,10 +13,6 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
-import org.usfirst.frc.team1086.robot.Constants;
-import org.usfirst.frc.team1086.robot.Gyro;
-import org.usfirst.frc.team1086.robot.InputManager;
-import org.usfirst.frc.team1086.subsystems.Drivetrain;
 
 public class MotionProfiling {
     Waypoint[] points;
@@ -25,9 +27,9 @@ public class MotionProfiling {
     Drivetrain drivetrain;
 
     public MotionProfiling() {
-        im = InputManager.getInstance();
-        gyro = Gyro.getInstance();
-        drivetrain = Drivetrain.getInstance();
+        im = Globals.im;
+        gyro = Globals.gyro;
+        drivetrain = Globals.drivetrain;
         turnController = new PIDController(MPConstants.TURN_KP, MPConstants.TURN_KI, MPConstants.TURN_KD, new PIDSource() {
             @Override
             public void setPIDSourceType(PIDSourceType pidSource) {

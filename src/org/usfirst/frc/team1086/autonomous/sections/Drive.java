@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1086.autonomous.sections;
 
 import org.usfirst.frc.team1086.autonomous.AutonomousSection;
+import org.usfirst.frc.team1086.robot.Globals;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 
 public class Drive extends AutonomousSection {
@@ -8,7 +9,7 @@ public class Drive extends AutonomousSection {
     Drivetrain drive;
 
     public Drive(long duration, double forward, double turn){
-        drive = Drivetrain.getInstance();
+        drive = Globals.drivetrain;
         this.duration = duration;
         this.forward = forward;
         this.turn = turn;

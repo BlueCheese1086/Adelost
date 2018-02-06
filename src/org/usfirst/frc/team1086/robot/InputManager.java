@@ -3,25 +3,15 @@ package org.usfirst.frc.team1086.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class InputManager {
-    private static InputManager instance;
 
     Joystick leftStick;
     Joystick rightStick;
     Joystick auxStick;
 
-    static {
-        instance = new InputManager();
-    }
-
-    private InputManager(){
+    public InputManager(){
         leftStick = new Joystick(0);
         rightStick = new Joystick(1);
         auxStick = new Joystick(5);
-        instance = this;
-    }
-
-    public static InputManager getInstance(){
-        return instance;
     }
 
     public boolean getSafety() {
@@ -44,5 +34,11 @@ public class InputManager {
     }
     public boolean getMotionProfileTick(){
         return auxStick.getRawButton(ButtonMap.MOTION_PROFILE);
+    }
+    public boolean getEncodersDriveStart() {
+    	return auxStick.getRawButtonPressed(ButtonMap.ENCODER_DRIVE);
+    }
+    public boolean getEncodersDriveTick() {
+    	return auxStick.getRawButton(ButtonMap.ENCODER_DRIVE);
     }
 }

@@ -6,14 +6,9 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 
 public class Gyro implements PIDSource {
-    private static Gyro instance;
     public AHRS gyro;
 
-    static {
-        instance = new Gyro();
-    }
-
-    private Gyro(){
+    public Gyro(){
         try {
             gyro = new AHRS(SerialPort.Port.kUSB1);
             System.out.println("VMX successfully instantiated");
@@ -21,10 +16,6 @@ public class Gyro implements PIDSource {
             System.out.println("VMX was unable to be found");
             e.printStackTrace();
         }
-    }
-
-    public static Gyro getInstance(){
-        return instance;
     }
 
     public double getAngle(){
