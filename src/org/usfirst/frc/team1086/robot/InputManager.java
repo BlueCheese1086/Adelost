@@ -41,4 +41,22 @@ public class InputManager {
     public boolean getEncodersDriveTick() {
     	return auxStick.getRawButton(ButtonMap.ENCODER_DRIVE);
     }
+    public boolean getDriveStraightStart() {
+    	return leftStick.getRawButtonPressed(ButtonMap.DRIVE_STRAIGHT);
+    }
+    public boolean getDriveStraightTick() {
+    	return leftStick.getRawButton(ButtonMap.DRIVE_STRAIGHT);
+    }
+    public boolean getDriveStraightRelease() {
+    	return leftStick.getRawButtonReleased(ButtonMap.DRIVE_STRAIGHT);
+    }
+    public boolean getTurnToAngleStart() {
+    	return rightStick.getRawButtonPressed(ButtonMap.TURN_TO_ANGLE);
+    }
+    public boolean getTurnToAngleTick() {
+    	return rightStick.getRawButton(ButtonMap.TURN_TO_ANGLE);
+    }
+    public boolean getTurnToAngleRelease() {
+    	return rightStick.getRawButtonReleased(ButtonMap.TURN_TO_ANGLE);
+    }
 }

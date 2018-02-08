@@ -4,6 +4,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Gyro implements PIDSource {
     public AHRS gyro;
@@ -25,6 +26,10 @@ public class Gyro implements PIDSource {
     public double getNormalizedAngle(){
         return Utils.normalizeAngle(getAngle());
     }
+    
+    public void logSmartDashbard() {
+    	SmartDashboard.putNumber("Gyro Angle", this.getAngle());
+    }
 
 
     @Override public void setPIDSourceType(PIDSourceType pidSource) {}
@@ -35,6 +40,6 @@ public class Gyro implements PIDSource {
     }
 
     @Override public double pidGet() {
-        return getAngle();
+        return getNormalizedAngle();
     }
 }

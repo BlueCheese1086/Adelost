@@ -2,17 +2,25 @@ package org.usfirst.frc.team1086.subsystems;
 
 import org.usfirst.frc.team1086.robot.EncoderManager;
 import org.usfirst.frc.team1086.robot.Globals;
+import org.usfirst.frc.team1086.robot.Gyro;
 import org.usfirst.frc.team1086.robot.InputManager;
 import org.usfirst.frc.team1086.robot.RobotMap;
+import org.usfirst.frc.team1086.robot.Utils;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.PIDController;
 
 public class Drivetrain {
 	public TalonSRX frontLeft, frontRight, backLeft, backRight;
 	private InputManager im;
 	public EncoderManager em;
-
+	private Gyro gyro;
+	
+	public PIDController driveStraightController;
+	public PIDController turnToAngleController;
+	
 	/**
 	 * Initializer for the Drivetrain class.
 	 */
@@ -28,6 +36,18 @@ public class Drivetrain {
 	public void init() {
 		im = Globals.im;
 		em = new EncoderManager();
+		gyro = Globals.gyro;
+		driveStraightController = new PIDController(0.02, 0, 0.075, gyro, d -> {}); 		
+		driveStraightController.setAbsoluteTolerance(0);
+		driveStraightController.setInputRange(-180, 180);
+		driveStraightController.setOutputRange(-1, 1);
+		driveStraightController.setContinuous(true);
+		
+		turnToAngleController = new PIDController(0.03, 0, 0.06, gyro, d -> {});
+		turnToAngleController.setAbsoluteTolerance(0);
+		turnToAngleController.setInputRange(-180, 180);
+		turnToAngleController.setOutputRange(-1, 1);
+		turnToAngleController.setContinuous(true);
 	}
 	
 	public void teleopTick(){
@@ -37,6 +57,28 @@ public class Drivetrain {
 			}
 			else if(im.getEncodersDriveTick()) {
 				
+			}
+			else if(im.getDriveStraightStart()) {
+				driveStraightController.setSetpoint(gyro.getNormalizedAngle());
+				driveStraightController.enable();
+			}
+			else if(im.getDriveStraightTick()) {
+				drive(im.getDrive(), driveStraightController.get());
+			}
+			else if(im.getDriveStraightRelease()) {
+				driveStraightController.reset();
+				driveStraightController.disable();
+			}
+			else if(im.getTurnToAngleStart()) {
+				turnToAngleController.setSetpoint(Utils.normalizeAngle(gyro.getNormalizedAngle() + 90));
+				turnToAngleController.enable();
+			}
+			else if(im.getTurnToAngleTick()) {
+				drive(0, turnToAngleController.get());
+			}
+			else if(im.getTurnToAngleRelease()) {
+				turnToAngleController.reset();
+				turnToAngleController.disable();
 			}
 			else
 				drive(im.getDrive(), im.getTurn());
@@ -73,5 +115,6 @@ public class Drivetrain {
 
 	public void logSmartDashboard(){
 		em.logSmartDashboard();
+		gyro.logSmartDashbard();
 	}
 }

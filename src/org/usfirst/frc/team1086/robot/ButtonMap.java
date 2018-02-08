@@ -5,10 +5,12 @@ public class ButtonMap {
      * Buttons for the left drive joystick
      */
     public static final int SAFETY = 1;
+    public static final int DRIVE_STRAIGHT = 3;
 
     /**
      * Buttons for the right drive joystick
      */
+    public static final int TURN_TO_ANGLE = 2;
 
     /**
      * Buttons for the auxiliary stick
