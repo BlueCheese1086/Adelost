@@ -15,13 +15,16 @@ import org.usfirst.frc.team1086.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 
+import java.util.ArrayList;
+import java.util.Timer;
+
 public class Robot extends TimedRobot {
 	Drivetrain drivetrain;
 	Elevator elevator;
 	Intake intake;
 	MotionProfiling motionProfiling;
 	AutonomousStarter autoStarter;
-
+    ArrayList<Tickable> tickables = new ArrayList<>();
 	@Override public void robotInit() {
 		Globals.init();
 		drivetrain = Globals.drivetrain;
@@ -33,6 +36,9 @@ public class Robot extends TimedRobot {
 		motionProfiling = new MotionProfiling();
 
 		elevator = new Elevator();
+		tickables.add(elevator);
+		tickables.add(motionProfiling);
+		tickables.add(drivetrain);
 	}
 
 	@Override public void autonomousInit() {
@@ -48,9 +54,7 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override public void teleopPeriodic() {
-		drivetrain.teleopTick();
-		motionProfiling.teleopTick();
-		elevator.tick();
+	    tickables.forEach(Tickable::tick);
 		logSmartDashboard();
 	}
 

@@ -7,7 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PIDController;
 
-public class Drivetrain {
+public class Drivetrain implements Tickable {
 	public TalonSRX left1, front1, left2, right2;
 	private InputManager im;
 	public EncoderManager em;
@@ -49,7 +49,7 @@ public class Drivetrain {
 		turnToAngleController.setContinuous(true);
 	}
 	
-	public void teleopTick(){
+	@Override public void tick(){
 		if(im.getSafety()){
 			if(im.getEncodersDriveStart()) {
 				em.setPosition(50);

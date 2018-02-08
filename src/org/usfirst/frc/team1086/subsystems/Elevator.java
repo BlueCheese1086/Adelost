@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import org.usfirst.frc.team1086.robot.*;
 
-public class Elevator {
+public class Elevator implements Tickable{
     InputManager inputManager;
     TalonSRX elevatorMotor, elevatorFollower;
     AnalogPotentiometer stringPotentiometer;
@@ -29,7 +29,7 @@ public class Elevator {
         stringPotentiometer = new AnalogPotentiometer(RobotMap.POTENTIOMETER,
                 3.0 / 2.0 * Constants.POTENTIOMETER_STRING_LENGTH, Constants.POTENTIOMETER_STRING_OFFSET * 2.0 / 3);
     }
-    public void tick(){
+    @Override public void tick(){
         double targetHeight = inputManager.getElevator() * Constants.ELEVATOR_HEIGHT;
         double currentHeightEnc = elevatorMotor.getSelectedSensorPosition(0) / 4096.6 * 3 * Constants.ELEVATOR_GEAR_CIRCUMFERENCE;
         double currentHeightPot = stringPotentiometer.get();

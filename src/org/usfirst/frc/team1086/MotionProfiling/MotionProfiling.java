@@ -1,9 +1,6 @@
 package org.usfirst.frc.team1086.MotionProfiling;
 
-import org.usfirst.frc.team1086.robot.Constants;
-import org.usfirst.frc.team1086.robot.Globals;
-import org.usfirst.frc.team1086.robot.Gyro;
-import org.usfirst.frc.team1086.robot.InputManager;
+import org.usfirst.frc.team1086.robot.*;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.PIDController;
@@ -14,7 +11,7 @@ import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
 
-public class MotionProfiling {
+public class MotionProfiling implements Tickable {
     Waypoint[] points;
     EncoderFollower left, right;
     Gyro gyro;
@@ -53,12 +50,12 @@ public class MotionProfiling {
         };
     }
 
-    public void teleopTick(){
+    @Override public void tick(){
         if(im.getMotionProfileStart()){
             init();
         }
         if(im.getMotionProfileTick()){
-            tick();
+            run();
         }
     }
 
@@ -95,8 +92,7 @@ public class MotionProfiling {
             System.out.println("Waypoints is null when calling init() in Motion Profiling");
         }
     }
-
-    public void tick(){
+    public void run(){
         if(!left.isFinished() && !right.isFinished()){
             double leftSpeed = left.calculate(drivetrain.left1.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
             double rightSpeed = right.calculate(drivetrain.front1.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
