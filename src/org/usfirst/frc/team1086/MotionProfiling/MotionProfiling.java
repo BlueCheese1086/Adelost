@@ -83,8 +83,8 @@ public class MotionProfiling {
             left = new EncoderFollower(modifier.getLeftTrajectory(), "/home/lvuser/leftPath.csv");
             right = new EncoderFollower(modifier.getRightTrajectory(), "/home/lvuser/rightPath.csv");
 
-            left.configureEncoder(drivetrain.frontLeft.getSelectedSensorPosition(0), 4096, Constants.WHEEL_DIAMETER);
-            right.configureEncoder(drivetrain.frontRight.getSelectedSensorPosition(0), 4096, Constants.WHEEL_DIAMETER);
+            left.configureEncoder(drivetrain.left1.getSelectedSensorPosition(0), 4096, Constants.WHEEL_DIAMETER);
+            right.configureEncoder(drivetrain.front1.getSelectedSensorPosition(0), 4096, Constants.WHEEL_DIAMETER);
 
             left.configurePIDVA(MPConstants.MP_KP, MPConstants.MP_KI, MPConstants.TURN_KD, MPConstants.MP_KV, MPConstants.MP_KA);
             right.configurePIDVA(MPConstants.MP_KP, MPConstants.MP_KI, MPConstants.TURN_KD, MPConstants.MP_KV, MPConstants.MP_KA);
@@ -98,8 +98,8 @@ public class MotionProfiling {
 
     public void tick(){
         if(!left.isFinished() && !right.isFinished()){
-            double leftSpeed = left.calculate(drivetrain.frontLeft.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
-            double rightSpeed = right.calculate(drivetrain.frontRight.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
+            double leftSpeed = left.calculate(drivetrain.left1.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
+            double rightSpeed = right.calculate(drivetrain.front1.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
 
             double gyroHeading = gyro.getAngle();
             double desiredHeading = Pathfinder.r2d(left.getHeading());
