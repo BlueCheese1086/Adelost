@@ -19,4 +19,10 @@ public class RobotMap {
     public static final int INTAKE_2 = 11;
     
     public static final int ARM = 12;
+
+
+    /**
+     * Port numbers for sensors. This is based on how things are wired up.
+     */
+    public static final int POTENTIOMETER = 0;
 }

@@ -29,6 +29,9 @@ public class InputManager {
     public boolean getEvict() {
         return auxStick.getRawButton(ButtonMap.EVICT);
     }
+    public double getElevator(){
+        return (auxStick.getY() + 1) / 2;
+    }
     public boolean getMotionProfileStart(){
         return auxStick.getRawButtonPressed(ButtonMap.MOTION_PROFILE);
     }
