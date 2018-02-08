@@ -11,4 +11,12 @@ public class Constants {
 	public static final double ENCODER_KI = 0;
 	public static final double ENCODER_KD = 0;
     public static final double ENCODER_KF = 0;
+
+	/**
+	 * Other constants
+	 */
+	public static final double POTENTIOMETER_STRING_LENGTH = 50;
+	public static final double POTENTIOMETER_STRING_OFFSET = 2;
+    public static final double ELEVATOR_HEIGHT = 90 - 9;
+    public static final double ELEVATOR_GEAR_CIRCUMFERENCE = 4 * Math.PI;//FIX THIS
 }
