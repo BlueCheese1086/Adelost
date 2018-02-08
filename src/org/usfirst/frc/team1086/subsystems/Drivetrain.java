@@ -1,11 +1,6 @@
 package org.usfirst.frc.team1086.subsystems;
 
-import org.usfirst.frc.team1086.robot.EncoderManager;
-import org.usfirst.frc.team1086.robot.Globals;
-import org.usfirst.frc.team1086.robot.Gyro;
-import org.usfirst.frc.team1086.robot.InputManager;
-import org.usfirst.frc.team1086.robot.RobotMap;
-import org.usfirst.frc.team1086.robot.Utils;
+import org.usfirst.frc.team1086.robot.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -13,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.PIDController;
 
 public class Drivetrain {
-	public TalonSRX frontLeft, frontRight, backLeft, backRight;
+	public TalonSRX left1, front1, left2, right2;
 	private InputManager im;
 	public EncoderManager em;
 	private Gyro gyro;
@@ -25,25 +20,29 @@ public class Drivetrain {
 	 * Initializer for the Drivetrain class.
 	 */
 	public Drivetrain() {
-		frontLeft = new TalonSRX(RobotMap.DRIVE_LEFT_1);
-		frontRight = new TalonSRX(RobotMap.DRIVE_RIGHT_1);
-		backLeft = new TalonSRX(RobotMap.DRIVE_LEFT_2);
-		backRight = new TalonSRX(RobotMap.DRIVE_RIGHT_2);
-		frontLeft.setInverted(true);
-		backLeft.setInverted(true);	
+		left1 = new TalonSRX(RobotMap.DRIVE_LEFT_1);
+		front1 = new TalonSRX(RobotMap.DRIVE_RIGHT_1);
+		left2 = new TalonSRX(RobotMap.DRIVE_LEFT_2);
+		right2 = new TalonSRX(RobotMap.DRIVE_RIGHT_2);
+		left1.setInverted(true);
+		left2.setInverted(true);
+		left2.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_1);
+		right2.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_2);
 	}
 
 	public void init() {
 		im = Globals.im;
 		em = new EncoderManager();
 		gyro = Globals.gyro;
-		driveStraightController = new PIDController(0.02, 0, 0.075, gyro, d -> {}); 		
+		driveStraightController = new PIDController(Constants.DRIVE_STRAIGHT_KP, Constants.DRIVE_STRAIGHT_KI,
+													Constants.DRIVE_STRAIGHT_KD, gyro, d -> {});
 		driveStraightController.setAbsoluteTolerance(0);
 		driveStraightController.setInputRange(-180, 180);
 		driveStraightController.setOutputRange(-1, 1);
 		driveStraightController.setContinuous(true);
 		
-		turnToAngleController = new PIDController(0.03, 0, 0.06, gyro, d -> {});
+		turnToAngleController = new PIDController(Constants.TURN_TO_ANGLE_KP, Constants.TURN_TO_ANGLE_KI,
+												  Constants.TURN_TO_ANGLE_KD, gyro, d -> {});
 		turnToAngleController.setAbsoluteTolerance(0);
 		turnToAngleController.setInputRange(-180, 180);
 		turnToAngleController.setOutputRange(-1, 1);
@@ -56,7 +55,7 @@ public class Drivetrain {
 				em.setPosition(50);
 			}
 			else if(im.getEncodersDriveTick()) {
-				
+				//Set position uses Position mode on TalonSRX, so the robot is already moving.
 			}
 			else if(im.getDriveStraightStart()) {
 				driveStraightController.setSetpoint(gyro.getNormalizedAngle());
@@ -94,10 +93,8 @@ public class Drivetrain {
 	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
 	 */
 	public void drive(double drive, double turn) {
-		frontLeft.set(ControlMode.PercentOutput, drive - turn);
-		frontRight.set(ControlMode.PercentOutput, drive + turn);
-		backLeft.set(ControlMode.PercentOutput, drive - turn);
-		backRight.set(ControlMode.PercentOutput, drive + turn);
+		left1.set(ControlMode.PercentOutput, drive - turn);
+		front1.set(ControlMode.PercentOutput, drive + turn);
 	}
 
 	/**
@@ -107,10 +104,8 @@ public class Drivetrain {
 	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
 	 */
 	public void driveMP(double left, double right, double turn){
-		frontLeft.set(ControlMode.PercentOutput, left + turn);
-		backLeft.set(ControlMode.PercentOutput, left + turn);
-		frontRight.set(ControlMode.PercentOutput, right - turn);
-		backRight.set(ControlMode.PercentOutput, right - turn);
+		left1.set(ControlMode.PercentOutput, left + turn);
+		front1.set(ControlMode.PercentOutput, right - turn);
 	}
 
 	public void logSmartDashboard(){
