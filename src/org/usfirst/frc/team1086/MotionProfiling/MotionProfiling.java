@@ -81,7 +81,7 @@ public class MotionProfiling implements Tickable {
             right = new EncoderFollower(modifier.getRightTrajectory(), "/home/lvuser/rightPath.csv");
 
             left.configureEncoder(drivetrain.left1.getSelectedSensorPosition(0), 4096, Constants.WHEEL_DIAMETER);
-            right.configureEncoder(drivetrain.front1.getSelectedSensorPosition(0), 4096, Constants.WHEEL_DIAMETER);
+            right.configureEncoder(drivetrain.right1.getSelectedSensorPosition(0), 4096, Constants.WHEEL_DIAMETER);
 
             left.configurePIDVA(MPConstants.MP_KP, MPConstants.MP_KI, MPConstants.TURN_KD, MPConstants.MP_KV, MPConstants.MP_KA);
             right.configurePIDVA(MPConstants.MP_KP, MPConstants.MP_KI, MPConstants.TURN_KD, MPConstants.MP_KV, MPConstants.MP_KA);
@@ -95,7 +95,7 @@ public class MotionProfiling implements Tickable {
     public void run(){
         if(!left.isFinished() && !right.isFinished()){
             double leftSpeed = left.calculate(drivetrain.left1.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
-            double rightSpeed = right.calculate(drivetrain.front1.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
+            double rightSpeed = right.calculate(drivetrain.right1.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
 
             double gyroHeading = gyro.getAngle();
             double desiredHeading = Pathfinder.r2d(left.getHeading());
