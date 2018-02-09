@@ -2,6 +2,8 @@ package org.usfirst.frc.team1086.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+import java.awt.*;
+
 public class InputManager {
 
     Joystick leftStick;
@@ -30,7 +32,7 @@ public class InputManager {
         return auxStick.getRawButton(ButtonMap.EVICT);
     }
     public double getElevator(){
-        return (auxStick.getY() + 1) / 2;
+        return auxStick.getRawButton(ButtonMap.SAFETY) ? (auxStick.getY() + 1) / 2 : 0;
     }
     public boolean getMotionProfileStart(){
         return auxStick.getRawButtonPressed(ButtonMap.MOTION_PROFILE);
@@ -61,5 +63,14 @@ public class InputManager {
     }
     public boolean getTurnToAngleRelease() {
     	return rightStick.getRawButtonReleased(ButtonMap.TURN_TO_ANGLE);
+    }
+    public boolean getArm90Degree(){
+        return auxStick.getRawButtonPressed(ButtonMap.ARM_UP);
+    }
+    public boolean getArm45Degree(){
+        return auxStick.getRawButtonPressed(ButtonMap.ARM_MID);
+    }
+    public boolean getArm0Degree(){
+        return auxStick.getRawButtonPressed(ButtonMap.ARM_DOWN);
     }
 }

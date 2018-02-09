@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import org.usfirst.frc.team1086.robot.*;
 
-public class Elevator implements Tickable{
+public class Elevator implements Tickable {
     InputManager inputManager;
     TalonSRX elevatorMotor, elevatorFollower;
     AnalogPotentiometer stringPotentiometer;
