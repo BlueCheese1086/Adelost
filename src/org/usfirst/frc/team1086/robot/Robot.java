@@ -16,7 +16,6 @@ import org.usfirst.frc.team1086.subsystems.Intake;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
 public class Robot extends TimedRobot {
 	Drivetrain drivetrain;
