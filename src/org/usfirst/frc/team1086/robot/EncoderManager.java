@@ -13,40 +13,40 @@ public class EncoderManager {
     public EncoderManager(){
         drive = Globals.drivetrain;
         drive.left1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-        drive.front1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        drive.right1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
         drive.left1.setSensorPhase(true);
-        drive.front1.setSensorPhase(true);
+        drive.right1.setSensorPhase(true);
 
         drive.left1.configNominalOutputForward(0, 0);
         drive.left1.configNominalOutputReverse(0, 0);
         drive.left1.configPeakOutputForward(1, 0);
         drive.left1.configPeakOutputReverse(-1, 0);
 
-        drive.front1.configNominalOutputForward(0, 0);
-        drive.front1.configNominalOutputReverse(0, 0);
-        drive.front1.configPeakOutputForward(1, 0);
-        drive.front1.configPeakOutputReverse(-1, 0);
+        drive.right1.configNominalOutputForward(0, 0);
+        drive.right1.configNominalOutputReverse(0, 0);
+        drive.right1.configPeakOutputForward(1, 0);
+        drive.right1.configPeakOutputReverse(-1, 0);
 
         drive.left1.configAllowableClosedloopError(0, Constants.ALLOWABLE_ERROR, 0);
-        drive.front1.configAllowableClosedloopError(0, Constants.ALLOWABLE_ERROR, 0);
+        drive.right1.configAllowableClosedloopError(0, Constants.ALLOWABLE_ERROR, 0);
 
         drive.left1.config_kP(0, Constants.ENCODER_KP, 0);
         drive.left1.config_kI(0, Constants.ENCODER_KI, 0);
         drive.left1.config_kD(0, Constants.ENCODER_KD, 0);
         drive.left1.config_kF(0, Constants.ENCODER_KF, 0);
 
-        drive.front1.config_kP(0, Constants.ENCODER_KP, 0);
-        drive.front1.config_kI(0, Constants.ENCODER_KI, 0);
-        drive.front1.config_kD(0, Constants.ENCODER_KD, 0);
-        drive.front1.config_kF(0, Constants.ENCODER_KF, 0);
+        drive.right1.config_kP(0, Constants.ENCODER_KP, 0);
+        drive.right1.config_kI(0, Constants.ENCODER_KI, 0);
+        drive.right1.config_kD(0, Constants.ENCODER_KD, 0);
+        drive.right1.config_kF(0, Constants.ENCODER_KF, 0);
 
         resetEncoders();
     }
 
     public void resetEncoders(){
         drive.left1.setSelectedSensorPosition(0, 0, 0);
-        drive.front1.setSelectedSensorPosition(0, 0, 0);
+        drive.right1.setSelectedSensorPosition(0, 0, 0);
     }
 
     /**
@@ -57,7 +57,7 @@ public class EncoderManager {
         double distNative = dist * 4096.0 / Constants.WHEEL_DIAMETER / Math.PI;
         double currentPosNative = getEncDistance() * 4096.0 / Constants.WHEEL_DIAMETER / Math.PI;
         drive.left1.set(ControlMode.Position, currentPosNative + distNative);
-        drive.front1.set(ControlMode.Position, currentPosNative + distNative);
+        drive.right1.set(ControlMode.Position, currentPosNative + distNative);
     }
 
     public double getLeftDistance(){
@@ -65,11 +65,15 @@ public class EncoderManager {
     }
 
     public double getRightDistance(){
-        return drive.front1.getSelectedSensorPosition(0) / 4096.0 * Constants.WHEEL_DIAMETER * Math.PI;
+        return drive.right1.getSelectedSensorPosition(0) / 4096.0 * Constants.WHEEL_DIAMETER * Math.PI;
     }
 
     public double getEncDistance(){
         return (getLeftDistance() + getRightDistance()) / 2.0;
+    }
+
+    public boolean reachedSetpoint(double tolerance) {
+        return drive.left1.getClosedLoopError(0) <= tolerance && drive.right1.getClosedLoopError(0) <= tolerance;
     }
 
     public void logSmartDashboard(){

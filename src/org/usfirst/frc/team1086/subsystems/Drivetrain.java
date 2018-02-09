@@ -8,11 +8,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.PIDController;
 
 public class Drivetrain implements Tickable {
-	public TalonSRX left1, front1, left2, right2;
+	public TalonSRX left1, right1, left2, right2;
 	private InputManager im;
 	public EncoderManager em;
 	private Gyro gyro;
-	
+
 	public PIDController driveStraightController;
 	public PIDController turnToAngleController;
 	
@@ -21,7 +21,7 @@ public class Drivetrain implements Tickable {
 	 */
 	public Drivetrain() {
 		left1 = new TalonSRX(RobotMap.DRIVE_LEFT_1);
-		front1 = new TalonSRX(RobotMap.DRIVE_RIGHT_1);
+		right1 = new TalonSRX(RobotMap.DRIVE_RIGHT_1);
 		left2 = new TalonSRX(RobotMap.DRIVE_LEFT_2);
 		right2 = new TalonSRX(RobotMap.DRIVE_RIGHT_2);
 		left1.setInverted(true);
@@ -94,7 +94,7 @@ public class Drivetrain implements Tickable {
 	 */
 	public void drive(double drive, double turn) {
 		left1.set(ControlMode.PercentOutput, drive - turn);
-		front1.set(ControlMode.PercentOutput, drive + turn);
+		right1.set(ControlMode.PercentOutput, drive + turn);
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class Drivetrain implements Tickable {
 	 */
 	public void driveMP(double left, double right, double turn){
 		left1.set(ControlMode.PercentOutput, left + turn);
-		front1.set(ControlMode.PercentOutput, right - turn);
+		right1.set(ControlMode.PercentOutput, right - turn);
 	}
 
 	public void logSmartDashboard(){

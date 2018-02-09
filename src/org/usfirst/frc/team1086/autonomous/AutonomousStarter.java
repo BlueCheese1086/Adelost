@@ -2,12 +2,17 @@ package org.usfirst.frc.team1086.autonomous;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import org.usfirst.frc.team1086.autonomous.sections.Drive;
+import org.usfirst.frc.team1086.autonomous.sections.DriveDistance;
+import org.usfirst.frc.team1086.autonomous.sections.TurnToAngleSection;
+
+import java.util.ArrayList;
 
 public class AutonomousStarter {
     // TODO: Create actual auto modes
     public static Side switchSide;
     public static Side scaleSide;
-    SendableChooser<String> chooser = new SendableChooser<>();
+    SendableChooser<Strategy> chooser = new SendableChooser<>();
     
     /* Declare AutonomousManager routines here */
     AutonomousManager driveForward;
@@ -15,13 +20,24 @@ public class AutonomousStarter {
     AutonomousManager scale;
     AutonomousManager fly;
     AutonomousManager dig;
-    
+
+    AutonomousManager testAuto;
+
     /**
      * Initializes the sections of all the auto modes.
      */
     public void initAutoModes() {
-        chooser.addObject("Switch", "switchAuto");
-        chooser.addObject("Scale", "scale");
+        chooser.addObject("Switch", Strategy.SWITCH);
+        chooser.addObject("Scale",  Strategy.SCALE);
+
+        testAuto.addSection(new DriveDistance(24));
+        testAuto.addSection(new TurnToAngleSection(90));
+        testAuto.addSection(new DriveDistance(24));
+        testAuto.addSection(new TurnToAngleSection(90));
+        testAuto.addSection(new DriveDistance(24));
+        testAuto.addSection(new TurnToAngleSection(90));
+        testAuto.addSection(new DriveDistance(24));
+        testAuto.addSection(new TurnToAngleSection(90));
     }
     
     /**
@@ -29,6 +45,8 @@ public class AutonomousStarter {
      * calls the appropriate auto mode.
      */
     public AutonomousManager start() {
+        //remove the comments for actual competition
+        /*
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
         if (gameData.length() > 0) {
             if (gameData.charAt(0) == 'L') {
@@ -43,10 +61,11 @@ public class AutonomousStarter {
             }
             return decideAuto();
             
-        }
-        return driveForward;
+        } */
+        return testAuto;
     }
-    
+
+    /*
     public AutonomousManager decideAuto() {
         if (switchSide == Side.LEFT) {
             if (scaleSide == Side.LEFT) {
@@ -61,7 +80,7 @@ public class AutonomousStarter {
                 return switchAuto; //right,right
             }
         }
-    }
+    } */
 }
 
 enum Side {
@@ -69,5 +88,19 @@ enum Side {
 }
 
 enum Strategy {
-    SWITCH, SCALE;
+    DRIVEFORWARD, SWITCH, SCALE;
+    ArrayList<AutonomousManager> autoModes = new ArrayList<>();
+    Strategy(){
+
+    }
+
+    public void addAutoMode(AutonomousManager autoMode){
+        autoModes.add(autoMode);
+    }
+
+    public AutonomousManager getAutoModeToRun(){
+        // Add logic later
+
+        return autoModes.get(0);
+    }
 }
