@@ -9,6 +9,7 @@ package org.usfirst.frc.team1086.robot;
 
 import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
 import org.usfirst.frc.team1086.autonomous.AutonomousStarter;
+import org.usfirst.frc.team1086.subsystems.Arm;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 import org.usfirst.frc.team1086.subsystems.Elevator;
 import org.usfirst.frc.team1086.subsystems.Intake;
@@ -22,6 +23,7 @@ public class Robot extends TimedRobot {
 	Drivetrain drivetrain;
 	Elevator elevator;
 	Intake intake;
+	Arm arm;
 	MotionProfiling motionProfiling;
 	AutonomousStarter autoStarter;
     ArrayList<Tickable> tickables = new ArrayList<>();
@@ -35,10 +37,13 @@ public class Robot extends TimedRobot {
 
 		motionProfiling = new MotionProfiling();
 
-		elevator = new Elevator();
+		elevator = Globals.elevator;
+		arm = Globals.arm;
+		intake = Globals.intake;
 		tickables.add(elevator);
 		tickables.add(motionProfiling);
 		tickables.add(drivetrain);
+		tickables.add(arm);
 	}
 
 	@Override public void autonomousInit() {
