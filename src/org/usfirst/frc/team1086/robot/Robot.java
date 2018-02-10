@@ -8,6 +8,7 @@
 package org.usfirst.frc.team1086.robot;
 
 import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
+import org.usfirst.frc.team1086.autonomous.AutonomousManager;
 import org.usfirst.frc.team1086.autonomous.AutonomousStarter;
 import org.usfirst.frc.team1086.subsystems.Arm;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
@@ -25,6 +26,7 @@ public class Robot extends TimedRobot {
 	Arm arm;
 	MotionProfiling motionProfiling;
 	AutonomousStarter autoStarter;
+	AutonomousManager selectedAuto;
     ArrayList<Tickable> tickables = new ArrayList<>();
 	@Override public void robotInit() {
 		Globals.init();
@@ -34,24 +36,25 @@ public class Robot extends TimedRobot {
 		autoStarter = new AutonomousStarter();
 		autoStarter.initAutoModes();
 
-		motionProfiling = new MotionProfiling();
-
 		elevator = Globals.elevator;
 		arm = Globals.arm;
 		intake = Globals.intake;
-		tickables.add(elevator);
+		motionProfiling = Globals.mp;
+
+		//tickables.add(elevator);
 		tickables.add(motionProfiling);
 		tickables.add(drivetrain);
-		tickables.add(arm);
+		//tickables.add(arm);
 	}
 
 	@Override public void autonomousInit() {
 		
-	    autoStarter.start();
+	    selectedAuto = autoStarter.start();
+	    selectedAuto.start();
 	}
 	
 	@Override public void autonomousPeriodic() {
-		
+        selectedAuto.update();
 	}
 
 	@Override public void teleopInit(){

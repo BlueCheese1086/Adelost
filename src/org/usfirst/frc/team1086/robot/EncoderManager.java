@@ -2,14 +2,13 @@ package org.usfirst.frc.team1086.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 
 public class EncoderManager {
     Drivetrain drive;
-    
+    double leftSetpoint, rightSetpoint;
     public EncoderManager(){
         drive = Globals.drivetrain;
         drive.left1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
@@ -55,9 +54,12 @@ public class EncoderManager {
      */
     public void setPosition(double dist){
         double distNative = dist * 4096.0 / Constants.WHEEL_DIAMETER / Math.PI;
-        double currentPosNative = getEncDistance() * 4096.0 / Constants.WHEEL_DIAMETER / Math.PI;
-        drive.left1.set(ControlMode.Position, currentPosNative + distNative);
-        drive.right1.set(ControlMode.Position, currentPosNative + distNative);
+        double leftPosNative = drive.left1.getSelectedSensorPosition(0);
+        double rightPosNative = drive.right1.getSelectedSensorPosition(0);
+        this.leftSetpoint = leftPosNative + distNative;
+        this.rightSetpoint = rightPosNative + distNative;
+        drive.left1.set(ControlMode.Position, leftPosNative + distNative);
+        drive.right1.set(ControlMode.Position, rightPosNative + distNative);
     }
 
     public double getLeftDistance(){
@@ -73,7 +75,18 @@ public class EncoderManager {
     }
 
     public boolean reachedSetpoint(double tolerance) {
-        return drive.left1.getClosedLoopError(0) <= tolerance && drive.right1.getClosedLoopError(0) <= tolerance;
+        return leftError() <= tolerance && rightError() <= tolerance;
+    }
+
+    private double leftError(){
+    	double leftpoint = leftSetpoint /  4096.0 * Constants.WHEEL_DIAMETER * Math.PI;
+    	double error = Math.abs((leftpoint - getLeftDistance()));
+    	System.out.println(error);
+        return error;
+    }
+
+    private double rightError(){
+        return Math.abs(rightSetpoint / 4096.0 * Constants.WHEEL_DIAMETER * Math.PI - getRightDistance());
     }
 
     public void logSmartDashboard(){

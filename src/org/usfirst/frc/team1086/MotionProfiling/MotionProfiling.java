@@ -93,7 +93,7 @@ public class MotionProfiling implements Tickable {
         }
     }
     public void run(){
-        if(!left.isFinished() && !right.isFinished()){
+        if(!isFinished()){
             double leftSpeed = left.calculate(drivetrain.left1.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
             double rightSpeed = right.calculate(drivetrain.right1.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
 
@@ -111,5 +111,9 @@ public class MotionProfiling implements Tickable {
             drivetrain.drive(0,0);
             turnController.disable();
         }
+    }
+
+    public boolean isFinished(){
+        return left.isFinished() && right.isFinished();
     }
 }

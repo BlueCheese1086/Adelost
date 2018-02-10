@@ -27,7 +27,7 @@ public class Drivetrain implements Tickable {
 		left1.setInverted(true);
 		left2.setInverted(true);
 		left2.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_1);
-		right2.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_2);
+		right2.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_1);
 	}
 
 	public void init() {
@@ -43,7 +43,7 @@ public class Drivetrain implements Tickable {
 		
 		turnToAngleController = new PIDController(Constants.TURN_TO_ANGLE_KP, Constants.TURN_TO_ANGLE_KI,
 												  Constants.TURN_TO_ANGLE_KD, gyro, d -> {});
-		turnToAngleController.setAbsoluteTolerance(0);
+		turnToAngleController.setAbsoluteTolerance(2);
 		turnToAngleController.setInputRange(-180, 180);
 		turnToAngleController.setOutputRange(-1, 1);
 		turnToAngleController.setContinuous(true);

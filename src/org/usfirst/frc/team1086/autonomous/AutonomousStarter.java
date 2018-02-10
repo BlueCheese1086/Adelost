@@ -29,7 +29,7 @@ public class AutonomousStarter {
     public void initAutoModes() {
         chooser.addObject("Switch", Strategy.SWITCH);
         chooser.addObject("Scale",  Strategy.SCALE);
-
+        testAuto = new AutonomousManager();
         testAuto.addSection(new DriveDistance(24));
         testAuto.addSection(new TurnToAngleSection(90));
         testAuto.addSection(new DriveDistance(24));
@@ -37,7 +37,8 @@ public class AutonomousStarter {
         testAuto.addSection(new DriveDistance(24));
         testAuto.addSection(new TurnToAngleSection(90));
         testAuto.addSection(new DriveDistance(24));
-        testAuto.addSection(new TurnToAngleSection(90));
+        testAuto.addSection(new TurnToAngleSection(90)); 
+        testAuto.addSection(new Drive(0, 0, 0));
     }
     
     /**
