@@ -13,7 +13,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class AutonomousStarter {
-    // TODO: Create actual auto modes
     public static Side switchSide;
     public static Side scaleSide;
     SendableChooser<Strategy> chooser = new SendableChooser<>();
@@ -168,7 +167,7 @@ public class AutonomousStarter {
             return decideAuto();
             
         } */
-        return centerLeftSwitchMP;
+        return leftLeftSwitchBackMP;
     }
 
     /*
