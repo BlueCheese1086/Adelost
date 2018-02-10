@@ -10,7 +10,7 @@ public class MPConstants {
     public static final double MAX_ACCELERATION = 27.6;
     public static final double MAX_JERK = 2363;
 
-    public static final double MP_KP = 1;
+    public static final double MP_KP = 1.4;
     public static final double MP_KI = 0;
     public static final double MP_KD = 0;
     public static final double MP_KV = 1 / MAX_VELOCITY;

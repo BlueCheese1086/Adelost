@@ -13,13 +13,6 @@ public class AutonomousStarter {
     public static Side switchSide;
     public static Side scaleSide;
     SendableChooser<Strategy> chooser = new SendableChooser<>();
-    
-    /* Declare AutonomousManager routines here */
-    AutonomousManager driveForward;
-    AutonomousManager switchAuto;
-    AutonomousManager scale;
-    AutonomousManager fly;
-    AutonomousManager dig;
 
     AutonomousManager testAuto;
 

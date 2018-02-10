@@ -31,9 +31,9 @@ public class Elevator implements Tickable {
     }
     @Override public void tick(){
         double targetHeight = inputManager.getElevator() * Constants.ELEVATOR_HEIGHT;
-        double currentHeightEnc = elevatorMotor.getSelectedSensorPosition(0) / 4096.6 * 3 * Constants.ELEVATOR_GEAR_CIRCUMFERENCE;
+        double currentHeightEnc = elevatorMotor.getSelectedSensorPosition(0) / 4096.0 * 3 * Constants.ELEVATOR_GEAR_CIRCUMFERENCE;
         double currentHeightPot = stringPotentiometer.get();
-        if(Math.abs(currentHeightEnc) - Math.abs(currentHeightPot) > 5){
+        if(Math.abs(currentHeightEnc - currentHeightPot) > 5){
             elevatorMotor.setSelectedSensorPosition((int)(currentHeightPot * 4096 / 3 / Constants.ELEVATOR_GEAR_CIRCUMFERENCE),
                     0, 0);
         }
