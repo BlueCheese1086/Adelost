@@ -46,7 +46,7 @@ public class MotionProfiling implements Tickable {
         /* Sets the default path, can be overwritten by setWaypoints() method */
         points = new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(25, 0, 0)
+                new Waypoint(39.4, 0, 0)
         };
     }
 
