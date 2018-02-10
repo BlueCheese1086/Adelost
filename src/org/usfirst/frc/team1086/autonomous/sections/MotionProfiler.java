@@ -29,6 +29,6 @@ public class MotionProfiler extends AutonomousSection {
     }
 
     @Override public boolean isFinished(){
-        return super.isFinished() || return mp.isFinished();
+        return super.isFinished() || mp.isFinished();
     }
 }
