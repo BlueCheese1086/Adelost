@@ -73,4 +73,13 @@ public class InputManager {
     public boolean getArm0Degree(){
         return auxStick.getRawButtonPressed(ButtonMap.ARM_DOWN);
     }
+    public boolean getUltraSonicStart() {
+    	return auxStick.getRawButtonPressed(ButtonMap.ULTRASONIC);
+    }
+    public boolean getUltraSonicTick() {
+    	return auxStick.getRawButton(ButtonMap.ULTRASONIC);
+    }
+    public boolean getUltraSonicReleased() {
+    	return auxStick.getRawButtonReleased(ButtonMap.ULTRASONIC);
+    }
 }

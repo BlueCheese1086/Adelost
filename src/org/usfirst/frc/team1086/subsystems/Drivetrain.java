@@ -19,6 +19,7 @@ public class Drivetrain implements Tickable {
 
 	public PIDController driveStraightController;
 	public PIDController turnToAngleController;
+	public PIDController ultrasonicController;
 	
 	/**
 	 * Initializer for the Drivetrain class.
@@ -66,6 +67,10 @@ public class Drivetrain implements Tickable {
 		turnToAngleController.setInputRange(-180, 180);
 		turnToAngleController.setOutputRange(-1, 1);
 		turnToAngleController.setContinuous(true);
+		
+		ultrasonicController = new PIDController(Constants.ULTRASONIC_KP, Constants.ULTRASONIC_KI,
+												 Constants.ULTRASONIC_KD, gyro, d -> {});
+		
 	}
 	
 	@Override public void tick(){
@@ -98,6 +103,17 @@ public class Drivetrain implements Tickable {
 				turnToAngleController.reset();
 				turnToAngleController.disable();
 			}
+			else if(im.getUltraSonicStart()) {
+				ultrasonicController.setSetpoint(0 /*Value goes here*/);
+				ultrasonicController.enable();
+			}
+			else if(im.getUltraSonicTick()) {
+				drive(0 /*pid value of ultrasonic*/,0);
+			}
+			else if(im.getUltraSonicReleased()) {
+				ultrasonicController.reset();
+				ultrasonicController.disable();
+			}
 			else {
 				drive(im.getDrive(), im.getTurn());
 			}
@@ -106,6 +122,7 @@ public class Drivetrain implements Tickable {
 			if(!im.getMotionProfileTick())
 				drive(0, 0);
 		}
+		
 	}
 
 	/**
