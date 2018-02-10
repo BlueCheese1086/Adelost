@@ -4,6 +4,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import org.usfirst.frc.team1086.robot.*;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Arm implements Tickable {
     InputManager inputManager;
@@ -27,10 +30,13 @@ public class Arm implements Tickable {
     @Override public void tick(){
         if(Globals.im.getArm90Degree()){
             position = ArmPosition.UP;
+            Globals.ArmLocation.setString("Up");
         } else if(Globals.im.getArm45Degree()){
             position = ArmPosition.MID;
+            Globals.ArmLocation.setString("Middle");
         } else if(Globals.im.getArm0Degree()){
             position = ArmPosition.DOWN;
+            Globals.ArmLocation.setString("Down");
         }
         armMotor.set(ControlMode.Position, position.encoderUnits);
     }

@@ -14,7 +14,11 @@ import org.usfirst.frc.team1086.subsystems.Drivetrain;
 import org.usfirst.frc.team1086.subsystems.Elevator;
 import org.usfirst.frc.team1086.subsystems.Intake;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 import java.util.ArrayList;
 
@@ -26,6 +30,8 @@ public class Robot extends TimedRobot {
 	MotionProfiling motionProfiling;
 	AutonomousStarter autoStarter;
     ArrayList<Tickable> tickables = new ArrayList<>();
+    
+    
 	@Override public void robotInit() {
 		Globals.init();
 		drivetrain = Globals.drivetrain;
@@ -43,6 +49,7 @@ public class Robot extends TimedRobot {
 		tickables.add(motionProfiling);
 		tickables.add(drivetrain);
 		tickables.add(arm);
+		
 	}
 
 	@Override public void autonomousInit() {

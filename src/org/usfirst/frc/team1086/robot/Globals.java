@@ -5,6 +5,8 @@ import org.usfirst.frc.team1086.subsystems.Drivetrain;
 import org.usfirst.frc.team1086.subsystems.Elevator;
 import org.usfirst.frc.team1086.subsystems.Intake;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+
 public class Globals {
 	public static Drivetrain drivetrain;
 	public static Elevator elevator;
@@ -12,6 +14,10 @@ public class Globals {
 	public static Intake intake;
 	public static Gyro gyro;
 	public static InputManager im;
+	public static NetworkTableEntry Heading, Speed, Acceleration, Left1Output, Right1Output, Left2Output, Right2Output, ElevatorHeight, ArmLocation;
+	/*NetworkTableEntries (Put more if needed)
+	* Entries are initialized in Drivetrain.java
+	*/
 	public static void init() {
         im = new InputManager();
 		drivetrain = new Drivetrain();

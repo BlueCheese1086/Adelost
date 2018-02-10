@@ -5,7 +5,11 @@ import org.usfirst.frc.team1086.robot.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Drivetrain implements Tickable {
 	public TalonSRX left1, right1, left2, right2;
@@ -19,6 +23,8 @@ public class Drivetrain implements Tickable {
 	/**
 	 * Initializer for the Drivetrain class.
 	 */
+	
+
 	public Drivetrain() {
 		left1 = new TalonSRX(RobotMap.DRIVE_LEFT_1);
 		right1 = new TalonSRX(RobotMap.DRIVE_RIGHT_1);
@@ -31,6 +37,19 @@ public class Drivetrain implements Tickable {
 	}
 
 	public void init() {
+		//This is where all of the NetworkTableEntries are initialized
+		NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
+		NetworkTable table = tableInstance.getTable("Telemetry");
+		Globals.Heading = table.getEntry("Heading");
+		Globals.Speed = table.getEntry("Speed");
+		Globals.Acceleration = table.getEntry("Acceleration");
+		Globals.Left1Output = table.getEntry("Left1Output");
+		Globals.Right1Output = table.getEntry("Right1Output");
+		Globals.Left2Output = table.getEntry("Left2Output");
+		Globals.Right2Output = table.getEntry("Right2Output");
+		Globals.ElevatorHeight = table.getEntry("ElevatorHeight");
+		Globals.ArmLocation = table.getEntry("ArmLocation");
+				
 		im = Globals.im;
 		em = new EncoderManager();
 		gyro = Globals.gyro;
