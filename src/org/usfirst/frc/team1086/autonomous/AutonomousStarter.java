@@ -2,6 +2,7 @@ package org.usfirst.frc.team1086.autonomous;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
 import org.usfirst.frc.team1086.autonomous.sections.Drive;
@@ -9,13 +10,15 @@ import org.usfirst.frc.team1086.autonomous.sections.DriveDistance;
 import org.usfirst.frc.team1086.autonomous.sections.MotionProfiler;
 import org.usfirst.frc.team1086.autonomous.sections.TurnToAngleSection;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class AutonomousStarter {
-    public static Side switchSide;
-    public static Side scaleSide;
-    SendableChooser<Strategy> chooser = new SendableChooser<>();
+    Side switchSide;
+    Side scaleSide;
+    Side robotStartSide;
+    Strategy selectedStrategy;
+    SendableChooser<Strategy> strategyChooser = new SendableChooser<>();
+    SendableChooser<Side> sideChooser = new SendableChooser<>();
 
     AutonomousManager testAuto;
     AutonomousManager centerLeftSwitchEnc;
@@ -35,8 +38,20 @@ public class AutonomousStarter {
      * Initializes the sections of all the auto modes.
      */
     public void initAutoModes() {
-        chooser.addObject("Switch", Strategy.SWITCH);
-        chooser.addObject("Scale",  Strategy.SCALE);
+        sideChooser.addObject("Left", Side.LEFT);
+        sideChooser.addObject("Center", Side.CENTER);
+        sideChooser.addObject("Right", Side.RIGHT);
+        SmartDashboard.putData(sideChooser);
+
+        strategyChooser.addObject("Drive Forward", Strategy.DRIVEFORWARD);
+        strategyChooser.addObject("Switch Only If Correct Side", Strategy.SWITCH_SAME_SIDE);
+        strategyChooser.addObject("Switch Regardless of Side", Strategy.SWITCH_ALWAYS);
+        strategyChooser.addObject("Scale Only If Correct Side", Strategy.SCALE_SAME_SIDE);
+        strategyChooser.addObject("Scale Regardless of Side", Strategy.SCALE_ALWAYS);
+        strategyChooser.addDefault("Switch, Scale, or Both, whichever is on the correct side", Strategy.SWITCH_OR_SCALE_SAME_SIDE);
+        strategyChooser.addObject("Switch then Scale", Strategy.SWITCH_THEN_SCALE);
+        SmartDashboard.putData(strategyChooser);
+
         testAuto = new AutonomousManager();
         testAuto.addSection(new MotionProfiler(new Waypoint[]{
                 new Waypoint(0, 0, 0),
@@ -151,6 +166,7 @@ public class AutonomousStarter {
      */
     public AutonomousManager start() {
         //remove the comments for actual competition
+
         /*
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
         if (gameData.length() > 0) {
@@ -164,36 +180,22 @@ public class AutonomousStarter {
             } else {
                 scaleSide = Side.RIGHT;
             }
-            return decideAuto();
-            
-        } */
+        }
+        robotStartSide = sideChooser.getSelected();
+        selectedStrategy = strategyChooser.getSelected();
+        AutonomousManager auto = selectedStrategy.getAutoModeToRun();
+        return auto; */
+
         return leftLeftSwitchBackMP;
     }
-
-    /*
-    public AutonomousManager decideAuto() {
-        if (switchSide == Side.LEFT) {
-            if (scaleSide == Side.LEFT) {
-                return scale; //left,left
-            } else {
-                return switchAuto; //left,right
-            }
-        } else {
-            if (scaleSide == Side.LEFT) {
-                return scale; //right,left
-            } else {
-                return switchAuto; //right,right
-            }
-        }
-    } */
 }
 
 enum Side {
-    LEFT, RIGHT;
+    LEFT, CENTER, RIGHT;
 }
 
 enum Strategy {
-    DRIVEFORWARD, SWITCH, SCALE;
+    DRIVEFORWARD, SWITCH_SAME_SIDE, SWITCH_ALWAYS, SCALE_SAME_SIDE, SCALE_ALWAYS, SWITCH_OR_SCALE_SAME_SIDE, SWITCH_THEN_SCALE;
     ArrayList<AutonomousManager> autoModes = new ArrayList<>();
     Strategy(){
 
