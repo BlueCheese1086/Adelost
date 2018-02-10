@@ -79,11 +79,13 @@ public class Drivetrain implements Tickable {
 				turnToAngleController.reset();
 				turnToAngleController.disable();
 			}
-			else
+			else {
 				drive(im.getDrive(), im.getTurn());
+			}
 		}
 		else {
-			drive(0, 0);
+			if(!im.getMotionProfileTick())
+				drive(0, 0);
 		}
 	}
 
