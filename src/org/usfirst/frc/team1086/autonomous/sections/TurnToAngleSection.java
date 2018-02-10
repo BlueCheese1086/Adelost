@@ -31,19 +31,25 @@ public class TurnToAngleSection extends AutonomousSection {
     }
 
     @Override public void start(){
+    	super.start();
         turnPID.setSetpoint(Utils.normalizeAngle(gyro.getNormalizedAngle() + setAngle));
         turnPID.enable();
     }
 
     @Override public void update() {
         drive.drive(0, turnPID.get());
+        testError();
+        System.out.println("Duration: " + duration);
+        System.out.println("Elapsed Time: " + (System.currentTimeMillis() - startTime));
+        System.out.println(isTimedOut());
     }
 
     @Override public void finish() {
 
     }
-
-    @Override public boolean isFinished(){
-        return super.isFinished() || turnPID.onTarget();
+    public void testError() {
+    	if(duration == -1 && (turnPID.getAvgError() < 1 && turnPID.getError() < 1)) {
+    		duration = 500;
+    	}
     }
 }

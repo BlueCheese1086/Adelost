@@ -2,10 +2,14 @@ package org.usfirst.frc.team1086.autonomous;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Waypoint;
 import org.usfirst.frc.team1086.autonomous.sections.Drive;
 import org.usfirst.frc.team1086.autonomous.sections.DriveDistance;
+import org.usfirst.frc.team1086.autonomous.sections.MotionProfiler;
 import org.usfirst.frc.team1086.autonomous.sections.TurnToAngleSection;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class AutonomousStarter {
@@ -13,15 +17,20 @@ public class AutonomousStarter {
     public static Side switchSide;
     public static Side scaleSide;
     SendableChooser<Strategy> chooser = new SendableChooser<>();
-    
-    /* Declare AutonomousManager routines here */
-    AutonomousManager driveForward;
-    AutonomousManager switchAuto;
-    AutonomousManager scale;
-    AutonomousManager fly;
-    AutonomousManager dig;
 
     AutonomousManager testAuto;
+    AutonomousManager centerLeftSwitchEnc;
+    AutonomousManager centerLeftSwitchMP;
+    AutonomousManager centerRightSwitchEnc;
+    AutonomousManager centerRightSwitchMP;
+    AutonomousManager leftLeftSwitchSideEnc;
+    AutonomousManager leftLeftSwitchSideMP;
+    AutonomousManager rightRightSwitchSideEnc;
+    AutonomousManager rightRightSwitchSideMP;
+    AutonomousManager leftLeftSwitchBackEnc;
+    AutonomousManager leftLeftSwitchBackMP;
+    AutonomousManager rightRightSwitchBackEnc;
+    AutonomousManager rightRightSwitchBackMP;
 
     /**
      * Initializes the sections of all the auto modes.
@@ -29,15 +38,112 @@ public class AutonomousStarter {
     public void initAutoModes() {
         chooser.addObject("Switch", Strategy.SWITCH);
         chooser.addObject("Scale",  Strategy.SCALE);
+        testAuto = new AutonomousManager();
+        testAuto.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(30, 15, Pathfinder.d2r(45)),
+                new Waypoint(60, 30, Pathfinder.d2r(0))
+        }));
+        testAuto.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(20,0, 0),
+                new Waypoint(40, -20, Pathfinder.d2r(-90))
+        }));
+        testAuto.addSection(new Drive(0, 0, 0));
 
-        testAuto.addSection(new DriveDistance(24));
-        testAuto.addSection(new TurnToAngleSection(90));
-        testAuto.addSection(new DriveDistance(24));
-        testAuto.addSection(new TurnToAngleSection(90));
-        testAuto.addSection(new DriveDistance(24));
-        testAuto.addSection(new TurnToAngleSection(90));
-        testAuto.addSection(new DriveDistance(24));
-        testAuto.addSection(new TurnToAngleSection(90));
+        centerLeftSwitchEnc = new AutonomousManager();
+        centerLeftSwitchEnc.addSection(new DriveDistance(50));
+        centerLeftSwitchEnc.addSection(new TurnToAngleSection(-90));
+        centerLeftSwitchEnc.addSection(new DriveDistance(68));
+        centerLeftSwitchEnc.addSection(new TurnToAngleSection(90));
+        centerLeftSwitchEnc.addSection(new DriveDistance(90));
+        centerLeftSwitchEnc.addSection(new Drive(0, 0,0 ));
+
+        centerLeftSwitchMP = new AutonomousManager();
+        centerLeftSwitchMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(70, -34, Pathfinder.d2r(-45)),
+                new Waypoint(140, -68, Pathfinder.d2r(0))
+        }));
+        centerLeftSwitchMP.addSection(new Drive(0, 0,0));
+
+        centerRightSwitchEnc = new AutonomousManager();
+        centerRightSwitchEnc.addSection(new DriveDistance(50));
+        centerRightSwitchEnc.addSection(new TurnToAngleSection(90));
+        centerRightSwitchEnc.addSection(new DriveDistance(68));
+        centerRightSwitchEnc.addSection(new TurnToAngleSection(-90));
+        centerRightSwitchEnc.addSection(new DriveDistance(90));
+        centerRightSwitchEnc.addSection(new Drive(0, 0,0 ));
+
+        centerRightSwitchMP = new AutonomousManager();
+        centerRightSwitchMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(70, 34, Pathfinder.d2r(45)),
+                new Waypoint(140, 68, Pathfinder.d2r(0))
+        }));
+        centerRightSwitchMP.addSection(new Drive(0, 0,0));
+
+        leftLeftSwitchSideEnc = new AutonomousManager();
+        leftLeftSwitchSideEnc.addSection(new DriveDistance(166 - 32 / 2));
+        leftLeftSwitchSideEnc.addSection(new TurnToAngleSection(90));
+        leftLeftSwitchSideEnc.addSection(new DriveDistance(54 - 28 / 2));
+        leftLeftSwitchSideEnc.addSection(new Drive(0, 0, 0));
+
+        leftLeftSwitchSideMP = new AutonomousManager();
+        leftLeftSwitchSideMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(100, 0, 0),
+                new Waypoint(166 - 32 / 2, 39, Pathfinder.d2r(90))
+        }));
+        leftLeftSwitchSideMP.addSection(new Drive(0, 0, 0));
+
+        rightRightSwitchSideEnc = new AutonomousManager();
+        rightRightSwitchSideEnc.addSection(new DriveDistance(166 - 32 / 2));
+        rightRightSwitchSideEnc.addSection(new TurnToAngleSection(-90));
+        rightRightSwitchSideEnc.addSection(new DriveDistance(54 - 28 / 2));
+        rightRightSwitchSideEnc.addSection(new Drive(0, 0, 0));
+
+        rightRightSwitchSideMP = new AutonomousManager();
+        rightRightSwitchSideMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(100, 0, 0),
+                new Waypoint(166 - 32 / 2, -39, Pathfinder.d2r(-90))
+        }));
+        rightRightSwitchSideMP.addSection(new Drive(0, 0, 0));
+
+        leftLeftSwitchBackEnc = new AutonomousManager();
+        leftLeftSwitchBackEnc.addSection(new DriveDistance(194- 32 / 2 + 5));
+        leftLeftSwitchBackEnc.addSection(new TurnToAngleSection(90));
+        leftLeftSwitchBackEnc.addSection(new DriveDistance(95 - 28 / 2));
+        leftLeftSwitchBackEnc.addSection(new TurnToAngleSection(90));
+        leftLeftSwitchBackEnc.addSection(new Drive(0, 0, 0));
+
+        leftLeftSwitchBackMP = new AutonomousManager();
+        leftLeftSwitchBackMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(166 - 32 / 2, 0, 0),
+                new Waypoint(194 + 32 / 2, 54 - 28 / 2, Pathfinder.d2r(90)),
+                new Waypoint(194 + 32 / 2, 95 - 28 / 2, Pathfinder.d2r(90))
+        }));
+        leftLeftSwitchBackMP.addSection(new TurnToAngleSection(90));
+        leftLeftSwitchBackMP.addSection(new Drive(0, 0, 0));
+
+        rightRightSwitchBackEnc = new AutonomousManager();
+        rightRightSwitchBackEnc.addSection(new DriveDistance(194 - 32 / 2 + 5));
+        rightRightSwitchBackEnc.addSection(new TurnToAngleSection(-90));
+        rightRightSwitchBackEnc.addSection(new DriveDistance(95 - 28 / 2));
+        rightRightSwitchBackEnc.addSection(new TurnToAngleSection(-90));
+        rightRightSwitchBackEnc.addSection(new Drive(0, 0, 0));
+
+        rightRightSwitchBackMP = new AutonomousManager();
+        rightRightSwitchBackMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(166 - 32 / 2, 0, 0),
+                new Waypoint(194 + 32 / 2, -54 + 28 / 2, Pathfinder.d2r(90)),
+                new Waypoint(194 + 32 / 2, -95 + 28 / 2, Pathfinder.d2r(90))
+        }));
+        rightRightSwitchBackMP.addSection(new TurnToAngleSection(-90));
+        rightRightSwitchBackMP.addSection(new Drive(0, 0, 0));
     }
     
     /**
@@ -62,7 +168,7 @@ public class AutonomousStarter {
             return decideAuto();
             
         } */
-        return testAuto;
+        return centerLeftSwitchMP;
     }
 
     /*
