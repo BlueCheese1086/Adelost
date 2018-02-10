@@ -48,7 +48,7 @@ public class TurnToAngleSection extends AutonomousSection {
 
     }
     public void testError() {
-    	if(duration == -1 && (turnPID.getAvgError() < 2 && turnPID.getError() < 2)) {
+    	if(duration == -1 && (turnPID.getAvgError() < 1 && turnPID.getError() < 1)) {
     		duration = 500;
     	}
     }
