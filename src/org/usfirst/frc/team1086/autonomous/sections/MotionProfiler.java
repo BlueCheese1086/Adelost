@@ -9,6 +9,7 @@ public class MotionProfiler extends AutonomousSection {
     Waypoint[] points;
     MotionProfiling mp;
     public MotionProfiler(Waypoint[] points){
+        this.duration = -1;
         this.points = points;
         this.mp = Globals.mp;
     }
@@ -28,6 +29,6 @@ public class MotionProfiler extends AutonomousSection {
     }
 
     @Override public boolean isFinished(){
-        return mp.isFinished();
+        return super.isFinished() || return mp.isFinished();
     }
 }
