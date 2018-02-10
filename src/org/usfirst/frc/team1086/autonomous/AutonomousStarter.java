@@ -27,6 +27,10 @@ public class AutonomousStarter {
     AutonomousManager leftLeftSwitchSideMP;
     AutonomousManager rightRightSwitchSideEnc;
     AutonomousManager rightRightSwitchSideMP;
+    AutonomousManager leftLeftSwitchBackEnc;
+    AutonomousManager leftLeftSwitchBackMP;
+    AutonomousManager rightRightSwitchBackEnc;
+    AutonomousManager rightRightSwitchBackMP;
 
     /**
      * Initializes the sections of all the auto modes.
@@ -106,6 +110,40 @@ public class AutonomousStarter {
                 new Waypoint(166 - 32 / 2, -39, Pathfinder.d2r(-90))
         }));
         rightRightSwitchSideMP.addSection(new Drive(0, 0, 0));
+
+        leftLeftSwitchBackEnc = new AutonomousManager();
+        leftLeftSwitchBackEnc.addSection(new DriveDistance(194- 32 / 2 + 5));
+        leftLeftSwitchBackEnc.addSection(new TurnToAngleSection(90));
+        leftLeftSwitchBackEnc.addSection(new DriveDistance(95 - 28 / 2));
+        leftLeftSwitchBackEnc.addSection(new TurnToAngleSection(90));
+        leftLeftSwitchBackEnc.addSection(new Drive(0, 0, 0));
+
+        leftLeftSwitchBackMP = new AutonomousManager();
+        leftLeftSwitchBackMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(166 - 32 / 2, 0, 0),
+                new Waypoint(194 + 32 / 2, 54 - 28 / 2, Pathfinder.d2r(90)),
+                new Waypoint(194 + 32 / 2, 95 - 28 / 2, Pathfinder.d2r(90))
+        }));
+        leftLeftSwitchBackMP.addSection(new TurnToAngleSection(90));
+        leftLeftSwitchBackMP.addSection(new Drive(0, 0, 0));
+
+        rightRightSwitchBackEnc = new AutonomousManager();
+        rightRightSwitchBackEnc.addSection(new DriveDistance(194 - 32 / 2 + 5));
+        rightRightSwitchBackEnc.addSection(new TurnToAngleSection(-90));
+        rightRightSwitchBackEnc.addSection(new DriveDistance(95 - 28 / 2));
+        rightRightSwitchBackEnc.addSection(new TurnToAngleSection(-90));
+        rightRightSwitchBackEnc.addSection(new Drive(0, 0, 0));
+
+        rightRightSwitchBackMP = new AutonomousManager();
+        rightRightSwitchBackMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(166 - 32 / 2, 0, 0),
+                new Waypoint(194 + 32 / 2, -54 + 28 / 2, Pathfinder.d2r(90)),
+                new Waypoint(194 + 32 / 2, -95 + 28 / 2, Pathfinder.d2r(90))
+        }));
+        rightRightSwitchBackMP.addSection(new TurnToAngleSection(-90));
+        rightRightSwitchBackMP.addSection(new Drive(0, 0, 0));
     }
     
     /**
@@ -130,7 +168,7 @@ public class AutonomousStarter {
             return decideAuto();
             
         } */
-        return leftLeftSwitchSideMP;
+        return centerLeftSwitchMP;
     }
 
     /*
