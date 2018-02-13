@@ -16,7 +16,7 @@ public class Gyro implements PIDSource {
 
     private Gyro() {
 =======
-    public Gyro(){
+    public Gyro() {
 >>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
         try {
             gyro = new AHRS(SerialPort.Port.kUSB1);
@@ -34,7 +34,7 @@ public class Gyro implements PIDSource {
 
     public double getAngle() {
 =======
-    public double getAngle(){
+    public double getAngle() {
 >>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
         return gyro.getYaw();
     }
@@ -44,7 +44,7 @@ public class Gyro implements PIDSource {
     }
     
     public void logSmartDashbard() {
-    	SmartDashboard.putNumber("Gyro Angle", this.getAngle());
+        SmartDashboard.putNumber("Gyro Angle", this.getAngle());
     }
 
 

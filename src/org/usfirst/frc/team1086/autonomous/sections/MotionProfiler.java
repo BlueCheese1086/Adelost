@@ -8,14 +8,14 @@ import org.usfirst.frc.team1086.robot.Globals;
 public class MotionProfiler extends AutonomousSection {
     Waypoint[] points;
     MotionProfiling mp;
-    public MotionProfiler(Waypoint[] points){
+    public MotionProfiler(Waypoint[] points) {
         this.duration = -1;
         this.points = points;
         this.mp = Globals.mp;
     }
 
-    @Override public void start(){
-    	super.start();
+    @Override public void start() {
+        super.start();
         mp.setWaypoints(points);
         mp.init();
     }
@@ -28,7 +28,7 @@ public class MotionProfiler extends AutonomousSection {
 
     }
 
-    @Override public boolean isFinished(){
+    @Override public boolean isFinished() {
         return super.isFinished() || mp.isFinished();
     }
 }

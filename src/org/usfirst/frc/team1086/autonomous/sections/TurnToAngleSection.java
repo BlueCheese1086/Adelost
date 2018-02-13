@@ -13,25 +13,25 @@ public class TurnToAngleSection extends AutonomousSection {
     Gyro gyro;
     double setAngle;
 
-    public TurnToAngleSection(double angle){
+    public TurnToAngleSection(double angle) {
         this.duration = -1;
         init(angle);
     }
 
-    public TurnToAngleSection(double angle, long timeOut){
+    public TurnToAngleSection(double angle, long timeOut) {
         this.duration = timeOut;
         init(angle);
     }
 
-    private void init(double angle){
+    private void init(double angle) {
         drive = Globals.drivetrain;
         gyro = Globals.gyro;
         turnPID = drive.turnToAngleController;
         setAngle = angle;
     }
 
-    @Override public void start(){
-    	super.start();
+    @Override public void start() {
+        super.start();
         turnPID.setSetpoint(Utils.normalizeAngle(gyro.getNormalizedAngle() + setAngle));
         turnPID.enable();
     }
@@ -48,8 +48,8 @@ public class TurnToAngleSection extends AutonomousSection {
 
     }
     public void testError() {
-    	if(duration == -1 && (turnPID.getAvgError() < 1 && turnPID.getError() < 1)) {
-    		duration = 500;
-    	}
+        if(duration == -1 && (turnPID.getAvgError() < 1 && turnPID.getError() < 1)) {
+            duration = 500;
+        }
     }
 }

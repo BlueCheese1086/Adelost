@@ -27,14 +27,14 @@ public class Arm implements Tickable {
         armMotor.config_kD(0, 0, 0);
         armMotor.config_kF(0, 0, 0);
     }
-    @Override public void tick(){
-        if(Globals.im.getArm90Degree()){
+    @Override public void tick() {
+        if(Globals.im.getArm90Degree()) {
             position = ArmPosition.UP;
             Globals.ArmLocation.setString("Up");
-        } else if(Globals.im.getArm45Degree()){
+        } else if(Globals.im.getArm45Degree()) {
             position = ArmPosition.MID;
             Globals.ArmLocation.setString("Middle");
-        } else if(Globals.im.getArm0Degree()){
+        } else if(Globals.im.getArm0Degree()) {
             position = ArmPosition.DOWN;
             Globals.ArmLocation.setString("Down");
         }
@@ -47,7 +47,7 @@ enum ArmPosition {
     MID(45);
     double angle;
     int encoderUnits;
-    ArmPosition(double angle){
+    ArmPosition(double angle) {
         this.angle = angle * Math.PI / 180.0;
         this.encoderUnits = (int)(Math.round(angle / 360 * 4096));
     }

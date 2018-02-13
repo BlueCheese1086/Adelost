@@ -205,15 +205,15 @@ enum Side {
 enum Strategy {
     DRIVEFORWARD, SWITCH_SAME_SIDE, SWITCH_ALWAYS, SCALE_SAME_SIDE, SCALE_ALWAYS, SWITCH_OR_SCALE_SAME_SIDE, SWITCH_THEN_SCALE;
     ArrayList<AutonomousManager> autoModes = new ArrayList<>();
-    Strategy(){
+    Strategy() {
 
     }
 
-    public void addAutoMode(AutonomousManager autoMode){
+    public void addAutoMode(AutonomousManager autoMode) {
         autoModes.add(autoMode);
     }
 
-    public AutonomousManager getAutoModeToRun(){
+    public AutonomousManager getAutoModeToRun() {
         // Add logic later
 
         return autoModes.get(0);

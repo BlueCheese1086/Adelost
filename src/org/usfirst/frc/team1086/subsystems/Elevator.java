@@ -13,7 +13,7 @@ public class Elevator implements Tickable {
     InputManager inputManager;
     TalonSRX elevatorMotor, elevatorFollower;
     AnalogPotentiometer stringPotentiometer;
-    public Elevator(){
+    public Elevator() {
         inputManager = Globals.im;
         elevatorMotor = new TalonSRX(RobotMap.ELEVATOR_1);
         elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
@@ -32,12 +32,12 @@ public class Elevator implements Tickable {
         stringPotentiometer = new AnalogPotentiometer(RobotMap.POTENTIOMETER,
                 3.0 / 2.0 * Constants.POTENTIOMETER_STRING_LENGTH, Constants.POTENTIOMETER_STRING_OFFSET * 2.0 / 3);
     }
-    @Override public void tick(){
+    @Override public void tick() {
         double targetHeight = inputManager.getElevator() * Constants.ELEVATOR_HEIGHT;
         double currentHeightEnc = elevatorMotor.getSelectedSensorPosition(0) / 4096.0 * 3 * Constants.ELEVATOR_GEAR_CIRCUMFERENCE;
         double currentHeightPot = stringPotentiometer.get();
 
-        if(Math.abs(currentHeightEnc - currentHeightPot) > 5){
+        if(Math.abs(currentHeightEnc - currentHeightPot) > 5) {
             elevatorMotor.setSelectedSensorPosition((int)(currentHeightPot * 4096 / 3 / Constants.ELEVATOR_GEAR_CIRCUMFERENCE),
                     0, 0);
         }

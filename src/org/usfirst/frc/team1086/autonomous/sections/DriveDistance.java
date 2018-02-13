@@ -7,14 +7,14 @@ import org.usfirst.frc.team1086.subsystems.Drivetrain;
 public class DriveDistance extends AutonomousSection {
     Drivetrain drivetrain;
     double distance;
-    public DriveDistance(double distance){
+    public DriveDistance(double distance) {
         drivetrain = Globals.drivetrain;
         this.duration = -1;
         this.distance = distance;
     }
 
-    @Override public void start(){
-    	super.start();
+    @Override public void start() {
+        super.start();
         System.out.println("DriveSection start");
         drivetrain.em.setPosition(distance);
     }
@@ -27,7 +27,7 @@ public class DriveDistance extends AutonomousSection {
         System.out.println("Drive Section finished");
     }
 
-    @Override public boolean isFinished(){
+    @Override public boolean isFinished() {
         return super.isFinished() || drivetrain.em.reachedSetpoint(2);
     }
 }

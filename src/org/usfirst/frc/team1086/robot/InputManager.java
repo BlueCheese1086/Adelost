@@ -25,7 +25,7 @@ public class InputManager {
     public static InputManager getInstance() {
         return instance;
 =======
-    public InputManager(){
+    public InputManager() {
         leftStick = new Joystick(0);
         rightStick = new Joystick(1);
         auxStick = new Joystick(5);
@@ -50,10 +50,10 @@ public class InputManager {
 <<<<<<< HEAD
     public boolean getMotionProfileStart() {
 =======
-    public double getElevator(){
+    public double getElevator() {
         return auxStick.getRawButton(ButtonMap.SAFETY) ? (auxStick.getY() + 1) / 2 : 0;
     }
-    public boolean getMotionProfileStart(){
+    public boolean getMotionProfileStart() {
 >>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
         return auxStick.getRawButtonPressed(ButtonMap.MOTION_PROFILE);
     }
@@ -61,36 +61,36 @@ public class InputManager {
         return auxStick.getRawButton(ButtonMap.MOTION_PROFILE);
     }
     public boolean getEncodersDriveStart() {
-    	return auxStick.getRawButtonPressed(ButtonMap.ENCODER_DRIVE);
+        return auxStick.getRawButtonPressed(ButtonMap.ENCODER_DRIVE);
     }
     public boolean getEncodersDriveTick() {
-    	return auxStick.getRawButton(ButtonMap.ENCODER_DRIVE);
+        return auxStick.getRawButton(ButtonMap.ENCODER_DRIVE);
     }
     public boolean getDriveStraightStart() {
-    	return leftStick.getRawButtonPressed(ButtonMap.DRIVE_STRAIGHT);
+        return leftStick.getRawButtonPressed(ButtonMap.DRIVE_STRAIGHT);
     }
     public boolean getDriveStraightTick() {
-    	return leftStick.getRawButton(ButtonMap.DRIVE_STRAIGHT);
+        return leftStick.getRawButton(ButtonMap.DRIVE_STRAIGHT);
     }
     public boolean getDriveStraightRelease() {
-    	return leftStick.getRawButtonReleased(ButtonMap.DRIVE_STRAIGHT);
+        return leftStick.getRawButtonReleased(ButtonMap.DRIVE_STRAIGHT);
     }
     public boolean getTurnToAngleStart() {
-    	return rightStick.getRawButtonPressed(ButtonMap.TURN_TO_ANGLE);
+        return rightStick.getRawButtonPressed(ButtonMap.TURN_TO_ANGLE);
     }
     public boolean getTurnToAngleTick() {
-    	return rightStick.getRawButton(ButtonMap.TURN_TO_ANGLE);
+        return rightStick.getRawButton(ButtonMap.TURN_TO_ANGLE);
     }
     public boolean getTurnToAngleRelease() {
-    	return rightStick.getRawButtonReleased(ButtonMap.TURN_TO_ANGLE);
+        return rightStick.getRawButtonReleased(ButtonMap.TURN_TO_ANGLE);
     }
-    public boolean getArm90Degree(){
+    public boolean getArm90Degree() {
         return auxStick.getRawButtonPressed(ButtonMap.ARM_UP);
     }
-    public boolean getArm45Degree(){
+    public boolean getArm45Degree() {
         return auxStick.getRawButtonPressed(ButtonMap.ARM_MID);
     }
-    public boolean getArm0Degree(){
+    public boolean getArm0Degree() {
         return auxStick.getRawButtonPressed(ButtonMap.ARM_DOWN);
     }
 }

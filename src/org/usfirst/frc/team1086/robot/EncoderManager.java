@@ -28,7 +28,7 @@ public class EncoderManager {
         return drive.frontRight.getSelectedSensorPosition(0) / 4096 * Constants.WHEEL_DIAMETER;
 =======
     double leftSetpoint, rightSetpoint;
-    public EncoderManager(){
+    public EncoderManager() {
         drive = Globals.drivetrain;
         drive.left1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         drive.right1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
@@ -62,7 +62,7 @@ public class EncoderManager {
         resetEncoders();
     }
 
-    public void resetEncoders(){
+    public void resetEncoders() {
         drive.left1.setSelectedSensorPosition(0, 0, 0);
         drive.right1.setSelectedSensorPosition(0, 0, 0);
     }
@@ -71,7 +71,7 @@ public class EncoderManager {
      * Sets the desired distance to drive and activates Position control mode
      * @param dist - the desired distance in inches
      */
-    public void setPosition(double dist){
+    public void setPosition(double dist) {
         double distNative = dist * 4096.0 / Constants.WHEEL_DIAMETER / Math.PI;
         double leftPosNative = drive.left1.getSelectedSensorPosition(0);
         double rightPosNative = drive.right1.getSelectedSensorPosition(0);
@@ -81,11 +81,11 @@ public class EncoderManager {
         drive.right1.set(ControlMode.Position, rightPosNative + distNative);
     }
 
-    public double getLeftDistance(){
+    public double getLeftDistance() {
         return drive.left1.getSelectedSensorPosition(0) / 4096.0 * Constants.WHEEL_DIAMETER * Math.PI;
     }
 
-    public double getRightDistance(){
+    public double getRightDistance() {
         return drive.right1.getSelectedSensorPosition(0) / 4096.0 * Constants.WHEEL_DIAMETER * Math.PI;
 >>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
     }
@@ -101,21 +101,21 @@ public class EncoderManager {
         return leftError() <= tolerance && rightError() <= tolerance;
     }
 
-    private double leftError(){
-    	double leftpoint = leftSetpoint /  4096.0 * Constants.WHEEL_DIAMETER * Math.PI;
-    	double error = Math.abs((leftpoint - getLeftDistance()));
-    	System.out.println(error);
+    private double leftError() {
+        double leftpoint = leftSetpoint /  4096.0 * Constants.WHEEL_DIAMETER * Math.PI;
+        double error = Math.abs((leftpoint - getLeftDistance()));
+        System.out.println(error);
         return error;
     }
 
-    private double rightError(){
+    private double rightError() {
         return Math.abs(rightSetpoint / 4096.0 * Constants.WHEEL_DIAMETER * Math.PI - getRightDistance());
     }
 >>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
 
-    public void logSmartDashboard(){
-    	SmartDashboard.putNumber("Encoder Left", getLeftDistance());
-    	SmartDashboard.putNumber("Encoder Right", getRightDistance());
-    	SmartDashboard.putNumber("Encoder Distance", getEncDistance());
+    public void logSmartDashboard() {
+        SmartDashboard.putNumber("Encoder Left", getLeftDistance());
+        SmartDashboard.putNumber("Encoder Right", getRightDistance());
+        SmartDashboard.putNumber("Encoder Distance", getEncDistance());
     }
 }

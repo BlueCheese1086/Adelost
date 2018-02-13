@@ -87,11 +87,11 @@ public class MotionProfiling implements Tickable {
         if (im.getMotionProfileTick()) {
             tick();
 =======
-    @Override public void tick(){
-        if(im.getMotionProfileStart()){
+    @Override public void tick() {
+        if(im.getMotionProfileStart()) {
             init();
         }
-        if(im.getMotionProfileTick()){
+        if(im.getMotionProfileTick()) {
             run();
 >>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
         }
@@ -112,8 +112,8 @@ public class MotionProfiling implements Tickable {
     public void init() {
         if (points != null) {
 =======
-    public void init(){
-        if(points != null){
+    public void init() {
+        if(points != null) {
             startHeading = gyro.getAngle();
 >>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
             Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST,
@@ -135,8 +135,8 @@ public class MotionProfiling implements Tickable {
             System.out.println("Waypoints is null when calling init() in Motion Profiling");
         }
     }
-    public void run(){
-        if(!isFinished()){
+    public void run() {
+        if(!isFinished()) {
             double leftSpeed = left.calculate(drivetrain.left1.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
             double rightSpeed = right.calculate(drivetrain.right1.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
 
@@ -161,8 +161,7 @@ public class MotionProfiling implements Tickable {
         } else {
             System.out.println("MP is finished");
 =======
-        }
-        else {
+        } else {
 >>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
             left.closeFile();
             right.closeFile();
@@ -171,7 +170,7 @@ public class MotionProfiling implements Tickable {
         }
     }
 
-    public boolean isFinished(){
+    public boolean isFinished() {
         return left.isFinished() && right.isFinished();
     }
 }
