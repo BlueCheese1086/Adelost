@@ -104,7 +104,7 @@ public class Drivetrain implements Tickable {
 				turnToAngleController.disable();
 			}
 			else if(im.getUltraSonicStart()) {
-				ultrasonicController.setSetpoint(0 /*Value goes here*/);
+				ultrasonicController.setSetpoint(gyro.getNormalizedAngle() /*Value goes here*/);
 				ultrasonicController.enable();
 			}
 			else if(im.getUltraSonicTick()) {
