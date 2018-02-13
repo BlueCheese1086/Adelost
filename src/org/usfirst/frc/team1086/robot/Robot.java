@@ -25,6 +25,46 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import java.util.ArrayList;
 
 public class Robot extends TimedRobot {
+<<<<<<< HEAD
+    Drivetrain drivetrain;
+    Elevator elevator;
+    Intake intake;
+    MotionProfiling motionProfiling;
+    AutonomousStarter autoStarter;
+
+    @Override public void robotInit() {
+        drivetrain = Drivetrain.getInstance();
+        drivetrain.em.resetEncoders();
+        autoStarter = new AutonomousStarter();
+        autoStarter.initAutoModes();
+    }
+
+    @Override public void autonomousInit() {
+        autoStarter.start();
+    }
+    
+    @Override public void autonomousPeriodic() {
+        
+    }
+
+    @Override public void teleopInit() {
+
+    }
+
+    @Override public void teleopPeriodic() {
+        drivetrain.teleopTick();
+        motionProfiling.teleopTick();
+        logSmartDashboard();
+    }
+
+    @Override public void testPeriodic() {
+        teleopPeriodic();
+    }
+
+    private void logSmartDashboard() {
+        drivetrain.logSmartDashboard();
+    }
+=======
 	Drivetrain drivetrain;
 	Elevator elevator;
 	Intake intake;
@@ -80,4 +120,5 @@ public class Robot extends TimedRobot {
 	private void logSmartDashboard(){
 		drivetrain.logSmartDashboard();
 	}
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
 }

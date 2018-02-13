@@ -9,21 +9,37 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Gyro implements PIDSource {
     public AHRS gyro;
 
+<<<<<<< HEAD
+    static {
+        instance = new Gyro();
+    }
+
+    private Gyro() {
+=======
     public Gyro(){
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
         try {
             gyro = new AHRS(SerialPort.Port.kUSB1);
             System.out.println("VMX successfully instantiated");
-        } catch(Exception e){
+        } catch(Exception e) {
             System.out.println("VMX was unable to be found");
             e.printStackTrace();
         }
     }
 
+<<<<<<< HEAD
+    public static Gyro getInstance() {
+        return instance;
+    }
+
+    public double getAngle() {
+=======
     public double getAngle(){
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
         return gyro.getYaw();
     }
 
-    public double getNormalizedAngle(){
+    public double getNormalizedAngle() {
         return Utils.normalizeAngle(getAngle());
     }
     

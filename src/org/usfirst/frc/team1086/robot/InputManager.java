@@ -10,10 +10,26 @@ public class InputManager {
     Joystick rightStick;
     Joystick auxStick;
 
+<<<<<<< HEAD
+    static {
+        instance = new InputManager();
+    }
+
+    private InputManager() {
+        leftStick = new Joystick(0);
+        rightStick = new Joystick(1);
+        auxStick = new Joystick(5);
+        instance = this;
+    }
+
+    public static InputManager getInstance() {
+        return instance;
+=======
     public InputManager(){
         leftStick = new Joystick(0);
         rightStick = new Joystick(1);
         auxStick = new Joystick(5);
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
     }
 
     public boolean getSafety() {
@@ -25,19 +41,23 @@ public class InputManager {
     public double getTurn() {
         return rightStick.getX() * Math.abs(rightStick.getX());
     }
-    public boolean getIntake(){
+    public boolean getIntake() {
         return auxStick.getRawButton(ButtonMap.INTAKE);
     }
     public boolean getEvict() {
         return auxStick.getRawButton(ButtonMap.EVICT);
     }
+<<<<<<< HEAD
+    public boolean getMotionProfileStart() {
+=======
     public double getElevator(){
         return auxStick.getRawButton(ButtonMap.SAFETY) ? (auxStick.getY() + 1) / 2 : 0;
     }
     public boolean getMotionProfileStart(){
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
         return auxStick.getRawButtonPressed(ButtonMap.MOTION_PROFILE);
     }
-    public boolean getMotionProfileTick(){
+    public boolean getMotionProfileTick() {
         return auxStick.getRawButton(ButtonMap.MOTION_PROFILE);
     }
     public boolean getEncodersDriveStart() {

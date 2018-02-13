@@ -8,6 +8,25 @@ import org.usfirst.frc.team1086.subsystems.Drivetrain;
 
 public class EncoderManager {
     Drivetrain drive;
+<<<<<<< HEAD
+    public EncoderManager() {
+        drive = Drivetrain.getInstance();
+        drive.frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        drive.frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+    }
+
+    public void resetEncoders() {
+        drive.frontLeft.setSelectedSensorPosition(0, 0, 0);
+        drive.frontRight.setSelectedSensorPosition(0, 0, 0);
+    }
+
+    public double getLeftDistance() {
+        return drive.frontLeft.getSelectedSensorPosition(0) / 4096 * Constants.WHEEL_DIAMETER;
+    }
+
+    public double getRightDistance() {
+        return drive.frontRight.getSelectedSensorPosition(0) / 4096 * Constants.WHEEL_DIAMETER;
+=======
     double leftSetpoint, rightSetpoint;
     public EncoderManager(){
         drive = Globals.drivetrain;
@@ -68,12 +87,16 @@ public class EncoderManager {
 
     public double getRightDistance(){
         return drive.right1.getSelectedSensorPosition(0) / 4096.0 * Constants.WHEEL_DIAMETER * Math.PI;
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
     }
 
-    public double getEncDistance(){
+    public double getEncDistance() {
         return (getLeftDistance() + getRightDistance()) / 2.0;
     }
 
+<<<<<<< HEAD
+    public void logSmartDashboard() {
+=======
     public boolean reachedSetpoint(double tolerance) {
         return leftError() <= tolerance && rightError() <= tolerance;
     }
@@ -88,6 +111,7 @@ public class EncoderManager {
     private double rightError(){
         return Math.abs(rightSetpoint / 4096.0 * Constants.WHEEL_DIAMETER * Math.PI - getRightDistance());
     }
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
 
     public void logSmartDashboard(){
     	SmartDashboard.putNumber("Encoder Left", getLeftDistance());

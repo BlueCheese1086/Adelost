@@ -13,6 +13,11 @@ import org.usfirst.frc.team1086.robot.FieldMap;
 
 import java.util.ArrayList;
 
+<<<<<<< HEAD
+    public AutonomousStarter getInstance() {
+        return instance;
+    }
+=======
 public class AutonomousStarter {
     Side switchSide;
     Side scaleSide;
@@ -20,6 +25,7 @@ public class AutonomousStarter {
     Strategy selectedStrategy;
     SendableChooser<Strategy> strategyChooser = new SendableChooser<>();
     SendableChooser<Side> sideChooser = new SendableChooser<>();
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
 
     AutonomousManager testAuto;
     AutonomousManager centerLeftSwitchEnc;
@@ -39,10 +45,13 @@ public class AutonomousStarter {
      * Initializes the sections of all the auto modes.
      */
     public void initAutoModes() {
+<<<<<<< HEAD
+=======
         sideChooser.addObject("Left", Side.LEFT);
         sideChooser.addObject("Center", Side.CENTER);
         sideChooser.addObject("Right", Side.RIGHT);
         SmartDashboard.putData(sideChooser);
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
 
         strategyChooser.addObject("Drive Forward", Strategy.DRIVEFORWARD);
         strategyChooser.addObject("Switch Only If Correct Side", Strategy.SWITCH_SAME_SIDE);
@@ -161,7 +170,10 @@ public class AutonomousStarter {
      * calls the appropriate auto mode.
      */
     public AutonomousManager start() {
+<<<<<<< HEAD
+=======
         //remove the comments for actual competition
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
 
         /*
         String gameData = DriverStation.getInstance().getGameSpecificMessage();

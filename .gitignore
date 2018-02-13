@@ -1,4 +1,4 @@
 #ignore everything except source files
 /*
 !/src
-!/README.md
+!/*.md

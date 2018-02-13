@@ -79,12 +79,21 @@ public class MotionProfiling implements Tickable {
         }; */
     }
 
+<<<<<<< HEAD
+    public void teleopTick() {
+        if (im.getMotionProfileStart()) {
+            init();
+        }
+        if (im.getMotionProfileTick()) {
+            tick();
+=======
     @Override public void tick(){
         if(im.getMotionProfileStart()){
             init();
         }
         if(im.getMotionProfileTick()){
             run();
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
         }
     }
 
@@ -92,16 +101,21 @@ public class MotionProfiling implements Tickable {
      * Sets the waypoints
      * @param points - the desired Waypoints to generate a trajectory
      */
-    public void setWaypoints(Waypoint[] points){
+    public void setWaypoints(Waypoint[] points) {
         this.points = points;
     }
 
     /**
      * Initializes Motion Profiling and prepares a path to be followed
      */
+<<<<<<< HEAD
+    public void init() {
+        if (points != null) {
+=======
     public void init(){
         if(points != null){
             startHeading = gyro.getAngle();
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
             Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST,
                                                             MPConstants.DELTA_TIME, MPConstants.MAX_VELOCITY, MPConstants.MAX_ACCELERATION, MPConstants.MAX_JERK);
             Trajectory trajectory = Pathfinder.generate(points, config);
@@ -117,8 +131,7 @@ public class MotionProfiling implements Tickable {
             right.configurePIDVA(MPConstants.MP_KP, MPConstants.MP_KI, MPConstants.MP_KD, MPConstants.MP_KV, MPConstants.MP_KA);
 
             turnController.enable();
-        }
-        else {
+        } else {
             System.out.println("Waypoints is null when calling init() in Motion Profiling");
         }
     }
@@ -127,7 +140,16 @@ public class MotionProfiling implements Tickable {
             double leftSpeed = left.calculate(drivetrain.left1.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
             double rightSpeed = right.calculate(drivetrain.right1.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
 
+<<<<<<< HEAD
+    public void tick() {
+        if (!left.isFinished() && !right.isFinished()) {
+            double leftSpeed = left.calculate(drivetrain.frontLeft.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
+            double rightSpeed = right.calculate(drivetrain.frontRight.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
+
+            double gyroHeading = gyro.getAngle();
+=======
             double gyroHeading = gyro.getAngle() - startHeading;
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
             double desiredHeading = Pathfinder.r2d(left.getHeading());
             angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
 
@@ -135,8 +157,13 @@ public class MotionProfiling implements Tickable {
             System.out.println("Turn: " + turn);;
             //double turn = 0;
             drivetrain.driveMP(leftSpeed, rightSpeed, turn);
+<<<<<<< HEAD
+        } else {
+            System.out.println("MP is finished");
+=======
         }
         else {
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
             left.closeFile();
             right.closeFile();
             drivetrain.drive(0,0);
