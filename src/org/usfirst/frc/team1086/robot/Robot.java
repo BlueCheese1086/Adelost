@@ -7,15 +7,25 @@
 
 package org.usfirst.frc.team1086.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
+import org.usfirst.frc.team1086.autonomous.AutonomousManager;
 import org.usfirst.frc.team1086.autonomous.AutonomousStarter;
+import org.usfirst.frc.team1086.subsystems.Arm;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 import org.usfirst.frc.team1086.subsystems.Elevator;
 import org.usfirst.frc.team1086.subsystems.Intake;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+
+import java.util.ArrayList;
 
 public class Robot extends TimedRobot {
+<<<<<<< HEAD
     Drivetrain drivetrain;
     Elevator elevator;
     Intake intake;
@@ -54,4 +64,61 @@ public class Robot extends TimedRobot {
     private void logSmartDashboard() {
         drivetrain.logSmartDashboard();
     }
+=======
+	Drivetrain drivetrain;
+	Elevator elevator;
+	Intake intake;
+	Arm arm;
+	MotionProfiling motionProfiling;
+	AutonomousStarter autoStarter;
+	AutonomousManager selectedAuto;
+    ArrayList<Tickable> tickables = new ArrayList<>();
+    
+    
+	@Override public void robotInit() {
+		Globals.init();
+		drivetrain = Globals.drivetrain;
+		drivetrain.em.resetEncoders();
+
+		autoStarter = new AutonomousStarter();
+		autoStarter.initAutoModes();
+
+		elevator = Globals.elevator;
+		arm = Globals.arm;
+		intake = Globals.intake;
+		motionProfiling = Globals.mp;
+
+		//tickables.add(elevator);
+		tickables.add(motionProfiling);
+		tickables.add(drivetrain);
+		//tickables.add(arm);
+	}
+
+	@Override public void autonomousInit() {
+		
+	    selectedAuto = autoStarter.start();
+	    selectedAuto.start();
+	}
+	
+	@Override public void autonomousPeriodic() {
+        selectedAuto.update();
+	}
+
+	@Override public void teleopInit(){
+		drivetrain.em.resetEncoders();
+	}
+
+	@Override public void teleopPeriodic() {
+	    tickables.forEach(Tickable::tick);
+		logSmartDashboard();
+	}
+
+	@Override public void testPeriodic() {
+		//teleopPeriodic();
+	}
+
+	private void logSmartDashboard(){
+		drivetrain.logSmartDashboard();
+	}
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
 }

@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1086.MotionProfiling;
 
+import org.usfirst.frc.team1086.robot.*;
+import org.usfirst.frc.team1086.subsystems.Drivetrain;
+
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -7,17 +10,16 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
-import org.usfirst.frc.team1086.robot.Constants;
-import org.usfirst.frc.team1086.robot.Gyro;
-import org.usfirst.frc.team1086.robot.InputManager;
-import org.usfirst.frc.team1086.subsystems.Drivetrain;
 
-public class MotionProfiling {
+import java.nio.file.Path;
+
+public class MotionProfiling implements Tickable {
     Waypoint[] points;
     EncoderFollower left, right;
     Gyro gyro;
 
     PIDController turnController;
+    double startHeading = 0;
     double turnOutput = 0;
     double angleDifference = 0;
 
@@ -25,9 +27,9 @@ public class MotionProfiling {
     Drivetrain drivetrain;
 
     public MotionProfiling() {
-        im = InputManager.getInstance();
-        gyro = Gyro.getInstance();
-        drivetrain = Drivetrain.getInstance();
+        im = Globals.im;
+        gyro = Globals.gyro;
+        drivetrain = Globals.drivetrain;
         turnController = new PIDController(MPConstants.TURN_KP, MPConstants.TURN_KI, MPConstants.TURN_KD, new PIDSource() {
             @Override
             public void setPIDSourceType(PIDSourceType pidSource) {
@@ -44,19 +46,54 @@ public class MotionProfiling {
             }
         }, output -> turnOutput = output);
 
+        turnController.setInputRange(-180, 180);
+        turnController.setOutputRange(-1, 1);
+        turnController.setContinuous(true);
+
+
         /* Sets the default path, can be overwritten by setWaypoints() method */
+
+
         points = new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(25, 0, 0)
+                new Waypoint(2 * 39.4, 1 * 39.4, Pathfinder.d2r(45)),
+                new Waypoint(4 * 39.4, 2 * 39.4, Pathfinder.d2r(0))
         };
+        /*
+        points = new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(39.4, 39.4, Pathfinder.d2r(90)),
+                new Waypoint(0, 2 * 39.4, Pathfinder.d2r(-180)),
+                new Waypoint(-39.4, 39.4, Pathfinder.d2r(-90)),
+                new Waypoint(0, 0, Pathfinder.d2r(0))
+        }; */
+        /*
+        points = new Waypoint[] {
+                new Waypoint(0, 0, 0),
+                new Waypoint(6 * 39.4, 0, 0),
+                new Waypoint(7 * 39.4, 39.4, Pathfinder.d2r(90)),
+                new Waypoint(6 * 39.4, 2 * 39.4, Pathfinder.d2r(180)),
+                new Waypoint(0, 2 * 39.4, Pathfinder.d2r(180)),
+                new Waypoint(-1 * 39.4, 39.4, Pathfinder.d2r(270)),
+                new Waypoint(0, 0, Pathfinder.d2r(0))
+        }; */
     }
 
+<<<<<<< HEAD
     public void teleopTick() {
         if (im.getMotionProfileStart()) {
             init();
         }
         if (im.getMotionProfileTick()) {
             tick();
+=======
+    @Override public void tick(){
+        if(im.getMotionProfileStart()){
+            init();
+        }
+        if(im.getMotionProfileTick()){
+            run();
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
         }
     }
 
@@ -71,8 +108,14 @@ public class MotionProfiling {
     /**
      * Initializes Motion Profiling and prepares a path to be followed
      */
+<<<<<<< HEAD
     public void init() {
         if (points != null) {
+=======
+    public void init(){
+        if(points != null){
+            startHeading = gyro.getAngle();
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
             Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_FAST,
                                                             MPConstants.DELTA_TIME, MPConstants.MAX_VELOCITY, MPConstants.MAX_ACCELERATION, MPConstants.MAX_JERK);
             Trajectory trajectory = Pathfinder.generate(points, config);
@@ -81,35 +124,54 @@ public class MotionProfiling {
             left = new EncoderFollower(modifier.getLeftTrajectory(), "/home/lvuser/leftPath.csv");
             right = new EncoderFollower(modifier.getRightTrajectory(), "/home/lvuser/rightPath.csv");
 
-            left.configureEncoder(drivetrain.frontLeft.getSelectedSensorPosition(0), 4096, Constants.WHEEL_DIAMETER);
-            right.configureEncoder(drivetrain.frontRight.getSelectedSensorPosition(0), 4096, Constants.WHEEL_DIAMETER);
+            left.configureEncoder(drivetrain.left1.getSelectedSensorPosition(0), 4096, Constants.WHEEL_DIAMETER);
+            right.configureEncoder(drivetrain.right1.getSelectedSensorPosition(0), 4096, Constants.WHEEL_DIAMETER);
 
-            left.configurePIDVA(MPConstants.MP_KP, MPConstants.MP_KI, MPConstants.TURN_KD, MPConstants.MP_KV, MPConstants.MP_KA);
-            right.configurePIDVA(MPConstants.MP_KP, MPConstants.MP_KI, MPConstants.TURN_KD, MPConstants.MP_KV, MPConstants.MP_KA);
+            left.configurePIDVA(MPConstants.MP_KP, MPConstants.MP_KI, MPConstants.MP_KD, MPConstants.MP_KV, MPConstants.MP_KA);
+            right.configurePIDVA(MPConstants.MP_KP, MPConstants.MP_KI, MPConstants.MP_KD, MPConstants.MP_KV, MPConstants.MP_KA);
 
             turnController.enable();
         } else {
             System.out.println("Waypoints is null when calling init() in Motion Profiling");
         }
     }
+    public void run(){
+        if(!isFinished()){
+            double leftSpeed = left.calculate(drivetrain.left1.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
+            double rightSpeed = right.calculate(drivetrain.right1.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
 
+<<<<<<< HEAD
     public void tick() {
         if (!left.isFinished() && !right.isFinished()) {
             double leftSpeed = left.calculate(drivetrain.frontLeft.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
             double rightSpeed = right.calculate(drivetrain.frontRight.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
 
             double gyroHeading = gyro.getAngle();
+=======
+            double gyroHeading = gyro.getAngle() - startHeading;
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
             double desiredHeading = Pathfinder.r2d(left.getHeading());
-            angleDifference = Pathfinder.boundHalfDegrees(desiredHeading + gyroHeading);
+            angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
 
             double turn = turnController.get();
+            System.out.println("Turn: " + turn);;
+            //double turn = 0;
             drivetrain.driveMP(leftSpeed, rightSpeed, turn);
+<<<<<<< HEAD
         } else {
             System.out.println("MP is finished");
+=======
+        }
+        else {
+>>>>>>> 1301bff70f5a850fc3de502b950c4cda5f9687b7
             left.closeFile();
             right.closeFile();
             drivetrain.drive(0,0);
             turnController.disable();
         }
+    }
+
+    public boolean isFinished(){
+        return left.isFinished() && right.isFinished();
     }
 }
