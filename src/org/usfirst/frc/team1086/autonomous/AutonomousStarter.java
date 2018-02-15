@@ -34,6 +34,7 @@ public class AutonomousStarter {
     AutonomousManager leftLeftSwitchBackMP;
     AutonomousManager rightRightSwitchBackEnc;
     AutonomousManager rightRightSwitchBackMP;
+    AutonomousManager leftLeftScaleMP;
 
     /**
      * Initializes the sections of all the auto modes.
@@ -72,8 +73,8 @@ public class AutonomousStarter {
         centerLeftSwitchMP = new AutonomousManager();
         centerLeftSwitchMP.addSection(new MotionProfiler(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD / 2, -FieldMap.CENTER_SWITCH_WALL_HORIZONTAL / 2, Pathfinder.d2r(-45)),
-                new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD, -FieldMap.CENTER_SWITCH_WALL_HORIZONTAL, Pathfinder.d2r(0))
+                new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD / 2 - 32 / 2, -FieldMap.CENTER_SWITCH_WALL_HORIZONTAL / 2, Pathfinder.d2r(-45)),
+                new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD - 32, -FieldMap.CENTER_SWITCH_WALL_HORIZONTAL, Pathfinder.d2r(0))
         }));
         centerLeftSwitchMP.addSection(new Drive(0, 0,0));
 
@@ -88,8 +89,8 @@ public class AutonomousStarter {
         centerRightSwitchMP = new AutonomousManager();
         centerRightSwitchMP.addSection(new MotionProfiler(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD / 2, FieldMap.CENTER_SWITCH_WALL_HORIZONTAL / 2, Pathfinder.d2r(45)),
-                new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD, FieldMap.CENTER_SWITCH_WALL_HORIZONTAL, Pathfinder.d2r(0))
+                new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD / 2 - 32 / 2, FieldMap.CENTER_SWITCH_WALL_HORIZONTAL / 2, Pathfinder.d2r(45)),
+                new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD - 32, FieldMap.CENTER_SWITCH_WALL_HORIZONTAL, Pathfinder.d2r(0))
         }));
         centerRightSwitchMP.addSection(new Drive(0, 0,0));
 
@@ -149,11 +150,19 @@ public class AutonomousStarter {
         rightRightSwitchBackMP.addSection(new MotionProfiler(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(166 - 32 / 2, 0, 0),
-                new Waypoint(194 + 32 / 2, -54 + 28 / 2, Pathfinder.d2r(90)),
-                new Waypoint(194 + 32 / 2, -95 + 28 / 2, Pathfinder.d2r(90))
+                new Waypoint(194 + 32 / 2, -54 + 28 / 2, Pathfinder.d2r(-90)),
+                new Waypoint(194 + 32 / 2, -95 + 28 / 2, Pathfinder.d2r(-90))
         }));
         rightRightSwitchBackMP.addSection(new TurnToAngleSection(-90));
         rightRightSwitchBackMP.addSection(new Drive(0, 0, 0));
+
+        leftLeftScaleMP = new AutonomousManager();
+        leftLeftScaleMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(290 - 32/2, 0, 0),
+                new Waypoint(324 - 32 / 2, 39, Pathfinder.d2r(90))
+        }));
+        leftLeftScaleMP.addSection(new Drive(0, 0, 0));
     }
     
     /**
@@ -182,7 +191,7 @@ public class AutonomousStarter {
         AutonomousManager auto = selectedStrategy.getAutoModeToRun();
         return auto; */
 
-        return testAuto;
+        return leftLeftScaleMP;
     }
 }
 

@@ -17,11 +17,13 @@ public class Constants {
     public static final double DRIVE_STRAIGHT_KI = 0;
     public static final double DRIVE_STRAIGHT_KD = .075;
 
-	public static final double TURN_TO_ANGLE_KP = .025;
+	public static final double TURN_TO_ANGLE_KP = .02;
 	public static final double TURN_TO_ANGLE_KI = 0;
-	public static final double TURN_TO_ANGLE_KD = .075;
+	public static final double TURN_TO_ANGLE_KD = .045;
 	
-	//Ultrasonic PID
+	/**
+   * Ultrasonic PID
+   */
 	
 	public static final double ULTRASONIC_KP = 0;
 	public static final double ULTRASONIC_KI = 0;
