@@ -16,7 +16,7 @@ public class Drivetrain implements Tickable {
 	private InputManager im;
 	public EncoderManager em;
 	private Gyro gyro;
-
+	private Ultrasonic ultrasonic;
 	public PIDController driveStraightController;
 	public PIDController turnToAngleController;
 	public PIDController ultrasonicController;
@@ -54,6 +54,7 @@ public class Drivetrain implements Tickable {
 		im = Globals.im;
 		em = new EncoderManager();
 		gyro = Globals.gyro;
+		ultrasonic = Globals.ultrasonic;
 		driveStraightController = new PIDController(Constants.DRIVE_STRAIGHT_KP, Constants.DRIVE_STRAIGHT_KI,
 													Constants.DRIVE_STRAIGHT_KD, gyro, d -> {});
 		driveStraightController.setAbsoluteTolerance(0);
@@ -69,7 +70,11 @@ public class Drivetrain implements Tickable {
 		turnToAngleController.setContinuous(true);
 		
 		ultrasonicController = new PIDController(Constants.ULTRASONIC_KP, Constants.ULTRASONIC_KI,
-												 Constants.ULTRASONIC_KD, gyro, d -> {});
+												 Constants.ULTRASONIC_KD, ultrasonic, d -> {});
+		
+		ultrasonicController.setAbsoluteTolerance(1);
+		ultrasonicController.setInputRange(0, 100);
+		ultrasonicController.setOutputRange(0, 1);
 		
 	}
 	
@@ -104,11 +109,11 @@ public class Drivetrain implements Tickable {
 				turnToAngleController.disable();
 			}
 			else if(im.getUltraSonicStart()) {
-				ultrasonicController.setSetpoint(gyro.getNormalizedAngle() /*Value goes here*/);
+				ultrasonicController.setSetpoint(0);
 				ultrasonicController.enable();
 			}
 			else if(im.getUltraSonicTick()) {
-				drive(0 /*pid value of ultrasonic*/,0);
+				drive(ultrasonicController.get(), 0);
 			}
 			else if(im.getUltraSonicReleased()) {
 				ultrasonicController.reset();
