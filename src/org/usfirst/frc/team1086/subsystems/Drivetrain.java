@@ -19,6 +19,7 @@ public class Drivetrain implements Tickable {
 
 	public PIDController driveStraightController;
 	public PIDController turnToAngleController;
+	public PIDController ultrasonicController;
 	
 	/**
 	 * Initializer for the Drivetrain class.
@@ -66,6 +67,10 @@ public class Drivetrain implements Tickable {
 		turnToAngleController.setInputRange(-180, 180);
 		turnToAngleController.setOutputRange(-1, 1);
 		turnToAngleController.setContinuous(true);
+		
+		ultrasonicController = new PIDController(Constants.ULTRASONIC_KP, Constants.ULTRASONIC_KI,
+												 Constants.ULTRASONIC_KD, gyro, d -> {});
+		
 	}
 	
 	@Override public void tick(){
@@ -98,6 +103,17 @@ public class Drivetrain implements Tickable {
 				turnToAngleController.reset();
 				turnToAngleController.disable();
 			}
+			else if(im.getUltraSonicStart()) {
+				ultrasonicController.setSetpoint(gyro.getNormalizedAngle() /*Value goes here*/);
+				ultrasonicController.enable();
+			}
+			else if(im.getUltraSonicTick()) {
+				drive(0 /*pid value of ultrasonic*/,0);
+			}
+			else if(im.getUltraSonicReleased()) {
+				ultrasonicController.reset();
+				ultrasonicController.disable();
+			}
 			else {
 				drive(im.getDrive(), im.getTurn());
 			}
@@ -106,6 +122,7 @@ public class Drivetrain implements Tickable {
 			if(!im.getMotionProfileTick())
 				drive(0, 0);
 		}
+		
 	}
 
 	/**
@@ -116,6 +133,10 @@ public class Drivetrain implements Tickable {
 	public void drive(double drive, double turn) {
 		left1.set(ControlMode.PercentOutput, drive - turn);
 		right1.set(ControlMode.PercentOutput, drive + turn);
+		Globals.Left1Output.setDouble(left1.getMotorOutputPercent());
+		Globals.Left2Output.setDouble(left2.getMotorOutputPercent());
+		Globals.Right1Output.setDouble(right1.getMotorOutputPercent());
+		Globals.Right2Output.setDouble(right2.getMotorOutputPercent());
 	}
 
 	/**
@@ -127,10 +148,15 @@ public class Drivetrain implements Tickable {
 	public void driveMP(double left, double right, double turn){
 		left1.set(ControlMode.PercentOutput, left + turn);
 		right1.set(ControlMode.PercentOutput, right - turn);
+		Globals.Left1Output.setDouble(left1.getMotorOutputPercent());
+		Globals.Left2Output.setDouble(left2.getMotorOutputPercent());
+		Globals.Right1Output.setDouble(right1.getMotorOutputPercent());
+		Globals.Right2Output.setDouble(right2.getMotorOutputPercent());
 	}
 
 	public void logSmartDashboard(){
 		em.logSmartDashboard();
 		gyro.logSmartDashbard();
 	}
+	
 }
