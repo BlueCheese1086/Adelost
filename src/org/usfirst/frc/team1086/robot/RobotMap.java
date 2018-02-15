@@ -25,4 +25,5 @@ public class RobotMap {
      * Port numbers for sensors. This is based on how things are wired up.
      */
     public static final int POTENTIOMETER = 0;
+    public static final int ULTRASONIC = 1;
 }

@@ -17,7 +17,7 @@ public class Intake {
 		intake1.set(ControlMode.PercentOutput, 0.5);
 		intake2.set(ControlMode.PercentOutput, 0.5);
 	}
-	
+		
 	public void motorOff() {
 		intake1.set(ControlMode.PercentOutput, 0.0);
 		intake2.set(ControlMode.PercentOutput, 0.0);
