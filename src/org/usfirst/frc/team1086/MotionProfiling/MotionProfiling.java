@@ -56,8 +56,7 @@ public class MotionProfiling implements Tickable {
 
         points = new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(2 * 39.4, 1 * 39.4, Pathfinder.d2r(45)),
-                new Waypoint(4 * 39.4, 2 * 39.4, Pathfinder.d2r(0))
+                new Waypoint(50, 0, Pathfinder.d2r(0)),
         };
         /*
         points = new Waypoint[]{
