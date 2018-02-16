@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team1086.robot;
 
+import java.util.ArrayList;
+
 import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
 import org.usfirst.frc.team1086.autonomous.AutonomousManager;
 import org.usfirst.frc.team1086.autonomous.AutonomousStarter;
@@ -14,20 +16,22 @@ import org.usfirst.frc.team1086.subsystems.Arm;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 import org.usfirst.frc.team1086.subsystems.Elevator;
 import org.usfirst.frc.team1086.subsystems.Intake;
+import org.usfirst.frc.team1086.subsystems.Ultrasonic;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-
-import java.util.ArrayList;
 
 public class Robot extends TimedRobot {
 	Drivetrain drivetrain;
 	Elevator elevator;
 	Intake intake;
 	Arm arm;
+	Ultrasonic ultrasonic;
 	MotionProfiling motionProfiling;
 	AutonomousStarter autoStarter;
 	AutonomousManager selectedAuto;
     ArrayList<Tickable> tickables = new ArrayList<>();
+    
+    
 	@Override public void robotInit() {
 		Globals.init();
 		drivetrain = Globals.drivetrain;
@@ -45,6 +49,7 @@ public class Robot extends TimedRobot {
 		tickables.add(motionProfiling);
 		tickables.add(drivetrain);
 		//tickables.add(arm);
+		ultrasonic = Globals.ultrasonic;
 	}
 
 	@Override public void autonomousInit() {
@@ -67,10 +72,11 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override public void testPeriodic() {
-		teleopPeriodic();
+		//teleopPeriodic();
 	}
 
 	private void logSmartDashboard(){
 		drivetrain.logSmartDashboard();
+		ultrasonic.logSmartDashboard();
 	}
 }
