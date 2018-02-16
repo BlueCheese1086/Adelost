@@ -17,7 +17,7 @@ public class RobotMap {
     
     public static final int INTAKE_1 = 10;
     public static final int INTAKE_2 = 11;
-    
+
     public static final int ARM = 12;
 
 
