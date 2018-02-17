@@ -31,26 +31,13 @@ public class Drivetrain implements Tickable {
 		right1 = new TalonSRX(RobotMap.DRIVE_RIGHT_1);
 		left2 = new TalonSRX(RobotMap.DRIVE_LEFT_2);
 		right2 = new TalonSRX(RobotMap.DRIVE_RIGHT_2);
-		left1.setInverted(true);
-		left2.setInverted(true);
+		right1.setInverted(true);
+		right2.setInverted(true);
 		left2.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_1);
 		right2.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_1);
 	}
 
 	public void init() {
-		//This is where all of the NetworkTableEntries are initialized
-		NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
-		NetworkTable table = tableInstance.getTable("Telemetry");
-		Globals.Heading = table.getEntry("Heading");
-		Globals.Speed = table.getEntry("Speed");
-		Globals.Acceleration = table.getEntry("Acceleration");
-		Globals.Left1Output = table.getEntry("Left1Output");
-		Globals.Right1Output = table.getEntry("Right1Output");
-		Globals.Left2Output = table.getEntry("Left2Output");
-		Globals.Right2Output = table.getEntry("Right2Output");
-		Globals.ElevatorHeight = table.getEntry("ElevatorHeight");
-		Globals.ArmLocation = table.getEntry("ArmLocation");
-				
 		im = Globals.im;
 		em = new EncoderManager();
 		gyro = Globals.gyro;
@@ -136,8 +123,8 @@ public class Drivetrain implements Tickable {
 	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
 	 */
 	public void drive(double drive, double turn) {
-		left1.set(ControlMode.PercentOutput, drive + turn);
-		right1.set(ControlMode.PercentOutput, drive - turn);
+		left1.set(ControlMode.PercentOutput, -drive - turn);
+		right1.set(ControlMode.PercentOutput, -drive + turn);
 		Globals.Left1Output.setDouble(left1.getMotorOutputPercent());
 		Globals.Left2Output.setDouble(left2.getMotorOutputPercent());
 		Globals.Right1Output.setDouble(right1.getMotorOutputPercent());
@@ -151,8 +138,8 @@ public class Drivetrain implements Tickable {
 	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
 	 */
 	public void driveMP(double left, double right, double turn){
-		left1.set(ControlMode.PercentOutput, left + turn);
-		right1.set(ControlMode.PercentOutput, right - turn);
+		left1.set(ControlMode.PercentOutput, -left + turn);
+		right1.set(ControlMode.PercentOutput, -right - turn);
 		Globals.Left1Output.setDouble(left1.getMotorOutputPercent());
 		Globals.Left2Output.setDouble(left2.getMotorOutputPercent());
 		Globals.Right1Output.setDouble(right1.getMotorOutputPercent());

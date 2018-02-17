@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1086.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
 import org.usfirst.frc.team1086.subsystems.Arm;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
@@ -32,5 +34,18 @@ public class Globals {
 		mp = new MotionProfiling();
 		ultrasonic = new Ultrasonic(RobotMap.ULTRASONIC);
 		drivetrain.init();
+
+		//This is where all of the NetworkTableEntries are initialized
+		NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
+		NetworkTable table = tableInstance.getTable("Telemetry");
+		Globals.Heading = table.getEntry("Heading");
+		Globals.Speed = table.getEntry("Speed");
+		Globals.Acceleration = table.getEntry("Acceleration");
+		Globals.Left1Output = table.getEntry("Left1Output");
+		Globals.Right1Output = table.getEntry("Right1Output");
+		Globals.Left2Output = table.getEntry("Left2Output");
+		Globals.Right2Output = table.getEntry("Right2Output");
+		Globals.ElevatorHeight = table.getEntry("ElevatorHeight");
+		Globals.ArmLocation = table.getEntry("ArmLocation");
 	}
 }
