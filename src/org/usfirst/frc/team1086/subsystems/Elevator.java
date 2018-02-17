@@ -23,15 +23,15 @@ public class Elevator implements Tickable {
         elevatorMotor.configNominalOutputReverse(0, 0);
         elevatorMotor.configPeakOutputForward(1, 0);
         elevatorMotor.configPeakOutputReverse(-1, 0);
-        elevatorMotor.configMotionCruiseVelocity(1000, 0);
-        elevatorMotor.configMotionAcceleration(2000, 0);
+        elevatorMotor.configMotionCruiseVelocity(3800, 0);
+        elevatorMotor.configMotionAcceleration(6000, 0);
         elevatorMotor.setSelectedSensorPosition(0, 0, 0);
         elevatorMotor.config_kP(0, Constants.ELEVATOR_KP, 0);
         elevatorMotor.config_kI(0, Constants.ELEVATOR_KI, 0);
         elevatorMotor.config_kD(0, Constants.ELEVATOR_KD, 0);
         elevatorFollower = new TalonSRX(RobotMap.ELEVATOR_2);
         elevatorFollower.set(ControlMode.Follower, RobotMap.ELEVATOR_1);
-        elevatorMotor.configPeakCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
+        //elevatorMotor.configPeakCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
         //stringPotentiometer = new AnalogPotentiometer(RobotMap.POTENTIOMETER,
             //    3.0 / 2.0 * Constants.POTENTIOMETER_STRING_LENGTH, Constants.POTENTIOMETER_STRING_OFFSET * 2.0 / 3);
     }
@@ -50,8 +50,14 @@ public class Elevator implements Tickable {
         Globals.ElevatorHeight.setDouble(encToInches(elevatorMotor.getSelectedSensorPosition(0)));
         SmartDashboard.putNumber("Target Height", targetHeight);
         SmartDashboard.putNumber("Current", elevatorMotor.getOutputCurrent());
+        System.out.println("Elevator out: " + elevatorMotor.getMotorOutputPercent());
         if(inputManager.getElevatorSafety())
-            elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(targetHeight));
+            if(inputManager.getElevator5())
+                elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(5));
+            else if(inputManager.getElevator70())
+                elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(70));
+            else
+                elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(targetHeight));
         else elevatorMotor.set(ControlMode.PercentOutput, 0);
     }
 
