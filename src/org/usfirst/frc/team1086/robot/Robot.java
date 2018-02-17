@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
 		intake = Globals.intake;
 		motionProfiling = Globals.mp;
 
-		//tickables.add(elevator);
+		tickables.add(elevator);
 		tickables.add(motionProfiling);
 		tickables.add(drivetrain);
 		//tickables.add(arm);
@@ -64,6 +64,7 @@ public class Robot extends TimedRobot {
 
 	@Override public void teleopInit(){
 		drivetrain.em.resetEncoders();
+		elevator.start();
 	}
 
 	@Override public void teleopPeriodic() {
@@ -72,7 +73,7 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override public void testPeriodic() {
-		//teleopPeriodic();
+		teleopPeriodic();
 	}
 
 	private void logSmartDashboard(){
