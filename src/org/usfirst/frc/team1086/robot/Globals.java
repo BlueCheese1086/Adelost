@@ -32,6 +32,7 @@ public class Globals {
         im = new InputManager();
 		drivetrain = new Drivetrain();
 		gyro = new Gyro();
+		gyro.gyro.reset();
 		arm = new Arm();
 		intake = new Intake();
 		elevator = new Elevator();
