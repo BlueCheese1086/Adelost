@@ -10,7 +10,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Arm implements Tickable {
     InputManager inputManager;
-    TalonSRX armMotor;
+    public TalonSRX armMotor;
     ArmPosition position;
     public Arm() {
         inputManager = Globals.im;
@@ -40,12 +40,16 @@ public class Arm implements Tickable {
         }
         armMotor.set(ControlMode.Position, position.encoderUnits);
     }
+    public double getArmPosition() {
+		return position.angle;
+    	
+    }
 }
 enum ArmPosition {
     UP(90),
     DOWN(0),
     MID(45);
-    double angle;
+    public double angle;
     int encoderUnits;
     ArmPosition(double angle){
         this.angle = angle * Math.PI / 180.0;

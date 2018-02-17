@@ -1,10 +1,12 @@
 package org.usfirst.frc.team1086.robot;
 
-import java.util.Stack;
-
+import org.usfirst.frc.team1086.subsystems.Arm;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
+import org.usfirst.frc.team1086.subsystems.Elevator;
 
-public class BalanceChecker implements Tickable {
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
+public abstract class BalanceChecker implements Tickable {
 	Drivetrain drivetrain;
 	Gyro navx;
 	double normalPitch;
@@ -12,10 +14,14 @@ public class BalanceChecker implements Tickable {
 	double normalYaw;
 	double rollCurrent;
 	double pitchCurrent;
+	Elevator elevator;
+	Arm arm;
 
 	public BalanceChecker() {
 		drivetrain = Globals.drivetrain;
 		navx = Globals.gyro;
+		arm = Globals.arm;
+		elevator = Globals.elevator;
 		normalPitch = navx.getPitch();
 		normalRoll = navx.getRoll();
 		normalYaw = navx.getAngle();
@@ -33,29 +39,44 @@ public class BalanceChecker implements Tickable {
 	 * returns the maximum angle at which we need to be to flip
 	 */
 	private void checkRollMax() {
-		if (rollCurrent-normalRoll>Math.atan(13.5/9.921413831539647 + 18.12367710411075 u - 1.259343264446456 Math.sin(0.1582261234411514 - i))) {
-			
+		if (Math.abs(rollCurrent - normalRoll) > Math
+				.atan(13.5 / 9.921413831539647 + 18.12367710411075 * elevator.getElevatorHeight() / 75
+						- 1.259343264446456 * Math.sin(0.1582261234411514 - arm.getArmPosition()))) {
+			rollSave();
 		}
 	}
 
 	private void checkPitchMax() {
-		if (pitchCurrent-normalPitch>Math.atan((11.62462197 + (0.3887131055434038 + 1.259343264446456 *Math.cos(0.1582261234411514 - intake)))/((9.921413831539647 + (18.12367710411075 elevator - 1.259343264446456* Math.sin(0.1582261234411514 - intake)))-2.59375000)) - 0.004363323129985824
-				|| pitchCurrent-normalPitch<-ArcTan((11.62462197 + (0.3887131055434038 + 1.259343264446456 Math.cos(0.1582261234411514 - i)))/((9.921413831539647 + (18.12367710411075 u - 1.259343264446456 Math.sin(0.1582261234411514 - i)))-2.59375000)) + 0.004363323129985824) {
+		if (pitchCurrent
+				- normalPitch > Math.atan((11.62462197 + (0.3887131055434038
+						+ 1.259343264446456 * Math.cos(0.1582261234411514 - arm.getArmPosition())))
+						/ ((9.921413831539647 + (18.12367710411075 * elevator.getElevatorHeight() / 75
+								- 1.259343264446456 * Math.sin(0.1582261234411514 - arm.getArmPosition())))
+								- 2.59375000))
+						- 0.004363323129985824
+				|| pitchCurrent - normalPitch < -Math.atan((11.62462197 + (0.3887131055434038
+						+ 1.259343264446456 * Math.cos(0.1582261234411514 - arm.getArmPosition())))
+						/ ((9.921413831539647 + (18.12367710411075 * elevator.getElevatorHeight() / 75
+								- 1.259343264446456 * Math.sin(0.1582261234411514 - arm.getArmPosition())))
+								- 2.59375000))
+						+ 0.004363323129985824) {
 			pitchSave();
-		} 
+		}
 	}
 
 	private void pitchSave() {
-		System.out.println("Save Me!!!");
-		/*
-		 * drivetrain.drive(Math.signum(change),0); 
-		 * Elevator.down(lol);
-		 * Intake.down(lol);
-		 */
+		System.out.println("PITCH!!!");
+
+		drivetrain.drive(Math.signum(pitchCurrent), 0);
+		elevator.elevatorMotor.set(ControlMode.MotionMagic,0);
+		arm.armMotor.set(ControlMode.Position, 0);
+
 	}
 
 	private void rollSave() {
-		drivetrain.drive(0, 0);
+		drivetrain.drive((Math.abs(navx.getAngle() - normalYaw) > 90 ? 1 : -1), 0);// drive the way face
+		elevator.elevatorMotor.set(ControlMode.MotionMagic,0);
+		arm.armMotor.set(ControlMode.Position, 0);
 	}
 
 }

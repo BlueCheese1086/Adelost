@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
 		tickables.add(elevator);
 		tickables.add(motionProfiling);
 		tickables.add(drivetrain);
-		tickables.add(new BalanceChecker());
+		//tickables.add(new BalanceChecker());
 		//tickables.add(arm);
         //tickables.add(climber);
 		ultrasonic = Globals.ultrasonic;
