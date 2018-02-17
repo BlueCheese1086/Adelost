@@ -1,6 +1,10 @@
 package org.usfirst.frc.team1086.robot;
 
-public class Constants {  
+public class Constants {
+	public static final int ROBOT_LENGTH = 32;
+	public static final int ROBOT_WIDTH = 28;
+	public static final int ROBOT_HALF_LENGTH = ROBOT_LENGTH / 2;
+	public static final int ROBOT_HALF_WIDTH = ROBOT_WIDTH / 2;
 	
     /**
      * Encoders and Drivetrain constants
@@ -17,15 +21,28 @@ public class Constants {
     public static final double DRIVE_STRAIGHT_KI = 0;
     public static final double DRIVE_STRAIGHT_KD = .075;
 
-	public static final double TURN_TO_ANGLE_KP = .03;
+	public static final double TURN_TO_ANGLE_KP = .02;
 	public static final double TURN_TO_ANGLE_KI = 0;
-	public static final double TURN_TO_ANGLE_KD = .065;
+	public static final double TURN_TO_ANGLE_KD = .045;
+	
+	/**
+   * Ultrasonic PID
+   */
+	
+	public static final double ULTRASONIC_KP = 0;
+	public static final double ULTRASONIC_KI = 0;
+	public static final double ULTRASONIC_KD = 0;
 
 	/**
-	 * Other constants
+	 * Elevator Constants
 	 */
 	public static final double POTENTIOMETER_STRING_LENGTH = 50;
 	public static final double POTENTIOMETER_STRING_OFFSET = 2;
-  public static final double ELEVATOR_HEIGHT = 90 - 9;
-  public static final double ELEVATOR_GEAR_CIRCUMFERENCE = 4 * Math.PI;//FIX THIS    
+    public static final double ELEVATOR_HEIGHT = 75;
+    public static final double ELEVATOR_GEAR_CIRCUMFERENCE = 1.22 * Math.PI;//FIX THIS
+	public static final int ELEVATOR_PEAK_CURRENT = 3; //amps
+    public static final double ELEVATOR_KP = 0.25;
+    public static final double ELEVATOR_KI = 0;
+    public static final double ELEVATOR_KD = 0.01;
+
 }

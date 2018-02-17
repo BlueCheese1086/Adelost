@@ -7,27 +7,28 @@
 
 package org.usfirst.frc.team1086.robot;
 
+import java.util.ArrayList;
+
 import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
 import org.usfirst.frc.team1086.autonomous.AutonomousManager;
 import org.usfirst.frc.team1086.autonomous.AutonomousStarter;
-import org.usfirst.frc.team1086.subsystems.Arm;
-import org.usfirst.frc.team1086.subsystems.Drivetrain;
-import org.usfirst.frc.team1086.subsystems.Elevator;
-import org.usfirst.frc.team1086.subsystems.Intake;
+import org.usfirst.frc.team1086.subsystems.*;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-
-import java.util.ArrayList;
 
 public class Robot extends TimedRobot {
 	Drivetrain drivetrain;
 	Elevator elevator;
 	Intake intake;
 	Arm arm;
+	Ultrasonic ultrasonic;
+	Climber climber;
 	MotionProfiling motionProfiling;
 	AutonomousStarter autoStarter;
 	AutonomousManager selectedAuto;
     ArrayList<Tickable> tickables = new ArrayList<>();
+    
+    
 	@Override public void robotInit() {
 		Globals.init();
 		drivetrain = Globals.drivetrain;
@@ -40,11 +41,14 @@ public class Robot extends TimedRobot {
 		arm = Globals.arm;
 		intake = Globals.intake;
 		motionProfiling = Globals.mp;
+        climber = Globals.climber;
 
-		//tickables.add(elevator);
+		tickables.add(elevator);
 		tickables.add(motionProfiling);
 		tickables.add(drivetrain);
 		//tickables.add(arm);
+        //tickables.add(climber);
+		ultrasonic = Globals.ultrasonic;
 	}
 
 	@Override public void autonomousInit() {
@@ -59,6 +63,7 @@ public class Robot extends TimedRobot {
 
 	@Override public void teleopInit(){
 		drivetrain.em.resetEncoders();
+		elevator.start();
 	}
 
 	@Override public void teleopPeriodic() {
@@ -72,5 +77,6 @@ public class Robot extends TimedRobot {
 
 	private void logSmartDashboard(){
 		drivetrain.logSmartDashboard();
+		ultrasonic.logSmartDashboard();
 	}
 }

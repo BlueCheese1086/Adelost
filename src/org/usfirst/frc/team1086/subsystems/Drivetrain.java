@@ -5,27 +5,34 @@ import org.usfirst.frc.team1086.robot.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Drivetrain implements Tickable {
 	public TalonSRX left1, right1, left2, right2;
 	private InputManager im;
 	public EncoderManager em;
 	private Gyro gyro;
-
+	private Ultrasonic ultrasonic;
 	public PIDController driveStraightController;
 	public PIDController turnToAngleController;
+	public PIDController ultrasonicController;
 	
 	/**
 	 * Initializer for the Drivetrain class.
 	 */
+	
+
 	public Drivetrain() {
 		left1 = new TalonSRX(RobotMap.DRIVE_LEFT_1);
 		right1 = new TalonSRX(RobotMap.DRIVE_RIGHT_1);
 		left2 = new TalonSRX(RobotMap.DRIVE_LEFT_2);
 		right2 = new TalonSRX(RobotMap.DRIVE_RIGHT_2);
-		left1.setInverted(true);
-		left2.setInverted(true);
+		right1.setInverted(true);
+		right2.setInverted(true);
 		left2.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_1);
 		right2.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_1);
 	}
@@ -34,6 +41,7 @@ public class Drivetrain implements Tickable {
 		im = Globals.im;
 		em = new EncoderManager();
 		gyro = Globals.gyro;
+		ultrasonic = Globals.ultrasonic;
 		driveStraightController = new PIDController(Constants.DRIVE_STRAIGHT_KP, Constants.DRIVE_STRAIGHT_KI,
 													Constants.DRIVE_STRAIGHT_KD, gyro, d -> {});
 		driveStraightController.setAbsoluteTolerance(0);
@@ -47,6 +55,14 @@ public class Drivetrain implements Tickable {
 		turnToAngleController.setInputRange(-180, 180);
 		turnToAngleController.setOutputRange(-1, 1);
 		turnToAngleController.setContinuous(true);
+		
+		ultrasonicController = new PIDController(Constants.ULTRASONIC_KP, Constants.ULTRASONIC_KI,
+												 Constants.ULTRASONIC_KD, ultrasonic, d -> {});
+		
+		ultrasonicController.setAbsoluteTolerance(1);
+		ultrasonicController.setInputRange(0, 100);
+		ultrasonicController.setOutputRange(0, 1);
+		
 	}
 	
 	@Override public void tick(){
@@ -79,6 +95,17 @@ public class Drivetrain implements Tickable {
 				turnToAngleController.reset();
 				turnToAngleController.disable();
 			}
+			else if(im.getUltraSonicStart()) {
+				ultrasonicController.setSetpoint(0);
+				ultrasonicController.enable();
+			}
+			else if(im.getUltraSonicTick()) {
+				drive(ultrasonicController.get(), 0);
+			}
+			else if(im.getUltraSonicReleased()) {
+				ultrasonicController.reset();
+				ultrasonicController.disable();
+			}
 			else {
 				drive(im.getDrive(), im.getTurn());
 			}
@@ -87,6 +114,7 @@ public class Drivetrain implements Tickable {
 			if(!im.getMotionProfileTick())
 				drive(0, 0);
 		}
+		
 	}
 
 	/**
@@ -95,8 +123,12 @@ public class Drivetrain implements Tickable {
 	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
 	 */
 	public void drive(double drive, double turn) {
-		left1.set(ControlMode.PercentOutput, drive - turn);
-		right1.set(ControlMode.PercentOutput, drive + turn);
+		left1.set(ControlMode.PercentOutput, -drive - turn);
+		right1.set(ControlMode.PercentOutput, -drive + turn);
+		Globals.Left1Output.setDouble(left1.getMotorOutputPercent());
+		Globals.Left2Output.setDouble(left2.getMotorOutputPercent());
+		Globals.Right1Output.setDouble(right1.getMotorOutputPercent());
+		Globals.Right2Output.setDouble(right2.getMotorOutputPercent());
 	}
 
 	/**
@@ -106,12 +138,17 @@ public class Drivetrain implements Tickable {
 	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
 	 */
 	public void driveMP(double left, double right, double turn){
-		left1.set(ControlMode.PercentOutput, left + turn);
-		right1.set(ControlMode.PercentOutput, right - turn);
+		left1.set(ControlMode.PercentOutput, -left + turn);
+		right1.set(ControlMode.PercentOutput, -right - turn);
+		Globals.Left1Output.setDouble(left1.getMotorOutputPercent());
+		Globals.Left2Output.setDouble(left2.getMotorOutputPercent());
+		Globals.Right1Output.setDouble(right1.getMotorOutputPercent());
+		Globals.Right2Output.setDouble(right2.getMotorOutputPercent());
 	}
 
 	public void logSmartDashboard(){
 		em.logSmartDashboard();
 		gyro.logSmartDashbard();
 	}
+	
 }
