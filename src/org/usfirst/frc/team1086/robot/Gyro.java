@@ -22,7 +22,6 @@ public class Gyro implements PIDSource {
     public double getAngle(){
         return gyro.getYaw();
     }
-
     public double getNormalizedAngle(){
         return Utils.normalizeAngle(getAngle());
     }
@@ -42,4 +41,10 @@ public class Gyro implements PIDSource {
     @Override public double pidGet() {
         return getNormalizedAngle();
     }
+	public double getPitch() {
+		return gyro.getPitch();
+	}
+	public double getRoll() {
+		return gyro.getRoll();
+	}
 }
