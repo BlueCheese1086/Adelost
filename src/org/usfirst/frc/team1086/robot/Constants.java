@@ -34,10 +34,15 @@ public class Constants {
 	public static final double ULTRASONIC_KD = 0;
 
 	/**
-	 * Other constants
+	 * Elevator Constants
 	 */
 	public static final double POTENTIOMETER_STRING_LENGTH = 50;
 	public static final double POTENTIOMETER_STRING_OFFSET = 2;
     public static final double ELEVATOR_HEIGHT = 75;
     public static final double ELEVATOR_GEAR_CIRCUMFERENCE = 1.22 * Math.PI;//FIX THIS
+	public static final int ELEVATOR_PEAK_CURRENT = 3; //amps
+    public static final double ELEVATOR_KP = 0.25;
+    public static final double ELEVATOR_KI = 0;
+    public static final double ELEVATOR_KD = 0.01;
+
 }

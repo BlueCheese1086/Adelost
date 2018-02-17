@@ -26,12 +26,12 @@ public class Elevator implements Tickable {
         elevatorMotor.configMotionCruiseVelocity(1000, 0);
         elevatorMotor.configMotionAcceleration(2000, 0);
         elevatorMotor.setSelectedSensorPosition(0, 0, 0);
-        elevatorMotor.config_kP(0, .25, 0);
-        elevatorMotor.config_kI(0, 0, 0);
-        elevatorMotor.config_kD(0, .01, 0);
+        elevatorMotor.config_kP(0, Constants.ELEVATOR_KP, 0);
+        elevatorMotor.config_kI(0, Constants.ELEVATOR_KI, 0);
+        elevatorMotor.config_kD(0, Constants.ELEVATOR_KD, 0);
         elevatorFollower = new TalonSRX(RobotMap.ELEVATOR_2);
         elevatorFollower.set(ControlMode.Follower, RobotMap.ELEVATOR_1);
-        elevatorMotor.configPeakCurrentLimit(3, 0);
+        elevatorMotor.configPeakCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
         //stringPotentiometer = new AnalogPotentiometer(RobotMap.POTENTIOMETER,
             //    3.0 / 2.0 * Constants.POTENTIOMETER_STRING_LENGTH, Constants.POTENTIOMETER_STRING_OFFSET * 2.0 / 3);
     }
