@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class Intake {
 	TalonSRX intake1; 
 	TalonSRX intake2;
-	
 	public Intake() {
 		intake1 = new TalonSRX(RobotMap.INTAKE_1); 
 		intake2 = new TalonSRX(RobotMap.INTAKE_2);

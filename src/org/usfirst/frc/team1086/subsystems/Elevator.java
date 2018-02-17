@@ -1,18 +1,22 @@
 package org.usfirst.frc.team1086.subsystems;
 
+import org.usfirst.frc.team1086.robot.Constants;
+import org.usfirst.frc.team1086.robot.Globals;
+import org.usfirst.frc.team1086.robot.InputManager;
+import org.usfirst.frc.team1086.robot.RobotMap;
+import org.usfirst.frc.team1086.robot.Tickable;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team1086.robot.*;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Elevator implements Tickable {
     InputManager inputManager;
-    TalonSRX elevatorMotor, elevatorFollower;
+    public TalonSRX elevatorMotor;
+	TalonSRX elevatorFollower;
     AnalogPotentiometer stringPotentiometer;
     public Elevator(){
         inputManager = Globals.im;
