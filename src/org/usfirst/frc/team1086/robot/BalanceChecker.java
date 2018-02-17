@@ -6,7 +6,7 @@ import org.usfirst.frc.team1086.subsystems.Elevator;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-public abstract class BalanceChecker implements Tickable {
+public  class BalanceChecker implements Tickable {
 	Drivetrain drivetrain;
 	Gyro navx;
 	double normalPitch;

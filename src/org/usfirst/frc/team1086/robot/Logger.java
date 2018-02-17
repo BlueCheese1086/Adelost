@@ -9,16 +9,16 @@ import java.util.function.Consumer;
 public class Logger implements Tickable {
 	PrintStream out;
 	ArrayList<Printable> printList=new ArrayList<Printable>();
-	public Logger(String filepath){
+	public Logger(File file){
 		try {
-			out = new PrintStream(new File(filepath));
+			out = new PrintStream(file);
 		} catch (FileNotFoundException e) {
 			System.out.println("Problem setting up logger -- File not found");
 		}
 	}
 
 	/**
-	 * Allows you to print a valid value to the file
+	 * Allows you to directly print a valid value to the file
 	 * 
 	 * @param name
 	 *            the value's identifier
