@@ -125,10 +125,6 @@ public class Drivetrain implements Tickable {
 	public void drive(double drive, double turn) {
 		left1.set(ControlMode.PercentOutput, -drive - turn);
 		right1.set(ControlMode.PercentOutput, -drive + turn);
-		Globals.Left1Output.setDouble(left1.getMotorOutputPercent());
-		Globals.Left2Output.setDouble(left2.getMotorOutputPercent());
-		Globals.Right1Output.setDouble(right1.getMotorOutputPercent());
-		Globals.Right2Output.setDouble(right2.getMotorOutputPercent());
 	}
 
 	/**
@@ -140,15 +136,15 @@ public class Drivetrain implements Tickable {
 	public void driveMP(double left, double right, double turn){
 		left1.set(ControlMode.PercentOutput, -left + turn);
 		right1.set(ControlMode.PercentOutput, -right - turn);
-		Globals.Left1Output.setDouble(left1.getMotorOutputPercent());
-		Globals.Left2Output.setDouble(left2.getMotorOutputPercent());
-		Globals.Right1Output.setDouble(right1.getMotorOutputPercent());
-		Globals.Right2Output.setDouble(right2.getMotorOutputPercent());
 	}
 
 	public void logSmartDashboard(){
 		em.logSmartDashboard();
 		gyro.logSmartDashbard();
+		Globals.Left1Output.setDouble(left1.getMotorOutputPercent());
+		Globals.Left2Output.setDouble(left2.getMotorOutputPercent());
+		Globals.Right1Output.setDouble(right1.getMotorOutputPercent());
+		Globals.Right2Output.setDouble(right2.getMotorOutputPercent());
 	}
 	
 }
