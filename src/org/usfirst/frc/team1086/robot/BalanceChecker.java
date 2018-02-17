@@ -6,27 +6,56 @@ import org.usfirst.frc.team1086.subsystems.Drivetrain;
 
 public class BalanceChecker implements Tickable {
 	Drivetrain drivetrain;
-	static final double MAXIMUM_TOLERANCE=180;
-	static final double SAVE_CONSTANT=1;
 	Gyro navx;
-	double last = 0;
-	double change=0;
+	double normalPitch;
+	double normalRoll;
+	double normalYaw;
+	double rollCurrent;
+	double pitchCurrent;
+
 	public BalanceChecker() {
 		drivetrain = Globals.drivetrain;
 		navx = Globals.gyro;
+		normalPitch = navx.getPitch();
+		normalRoll = navx.getRoll();
+		normalYaw = navx.getAngle();
 	}
 
 	@Override
 	public void tick() {
-		change = navx.getPitch() - last;
-		last = navx.getPitch();
-		if (Math.abs(change)>MAXIMUM_TOLERANCE) {
-			save();
+		rollCurrent = navx.getRoll();
+		pitchCurrent = navx.getPitch();
+		checkRollMax();
+		checkPitchMax();
+	}
+
+	/*
+	 * returns the maximum angle at which we need to be to flip
+	 */
+	private void checkRollMax() {
+		if (rollCurrent-normalRoll>Math.atan(13.5/9.921413831539647 + 18.12367710411075 u - 1.259343264446456 Math.sin(0.1582261234411514 - i))) {
+			
 		}
 	}
-	private void save() {
+
+	private void checkPitchMax() {
+		if (pitchCurrent-normalPitch>Math.atan((11.62462197 + (0.3887131055434038 + 1.259343264446456 *Math.cos(0.1582261234411514 - intake)))/((9.921413831539647 + (18.12367710411075 elevator - 1.259343264446456* Math.sin(0.1582261234411514 - intake)))-2.59375000)) - 0.004363323129985824
+				|| pitchCurrent-normalPitch<-ArcTan((11.62462197 + (0.3887131055434038 + 1.259343264446456 Math.cos(0.1582261234411514 - i)))/((9.921413831539647 + (18.12367710411075 u - 1.259343264446456 Math.sin(0.1582261234411514 - i)))-2.59375000)) + 0.004363323129985824) {
+			pitchSave();
+		} 
+	}
+
+	private void pitchSave() {
 		System.out.println("Save Me!!!");
-		 //drivetrain.drive(Math.signum(change)*SAVE_CONSTANT*Math.log(Math.abs(change)),0);
+		/*
+		 * drivetrain.drive(Math.signum(change),0); 
+		 * Elevator.down(lol);
+		 * Intake.down(lol);
+		 */
+	}
+
+	private void rollSave() {
+		drivetrain.drive(0, 0);
 	}
 
 }
