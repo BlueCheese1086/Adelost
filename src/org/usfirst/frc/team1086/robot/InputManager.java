@@ -82,4 +82,7 @@ public class InputManager {
     public boolean getUltraSonicReleased() {
     	return auxStick.getRawButtonReleased(ButtonMap.ULTRASONIC);
     }
+    public boolean getClimber() {
+    	return auxStick.getRawButton(ButtonMap.CLIMBER);
+    }
 }
