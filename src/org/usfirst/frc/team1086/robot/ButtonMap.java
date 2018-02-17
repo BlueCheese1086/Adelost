@@ -23,4 +23,5 @@ public class ButtonMap {
     public static final int ARM_UP = 6;
     public static final int ARM_DOWN = 7;
     public static final int ARM_MID = 8;
+    public static final int CLIMBER = 10;
 }
