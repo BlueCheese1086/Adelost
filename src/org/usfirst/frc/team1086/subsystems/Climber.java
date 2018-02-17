@@ -26,7 +26,7 @@ public class Climber implements Tickable {
 	
 	public void deploy() {
 		climberMotor1.set(ControlMode.PercentOutput, 1);
-		climberMotor2.set(ControlMode.PercentOutput, 2);
+		climberMotor2.set(ControlMode.PercentOutput, 1);
 	}
 
 }

@@ -3,11 +3,7 @@ package org.usfirst.frc.team1086.robot;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
-import org.usfirst.frc.team1086.subsystems.Arm;
-import org.usfirst.frc.team1086.subsystems.Drivetrain;
-import org.usfirst.frc.team1086.subsystems.Elevator;
-import org.usfirst.frc.team1086.subsystems.Intake;
-import org.usfirst.frc.team1086.subsystems.Ultrasonic;
+import org.usfirst.frc.team1086.subsystems.*;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 
@@ -18,6 +14,7 @@ public class Globals {
 	public static Intake intake;
 	public static Ultrasonic ultrasonic;
 	public static Gyro gyro;
+	public static Climber climber;
 	public static InputManager im;
 	public static NetworkTableEntry Heading, Speed, Acceleration, Left1Output, Right1Output, Left2Output, Right2Output, ElevatorHeight, ArmLocation;
 	/*NetworkTableEntries (Put more if needed)
@@ -31,6 +28,7 @@ public class Globals {
 		arm = new Arm();
 		intake = new Intake();
 		elevator = new Elevator();
+		climber = new Climber();
 		mp = new MotionProfiling();
 		ultrasonic = new Ultrasonic(RobotMap.ULTRASONIC);
 		drivetrain.init();
