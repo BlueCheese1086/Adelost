@@ -14,8 +14,8 @@ public class EncoderManager {
         drive.left1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         drive.right1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
-        drive.left1.setSensorPhase(true);
-        drive.right1.setSensorPhase(true);
+        //drive.left1.setSensorPhase(true);
+        //drive.right1.setSensorPhase(true);
 
         drive.left1.configNominalOutputForward(0, 0);
         drive.left1.configNominalOutputReverse(0, 0);

@@ -130,6 +130,7 @@ public class MotionProfiling implements Tickable {
             double desiredHeading = Pathfinder.r2d(left.getHeading());
             angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
             double turn = turnController.get();
+            turn = 0;
             drivetrain.driveMP(leftSpeed, rightSpeed, turn);
         }
         else {

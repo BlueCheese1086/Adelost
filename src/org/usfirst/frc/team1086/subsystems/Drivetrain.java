@@ -31,8 +31,8 @@ public class Drivetrain implements Tickable {
 		right1 = new TalonSRX(RobotMap.DRIVE_RIGHT_1);
 		left2 = new TalonSRX(RobotMap.DRIVE_LEFT_2);
 		right2 = new TalonSRX(RobotMap.DRIVE_RIGHT_2);
-		right1.setInverted(true);
-		right2.setInverted(true);
+		left1.setInverted(true);
+		left1.setInverted(true);
 		left2.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_1);
 		right2.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_1);
 	}
@@ -122,8 +122,8 @@ public class Drivetrain implements Tickable {
 	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
 	 */
 	public void drive(double drive, double turn) {
-		left1.set(ControlMode.PercentOutput, -drive - turn);
-		right1.set(ControlMode.PercentOutput, -drive + turn);
+		left1.set(ControlMode.PercentOutput, drive + turn);
+		right1.set(ControlMode.PercentOutput, drive - turn);
 	}
 	public double getTurn(){
 		if(!im.getSafety()){
@@ -152,8 +152,8 @@ public class Drivetrain implements Tickable {
 	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
 	 */
 	public void driveMP(double left, double right, double turn){
-		left1.set(ControlMode.PercentOutput, -left + turn);
-		right1.set(ControlMode.PercentOutput, -right - turn);
+		left1.set(ControlMode.PercentOutput, left - turn);
+		right1.set(ControlMode.PercentOutput, right + turn);
 	}
 
 	public void logSmartDashboard(){
