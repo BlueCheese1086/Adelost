@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1086.MotionProfiling;
 
 public class MPConstants {
-    public static double TURN_KP = 0.02;
+    public static double TURN_KP = 0.015;
     public static double TURN_KI = 0;
     public static double TURN_KD = 0.015;
 
