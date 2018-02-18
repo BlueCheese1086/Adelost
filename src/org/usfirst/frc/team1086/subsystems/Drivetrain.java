@@ -77,9 +77,6 @@ public class Drivetrain implements Tickable {
 				driveStraightController.setSetpoint(gyro.getNormalizedAngle());
 				driveStraightController.enable();
 			}
-			else if(im.getDriveStraightTick()) {
-				drive(im.getDrive(), driveStraightController.get());
-			}
 			else if(im.getDriveStraightRelease()) {
 				driveStraightController.reset();
 				driveStraightController.disable();
@@ -89,7 +86,7 @@ public class Drivetrain implements Tickable {
 				turnToAngleController.enable();
 			}
 			else if(im.getTurnToAngleTick()) {
-				drive(0, turnToAngleController.get());
+				drive(0, getTurn());
 			}
 			else if(im.getTurnToAngleRelease()) {
 				turnToAngleController.reset();
@@ -107,30 +104,14 @@ public class Drivetrain implements Tickable {
 				ultrasonicController.disable();
 			}
 			else {
-			    if(!driveStraightController.isEnabled()){
-			        if(Math.abs(im.getTurn()) < .01){
-			            driveStraightController.setSetpoint(gyro.getNormalizedAngle());
-			            driveStraightController.enable();
-			            drive(im.getDrive(), driveStraightController.get());
-                    }
-                    else {
-			            drive(im.getDrive(), im.getTurn());
-                    }
-                }
-                else {
-			        if(Math.abs(im.getTurn()) < 0.01){
-			            drive(im.getDrive(), driveStraightController.get());
-                    }
-                    else {
-			            driveStraightController.disable();
-			            drive(im.getDrive(), im.getTurn());
-                    }
-                }
+				drive(im.getDrive(), getTurn());
 			}
 		}
 		else {
 			if(!im.getMotionProfileTick())
 				drive(0, 0);
+			else
+				driveStraightController.disable();
 		}
 		
 	}
@@ -143,6 +124,25 @@ public class Drivetrain implements Tickable {
 	public void drive(double drive, double turn) {
 		left1.set(ControlMode.PercentOutput, -drive - turn);
 		right1.set(ControlMode.PercentOutput, -drive + turn);
+	}
+	public double getTurn(){
+		if(!im.getSafety()){
+			driveStraightController.disable();
+			return 0;
+		}
+		else if(turnToAngleController.isEnabled()) {
+			driveStraightController.disable();
+			return turnToAngleController.get();
+		}
+		else if(Math.abs(im.getTurn()) > 0.01) {
+			driveStraightController.disable();
+			return im.getTurn();
+		}
+		else if(!driveStraightController.isEnabled()){
+			driveStraightController.setSetpoint(gyro.getNormalizedAngle());
+			driveStraightController.enable();
+		}
+		return driveStraightController.get();
 	}
 
 	/**
