@@ -56,7 +56,7 @@ public class MotionProfiling implements Tickable {
 
         points = new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(39.4, 0, 0)
+                new Waypoint(39.4, 39.4, Pathfinder.d2r(45))
         };
         /*
         points = new Waypoint[]{
@@ -129,10 +129,7 @@ public class MotionProfiling implements Tickable {
             double gyroHeading = gyro.getAngle() - startHeading;
             double desiredHeading = Pathfinder.r2d(left.getHeading());
             angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
-
             double turn = turnController.get();
-            System.out.println("Turn: " + turn);;
-            //double turn = 0;
             drivetrain.driveMP(leftSpeed, rightSpeed, turn);
         }
         else {

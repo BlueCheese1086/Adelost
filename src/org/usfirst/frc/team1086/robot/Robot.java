@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
 		Globals.init();
 		drivetrain = Globals.drivetrain;
 		drivetrain.em.resetEncoders();
-		logger=Globals.logger;
+		logger = Globals.logger;
 		autoStarter = new AutonomousStarter();
 		autoStarter.initAutoModes();
 
@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
 		tickables.add(elevator);
 		tickables.add(motionProfiling);
 		tickables.add(drivetrain);
-		tickables.add(new BalanceChecker());
+		//tickables.add(new BalanceChecker());
 		// tickables.add(arm);
 		// tickables.add(climber);
 		ultrasonic = Globals.ultrasonic;

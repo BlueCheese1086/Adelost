@@ -54,7 +54,6 @@ public class Elevator implements Tickable {
         Globals.ElevatorHeight.setDouble(encToInches(elevatorMotor.getSelectedSensorPosition(0)));
         SmartDashboard.putNumber("Target Height", targetHeight);
         SmartDashboard.putNumber("Current", elevatorMotor.getOutputCurrent());
-        System.out.println("Elevator out: " + elevatorMotor.getMotorOutputPercent());
         if(inputManager.getElevatorSafety())
             if(inputManager.getElevator5())
                 elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(5));

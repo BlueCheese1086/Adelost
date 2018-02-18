@@ -51,7 +51,7 @@ public class Drivetrain implements Tickable {
 		
 		turnToAngleController = new PIDController(Constants.TURN_TO_ANGLE_KP, Constants.TURN_TO_ANGLE_KI,
 												  Constants.TURN_TO_ANGLE_KD, gyro, d -> {});
-		turnToAngleController.setAbsoluteTolerance(2);
+		turnToAngleController.setAbsoluteTolerance(1);
 		turnToAngleController.setInputRange(-180, 180);
 		turnToAngleController.setOutputRange(-1, 1);
 		turnToAngleController.setContinuous(true);
@@ -107,7 +107,25 @@ public class Drivetrain implements Tickable {
 				ultrasonicController.disable();
 			}
 			else {
-				drive(im.getDrive(), im.getTurn());
+			    if(!driveStraightController.isEnabled()){
+			        if(Math.abs(im.getTurn()) < .01){
+			            driveStraightController.setSetpoint(gyro.getNormalizedAngle());
+			            driveStraightController.enable();
+			            drive(im.getDrive(), driveStraightController.get());
+                    }
+                    else {
+			            drive(im.getDrive(), im.getTurn());
+                    }
+                }
+                else {
+			        if(Math.abs(im.getTurn()) < 0.01){
+			            drive(im.getDrive(), driveStraightController.get());
+                    }
+                    else {
+			            driveStraightController.disable();
+			            drive(im.getDrive(), im.getTurn());
+                    }
+                }
 			}
 		}
 		else {

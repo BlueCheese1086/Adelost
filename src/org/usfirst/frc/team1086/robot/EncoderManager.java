@@ -81,7 +81,6 @@ public class EncoderManager {
     private double leftError(){
     	double leftpoint = leftSetpoint /  4096.0 * Constants.WHEEL_DIAMETER * Math.PI;
     	double error = Math.abs((leftpoint - getLeftDistance()));
-    	System.out.println(error);
         return error;
     }
 
