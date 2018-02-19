@@ -58,7 +58,7 @@ public class AutonomousStarter {
         testAuto = new AutonomousManager();
         testAuto.addSection(new MotionProfiler(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(100, 0, 0)
+                new Waypoint(50, 0, 0)
         }));
         testAuto.addSection(new Drive(20, 0, 0));
 
@@ -103,8 +103,8 @@ public class AutonomousStarter {
         leftLeftSwitchSideMP = new AutonomousManager();
         leftLeftSwitchSideMP.addSection(new MotionProfiler(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(FieldMap.LEFT_SWITCH_SIDE_WALL_START_TURN - Constants.ROBOT_HALF_LENGTH, 0, 0),
-                new Waypoint(FieldMap.LEFT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, FieldMap.LEFT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_HALF_WIDTH, Pathfinder.d2r(90))
+                new Waypoint(FieldMap.LEFT_SWITCH_SIDE_WALL_START_TURN - Constants.ROBOT_HALF_WIDTH, 0, 0),
+                new Waypoint(FieldMap.LEFT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_WIDTH, FieldMap.LEFT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_HALF_LENGTH, Pathfinder.d2r(90))
         }));
         leftLeftSwitchSideMP.addSection(new Drive(0, 0, 0));
 
@@ -191,7 +191,7 @@ public class AutonomousStarter {
         AutonomousManager auto = selectedStrategy.getAutoModeToRun();
         return auto; */
 
-        return testAuto;
+        return leftLeftSwitchSideMP;
     }
 }
 

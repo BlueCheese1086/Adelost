@@ -22,7 +22,7 @@ public class EncoderFollower {
         file = new File(filePath);
         try {
             bw = new BufferedWriter(new FileWriter(file));
-            bw.write("Distance, Position, Velocity, Acceleration, Enc_Velocity, Output");
+            bw.write("Tick, Distance, Position, Velocity, Acceleration, Enc_Velocity, Output");
             bw.newLine();
             bw.flush();
         } catch (IOException e) {
@@ -43,7 +43,7 @@ public class EncoderFollower {
         double distance_covered = ((encoder_tick - encoder_offset) / encoder_tick_count)
                 * wheel_circumference;
         try {
-            String line = distance_covered + ", " + seg.position + ", " + seg.velocity + ", " + seg.acceleration + ", " + vel + ", " + calculate_value +  "\n";
+            String line = segment + ", " + distance_covered + ", " + seg.position + ", " + seg.velocity + ", " + seg.acceleration + ", " + vel + ", " + calculate_value +  "\n";
             bw.write(line);
             bw.flush();
         } catch (IOException e) {

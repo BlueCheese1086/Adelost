@@ -69,7 +69,7 @@ public class Robot extends TimedRobot {
 		selectedAuto = autoStarter.start();
 		selectedAuto.start();
         autoLoop = Executors.newScheduledThreadPool(1);
-        autoLoop.scheduleAtFixedRate(() -> selectedAuto.update(),0, 5, TimeUnit.MILLISECONDS);
+        autoLoop.scheduleAtFixedRate(() -> selectedAuto.update(),0, 20, TimeUnit.MILLISECONDS);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
 		drivetrain.em.resetEncoders();
 		elevator.start();
 		teleopLoop = Executors.newScheduledThreadPool(1);;
-		teleopLoop.scheduleAtFixedRate(() -> tickables.forEach(Tickable::tick),0,5, TimeUnit.MILLISECONDS);
+		teleopLoop.scheduleAtFixedRate(() -> tickables.forEach(Tickable::tick),0,20, TimeUnit.MILLISECONDS);
 	}
 
 	@Override
@@ -100,7 +100,8 @@ public class Robot extends TimedRobot {
     }
 	@Override
 	public void testPeriodic() {
-		teleopPeriodic();
+
+	    //teleopPeriodic();
 	}
 
 	private void logSmartDashboard() {

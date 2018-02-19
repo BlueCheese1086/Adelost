@@ -123,14 +123,13 @@ public class MotionProfiling implements Tickable {
     }
     public void run(){
         if(!isFinished()){
-            double leftSpeed = left.calculate(drivetrain.left1.getSelectedSensorPosition(0), drivetrain.em.getLeftDistance());
-            double rightSpeed = right.calculate(drivetrain.right1.getSelectedSensorPosition(0), drivetrain.em.getRightDistance());
+            double leftSpeed = left.calculate(drivetrain.left1.getSelectedSensorPosition(0), drivetrain.left1.getSelectedSensorVelocity(0) / 4096.0 * 5 * Math.PI);
+            double rightSpeed = right.calculate(drivetrain.right1.getSelectedSensorPosition(0), drivetrain.right1.getSelectedSensorVelocity(0) /4096.0 * 5 * Math.PI);
 
             double gyroHeading = gyro.getAngle() - startHeading;
             double desiredHeading = Pathfinder.r2d(left.getHeading());
             angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
             double turn = turnController.get();
-            turn = 0;
             drivetrain.driveMP(leftSpeed, rightSpeed, turn);
         }
         else {
