@@ -24,8 +24,6 @@ public class Drivetrain implements Tickable {
 	/**
 	 * Initializer for the Drivetrain class.
 	 */
-	
-
 	public Drivetrain() {
 		left1 = new TalonSRX(RobotMap.DRIVE_LEFT_1);
 		right1 = new TalonSRX(RobotMap.DRIVE_RIGHT_1);
