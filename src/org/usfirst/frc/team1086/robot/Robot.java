@@ -13,6 +13,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import edu.wpi.first.wpilibj.Utility;
 import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
 import org.usfirst.frc.team1086.autonomous.AutonomousManager;
 import org.usfirst.frc.team1086.autonomous.AutonomousStarter;
@@ -60,7 +61,7 @@ public class Robot extends TimedRobot {
 		tickables.add(drivetrain);
 		//tickables.add(new BalanceChecker());
 		// tickables.add(arm);
-		// tickables.add(climber);
+        tickables.add(climber);
 		ultrasonic = Globals.ultrasonic;
 	}
 

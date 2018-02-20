@@ -22,11 +22,24 @@ public class Climber implements Tickable {
 		if (inputManager.getClimber()) {
 			deploy();
 		}
+		else {
+			stop();
+		}
 	}
 	
 	public void deploy() {
-		climberMotor1.set(ControlMode.PercentOutput, 1);
-		climberMotor2.set(ControlMode.PercentOutput, 1);
+		climberMotor1.set(ControlMode.PercentOutput, -.25);
+		climberMotor2.set(ControlMode.PercentOutput, -.25);
+	}
+
+	public void release(){
+		climberMotor1.set(ControlMode.PercentOutput, .25);
+		climberMotor2.set(ControlMode.PercentOutput, .25);
+	}
+
+	public void stop(){
+		climberMotor1.set(ControlMode.PercentOutput, 0);
+		climberMotor2.set(ControlMode.PercentOutput, 0);
 	}
 
 }

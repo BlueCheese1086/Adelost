@@ -28,7 +28,6 @@ public class Globals {
 	public static InputManager im;
 	public static NetworkTableEntry Heading, Speed, Acceleration, Left1Output, Right1Output, Left2Output, Right2Output, ElevatorHeight, ArmLocation;
 	/*NetworkTableEntries (Put more if needed)
-	* Entries are initialized in Drivetrain.java
 	*/
 	public static MotionProfiling mp;
 	public static void init() {
