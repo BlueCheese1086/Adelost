@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1086.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Utility;
 
 import java.awt.*;
 
@@ -9,6 +10,10 @@ public class InputManager {
     Joystick leftStick;
     Joystick rightStick;
     Joystick auxStick;
+
+    boolean elevatorOverrideToggle;
+    boolean turningOverrideToggle;
+    boolean tippingOverrideToggle;
 
     public InputManager(){
         leftStick = new Joystick(0);
@@ -49,15 +54,6 @@ public class InputManager {
     public boolean getEncodersDriveTick() {
     	return auxStick.getRawButton(ButtonMap.ENCODER_DRIVE);
     }
-    public boolean getDriveStraightStart() {
-    	return leftStick.getRawButtonPressed(ButtonMap.DRIVE_STRAIGHT);
-    }
-    public boolean getDriveStraightTick() {
-    	return leftStick.getRawButton(ButtonMap.DRIVE_STRAIGHT);
-    }
-    public boolean getDriveStraightRelease() {
-    	return leftStick.getRawButtonReleased(ButtonMap.DRIVE_STRAIGHT);
-    }
     public boolean getTurnToAngleStart() {
     	return rightStick.getRawButtonPressed(ButtonMap.TURN_TO_ANGLE);
     }
@@ -87,5 +83,17 @@ public class InputManager {
     }
     public boolean getClimber() {
     	return auxStick.getRawButton(ButtonMap.CLIMBER);
+    }
+    public boolean getClimberRelease(){
+        return Utility.getUserButton();
+    }
+    public boolean getElevatorOverride(){
+        return auxStick.getRawButtonPressed (ButtonMap.ELEVATOR_OVERRIDE) ? elevatorOverrideToggle = !elevatorOverrideToggle : elevatorOverrideToggle;
+    }
+    public boolean getDriveStraightOverride(){
+        return leftStick.getRawButtonPressed (ButtonMap.DRIVE_STRAIGHT_OVERRIDE) ? turningOverrideToggle = !turningOverrideToggle: turningOverrideToggle;
+    }
+    public boolean getTipCorrectionOverride(){
+        return leftStick.getRawButtonPressed (ButtonMap.TIP_CORRECTION_OVERRIDE) ? tippingOverrideToggle = !tippingOverrideToggle: tippingOverrideToggle;
     }
 }

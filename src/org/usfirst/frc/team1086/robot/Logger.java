@@ -35,5 +35,4 @@ public class Logger implements Tickable {
 			out.println(p.get());
 		}
 	}
-
-	}
+}

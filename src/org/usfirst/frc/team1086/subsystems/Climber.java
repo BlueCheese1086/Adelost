@@ -21,6 +21,8 @@ public class Climber implements Tickable {
 	public void tick() {
 		if (inputManager.getClimber()) {
 			deploy();
+		} else if(inputManager.getClimberRelease()){
+			release();
 		}
 		else {
 			stop();

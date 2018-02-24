@@ -25,11 +25,11 @@ public class Globals {
 	public static Logger logger;
 	public static Climber climber;
 	public static PixyCamera pixy;
+	public static BalanceChecker balanceChecker;
 	public static InputManager im;
-	public static NetworkTableEntry Heading, Speed, Acceleration, Left1Output, Right1Output, Left2Output, Right2Output, ElevatorHeight, ArmLocation;
-	/*NetworkTableEntries (Put more if needed)
-	*/
+	public static NetworkTableEntry heading, speed, acceleration, left1Output, right1Output, left2Output, right2Output, elevatorHeight, armLocation;
 	public static MotionProfiling mp;
+
 	public static void init() {
 		File least = new File(0 + "");
 		if (least.exists()) {
@@ -54,20 +54,20 @@ public class Globals {
 		elevator = new Elevator();
 		climber = new Climber();
 		mp = new MotionProfiling();
+		balanceChecker = new BalanceChecker();
 		ultrasonic = new Ultrasonic(RobotMap.ULTRASONIC);
 		drivetrain.init();
-		
-		//This is where all of the NetworkTableEntries are initialized
+
 		NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
 		NetworkTable table = tableInstance.getTable("Telemetry");
-		Globals.Heading = table.getEntry("Heading");
-		Globals.Speed = table.getEntry("Speed");
-		Globals.Acceleration = table.getEntry("Acceleration");
-		Globals.Left1Output = table.getEntry("Left1Output");
-		Globals.Right1Output = table.getEntry("Right1Output");
-		Globals.Left2Output = table.getEntry("Left2Output");
-		Globals.Right2Output = table.getEntry("Right2Output");
-		Globals.ElevatorHeight = table.getEntry("ElevatorHeight");
-		Globals.ArmLocation = table.getEntry("ArmLocation");
+		Globals.heading = table.getEntry("Heading");
+		Globals.speed = table.getEntry("Speed");
+		Globals.acceleration = table.getEntry("Acceleration");
+		Globals.left1Output = table.getEntry("Left 1 Output");
+		Globals.right1Output = table.getEntry("Right 1 Output");
+		Globals.left2Output = table.getEntry("Left 2 Output");
+		Globals.right2Output = table.getEntry("Right 2 Output");
+		Globals.elevatorHeight = table.getEntry("Elevator Height");
+		Globals.armLocation = table.getEntry("Arm Location");
 	}
 }
