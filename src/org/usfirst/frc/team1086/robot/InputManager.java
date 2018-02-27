@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1086.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Utility;
 
 import java.awt.*;
 
@@ -87,5 +88,8 @@ public class InputManager {
     }
     public boolean getClimber() {
     	return auxStick.getRawButton(ButtonMap.CLIMBER);
+    }
+    public boolean getClimberRelease() {
+        return Utility.getUserButton();
     }
 }
