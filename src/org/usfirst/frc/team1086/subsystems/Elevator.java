@@ -46,21 +46,26 @@ public class Elevator implements Tickable {
         double targetHeight = inputManager.getElevator() * Constants.ELEVATOR_HEIGHT;
         /*double currentHeightEnc = elevatorMotor.getSelectedSensorPosition(0) / 4096.0 * 4 * Constants.ELEVATOR_GEAR_CIRCUMFERENCE;
         double currentHeightPot = stringPotentiometer.get();
-        Globals.ElevatorHeight.setDouble(currentHeightPot);
+        Globals.elevatorHeight.setDouble(currentHeightPot);
         if(Math.abs(currentHeightEnc - currentHeightPot) > 5){
             elevatorMotor.setSelectedSensorPosition((int)(currentHeightPot * 4096 / 3 / Constants.ELEVATOR_GEAR_CIRCUMFERENCE),
                     0, 0);
         }*/
-        Globals.ElevatorHeight.setDouble(encToInches(elevatorMotor.getSelectedSensorPosition(0)));
+        Globals.elevatorHeight.setDouble(encToInches(elevatorMotor.getSelectedSensorPosition(0)));
         SmartDashboard.putNumber("Target Height", targetHeight);
         SmartDashboard.putNumber("Current", elevatorMotor.getOutputCurrent());
-        if(inputManager.getElevatorSafety())
-            if(inputManager.getElevator5())
-                elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(5));
-            else if(inputManager.getElevator70())
-                elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(70));
-            else
-                elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(targetHeight));
+        if(inputManager.getElevatorSafety()) {
+            if(inputManager.getElevatorOverride()){
+                elevatorMotor.set(ControlMode.PercentOutput, inputManager.getElevator() * 2 - 1);
+            } else {
+                if (inputManager.getElevator5())
+                    elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(5));
+                else if (inputManager.getElevator70())
+                    elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(70));
+                else
+                    elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(targetHeight));
+            }
+        }
         else elevatorMotor.set(ControlMode.PercentOutput, 0);
     }
 

@@ -5,11 +5,7 @@ import org.usfirst.frc.team1086.robot.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Drivetrain implements Tickable {
 	public TalonSRX left1, right1, left2, right2;
@@ -67,17 +63,6 @@ public class Drivetrain implements Tickable {
 		if(im.getSafety()){
 			if(im.getEncodersDriveStart()) {
 				em.setPosition(50);
-			}
-			else if(im.getEncodersDriveTick()) {
-				//Set position uses Position mode on TalonSRX, so the robot is already moving.
-			}
-			else if(im.getDriveStraightStart()) {
-				driveStraightController.setSetpoint(gyro.getNormalizedAngle());
-				driveStraightController.enable();
-			}
-			else if(im.getDriveStraightRelease()) {
-				driveStraightController.reset();
-				driveStraightController.disable();
 			}
 			else if(im.getTurnToAngleStart()) {
 				turnToAngleController.setSetpoint(Utils.normalizeAngle(gyro.getNormalizedAngle() + 90));
@@ -140,7 +125,7 @@ public class Drivetrain implements Tickable {
 			driveStraightController.setSetpoint(gyro.getNormalizedAngle());
 			driveStraightController.enable();
 		}
-		return driveStraightController.get();
+		return im.getDriveStraightOverride() ? im.getTurn() : driveStraightController.get();
 	}
 
 	/**
@@ -157,10 +142,10 @@ public class Drivetrain implements Tickable {
 	public void logSmartDashboard(){
 		em.logSmartDashboard();
 		gyro.logSmartDashbard();
-		Globals.Left1Output.setDouble(left1.getMotorOutputPercent());
-		Globals.Left2Output.setDouble(left2.getMotorOutputPercent());
-		Globals.Right1Output.setDouble(right1.getMotorOutputPercent());
-		Globals.Right2Output.setDouble(right2.getMotorOutputPercent());
+		Globals.left1Output.setDouble(left1.getMotorOutputPercent());
+		Globals.left2Output.setDouble(left2.getMotorOutputPercent());
+		Globals.right1Output.setDouble(right1.getMotorOutputPercent());
+		Globals.right2Output.setDouble(right2.getMotorOutputPercent());
 	}
 	
 }

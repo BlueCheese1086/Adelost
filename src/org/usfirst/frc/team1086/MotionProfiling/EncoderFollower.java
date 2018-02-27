@@ -22,7 +22,7 @@ public class EncoderFollower {
         file = new File(filePath);
         try {
             bw = new BufferedWriter(new FileWriter(file));
-            bw.write("Tick, Distance, Position, Velocity, Acceleration, Enc_Velocity, Output");
+            bw.write("Tick, Distance, Position, Velocity, acceleration, Enc_Velocity, Output");
             bw.newLine();
             bw.flush();
         } catch (IOException e) {

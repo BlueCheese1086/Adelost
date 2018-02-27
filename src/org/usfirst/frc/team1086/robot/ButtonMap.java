@@ -5,7 +5,8 @@ public class ButtonMap {
      * Buttons for the left drive joystick
      */
     public static final int SAFETY = 1;
-    public static final int DRIVE_STRAIGHT = 3;
+    public static final int DRIVE_STRAIGHT_OVERRIDE = -1;
+    public static final int TIP_CORRECTION_OVERRIDE = -1;
 
     /**
      * Buttons for the right drive joystick
@@ -26,4 +27,5 @@ public class ButtonMap {
     public static final int ELEVATOR_5 = 9;
     public static final int CLIMBER = 10;
     public static final int ELEVATOR_70 = 11;
+    public static final int ELEVATOR_OVERRIDE = -1;
 }
