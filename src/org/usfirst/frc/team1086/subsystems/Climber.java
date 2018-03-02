@@ -10,15 +10,23 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Climber implements Tickable {
 	InputManager inputManager;
-    TalonSRX climberMotor1, climberMotor2;
+    TalonSRX climberMotor1, climberMotor2, kicker;
 	public Climber() {
 		inputManager = Globals.im;
 		climberMotor1 = new TalonSRX(RobotMap.CLIMB_1);
 		climberMotor2 = new TalonSRX(RobotMap.CLIMB_2);
+		kicker = new TalonSRX(RobotMap.KICKER);
 	}
 
 	@Override
 	public void tick() {
+		if(inputManager.getKick()) {
+			kicker.set(ControlMode.PercentOutput, 1);
+		} else if (inputManager.unKick()){
+			kicker.set(ControlMode.PercentOutput, -1);
+		}else {
+			kicker.set(ControlMode.PercentOutput, 0);
+		}
 		if (inputManager.getClimber()) {
 			deploy();
 		} else if(inputManager.getClimberRelease()){
@@ -38,7 +46,6 @@ public class Climber implements Tickable {
 		climberMotor1.set(ControlMode.PercentOutput, .25);
 		climberMotor2.set(ControlMode.PercentOutput, .25);
 	}
-
 	public void stop(){
 		climberMotor1.set(ControlMode.PercentOutput, 0);
 		climberMotor2.set(ControlMode.PercentOutput, 0);

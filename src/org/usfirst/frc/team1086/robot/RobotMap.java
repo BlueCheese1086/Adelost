@@ -19,6 +19,7 @@ public class RobotMap {
     public static final int INTAKE_2 = 11;
 
     public static final int ARM = 12;
+    public static final int KICKER = 13;
 
 
     /**

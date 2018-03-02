@@ -84,8 +84,17 @@ public class InputManager {
     public boolean getClimber() {
     	return auxStick.getRawButton(ButtonMap.CLIMBER);
     }
+    public boolean getKick() {
+    	return auxStick.getRawButton(-1);
+    }
+    public boolean unKick() {
+    	return auxStick.getRawButton(-1);
+    }
     public boolean getClimberRelease(){
         return Utility.getUserButton();
+    }
+    public double getArmPosition() {
+    	return (auxStick.getZ() + 1) / 2;
     }
     public boolean getElevatorOverride(){
         return auxStick.getRawButtonPressed (ButtonMap.ELEVATOR_OVERRIDE) ? elevatorOverrideToggle = !elevatorOverrideToggle : elevatorOverrideToggle;

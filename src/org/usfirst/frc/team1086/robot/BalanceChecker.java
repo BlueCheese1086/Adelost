@@ -15,14 +15,15 @@ public  class BalanceChecker implements Tickable {
 	Elevator elevator;
 	Arm arm;
 	boolean saving = false;
-	public static final double MAX_PITCH_FORWARD = 20;
-	public static final double MAX_PITCH_BACKWARDS = -25;
+	public static final double MAX_PITCH_FORWARD = 17;
+	public static final double MAX_PITCH_BACKWARDS = -20;
 	public BalanceChecker() {
 		drivetrain = Globals.drivetrain;
 		navx = Globals.gyro;
 		arm = Globals.arm;
 		elevator = Globals.elevator;
 		normalPitch = navx.getPitch();
+		normalPitch = 0;
 		lastPitch = normalPitch;
 	}
 
@@ -36,8 +37,9 @@ public  class BalanceChecker implements Tickable {
 	}
     public boolean needsPitchCorrection(){
 	    double pitch = pitchCurrent - normalPitch;
+	    System.out.println(pitch);
 	    double pitchRate = (-lastPitch + (lastPitch = pitch)) / 0.05;
-        return (pitch > MAX_PITCH_FORWARD || pitchRate * 0.2 + pitch > MAX_PITCH_FORWARD) || (pitch < MAX_PITCH_BACKWARDS || pitchRate * 0.2 + pitch < MAX_PITCH_BACKWARDS);
+        return (pitch > MAX_PITCH_FORWARD || pitchRate * 0.1 + pitch > MAX_PITCH_FORWARD) || (pitch < MAX_PITCH_BACKWARDS || pitchRate * 0.1 + pitch < MAX_PITCH_BACKWARDS);
     }
 
 	private boolean checkPitchMax() {
@@ -59,14 +61,14 @@ public  class BalanceChecker implements Tickable {
 
 	private void pitchSave() {
 		System.out.println("PITCH!!!");
-/*
-		drivetrain.drive(Math.signum(pitchCurrent), 0);
-		elevator.elevatorMotor.set(ControlMode.MotionMagic,0);
-		arm.armMotor.set(ControlMode.Position, 0); */
+
+		drivetrain.drive(Math.signum(pitchCurrent) * .3, 0);
+		//elevator.elevatorMotor.set(ControlMode.MotionMagic,0);
+		//arm.armMotor.set(ControlMode.Position, 0);
 
 	}
 
 	public boolean isSaving(){
-		return false;
+		return saving;
 	}
 }

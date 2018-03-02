@@ -48,13 +48,15 @@ public class Robot extends TimedRobot {
 		tickables.add(motionProfiling);
 		tickables.add(drivetrain);
 		tickables.add(balancer);
-		// tickables.add(arm);
+		tickables.add(intake);
+		tickables.add(arm);
         tickables.add(climber);
 		ultrasonic = Globals.ultrasonic;
 	}
 
 	@Override
 	public void autonomousInit() {
+		arm.armMotor.setSelectedSensorPosition(0, 0, 0);
 		selectedAuto = autoStarter.start();
 		selectedAuto.start();
 	}
@@ -66,6 +68,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		arm.armMotor.setSelectedSensorPosition(0, 0, 0);
 		drivetrain.em.resetEncoders();
 		elevator.start();
 	}
