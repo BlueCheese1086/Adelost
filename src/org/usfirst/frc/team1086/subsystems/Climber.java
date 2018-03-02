@@ -29,17 +29,16 @@ public class Climber implements Tickable {
 		}
 		if (inputManager.getClimber()) {
 			deploy();
-		} else if(inputManager.getClimberRelease()){
+		} else if (inputManager.getClimberRelease()){
 			release();
-		}
-		else {
+		} else {
 			stop();
 		}
 	}
 	
 	public void deploy() {
-		climberMotor1.set(ControlMode.PercentOutput, -.25);
-		climberMotor2.set(ControlMode.PercentOutput, -.25);
+		climberMotor1.set(ControlMode.PercentOutput, -1);
+		climberMotor2.set(ControlMode.PercentOutput, -1);
 	}
 
 	public void release(){

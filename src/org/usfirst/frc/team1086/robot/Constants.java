@@ -17,9 +17,16 @@ public class Constants {
 	public static final double ENCODER_KD = 0;
 	public static final double ENCODER_KF = 0;
   
+<<<<<<< HEAD
     public static final double DRIVE_STRAIGHT_KP = 0.01;
     public static final double DRIVE_STRAIGHT_KI = 0;
     public static final double DRIVE_STRAIGHT_KD = 0.01;
+=======
+    //public static final double DRIVE_STRAIGHT_KP = .03;
+    public static final double DRIVE_STRAIGHT_KP = .02;
+    public static final double DRIVE_STRAIGHT_KI = 0;
+    public static final double DRIVE_STRAIGHT_KD = .08;
+>>>>>>> 122d6fa6730966122dd56d1bac9346e3155e4758
 
 	public static final double TURN_TO_ANGLE_KP = .022;
 	public static final double TURN_TO_ANGLE_KI = 0;

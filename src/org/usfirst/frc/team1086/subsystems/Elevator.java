@@ -27,8 +27,8 @@ public class Elevator implements Tickable {
         elevatorMotor.configNominalOutputReverse(0, 0);
         elevatorMotor.configPeakOutputForward(1, 0);
         elevatorMotor.configPeakOutputReverse(-1, 0);
-        elevatorMotor.configMotionCruiseVelocity(1000, 0);
-        elevatorMotor.configMotionAcceleration(2000, 0);
+        elevatorMotor.configMotionCruiseVelocity(3800, 0);
+        elevatorMotor.configMotionAcceleration(3500, 0);
         elevatorMotor.setSelectedSensorPosition(0, 0, 0);
         elevatorMotor.config_kP(0, Constants.ELEVATOR_KP, 0);
         elevatorMotor.config_kI(0, Constants.ELEVATOR_KI, 0);
