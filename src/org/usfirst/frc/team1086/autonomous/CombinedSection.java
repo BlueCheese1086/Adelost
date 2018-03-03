@@ -13,19 +13,31 @@ import java.util.HashMap;
  * to return true if the distance driver is >= 50. This can be extended to run
  * with any number of autonomous sections. Note that both the constructor and
  * isFinished methods must be defined when overriding this class.
+ * 
  * @author Jack
  */
 public abstract class CombinedSection extends AutonomousSection {
 	HashMap<SectionTrigger, AutonomousSection> sections = new HashMap<>();
+	
+	/**
+	 * Manages running sections, started sections, and ending sections
+	 */
 	@Override public void update() {
 		sections.forEach((trigger, section) -> {
 			if(trigger.trigger()) {
 				if(!section.isStarted())
 					section.start();
 				section.update();
+			} else {
+				if(section.isStarted())
+					section.finish();
 			}
 		});
 	}
+	
+	/**
+	 * Ends all sections
+	 */
 	@Override public void finish() {
 		sections.forEach((trigger, section) -> section.finish());
 	}
