@@ -1,9 +1,6 @@
 package org.usfirst.frc.team1086.subsystems;
 
-import org.usfirst.frc.team1086.robot.Globals;
-import org.usfirst.frc.team1086.robot.InputManager;
-import org.usfirst.frc.team1086.robot.RobotMap;
-import org.usfirst.frc.team1086.robot.Tickable;
+import org.usfirst.frc.team1086.robot.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -16,6 +13,8 @@ public class Intake implements Tickable {
 		intake1 = new TalonSRX(RobotMap.INTAKE_1); 
 		intake2 = new TalonSRX(RobotMap.INTAKE_2);
 		intake1.setInverted(true);
+        intake1.configPeakCurrentLimit(Constants.INTAKE_PEAK_CURRENT, 0);
+        intake2.configPeakCurrentLimit(Constants.INTAKE_PEAK_CURRENT, 0);
 		im = Globals.im;
 	}
 	
@@ -26,6 +25,7 @@ public class Intake implements Tickable {
 			motorOut();
 		else
 			motorOff();
+		Globals.intakeCurrent.setNumber(intake1.getOutputCurrent() / 2 + intake2.getOutputCurrent() / 2);
 	}
 	
 	public void motorIn() {
@@ -39,7 +39,7 @@ public class Intake implements Tickable {
 	}
 	
 	public void motorOut() {
-		intake1.set(ControlMode.PercentOutput, 0.75);
-		intake2.set(ControlMode.PercentOutput, 0.75);
+		intake1.set(ControlMode.PercentOutput, 0.3);
+		intake2.set(ControlMode.PercentOutput, 0.3);
 	}
 }

@@ -27,7 +27,8 @@ public class Globals {
 	public static PixyCamera pixy;
 	public static BalanceChecker balanceChecker;
 	public static InputManager im;
-	public static NetworkTableEntry heading, speed, acceleration, left1Output, right1Output, left2Output, right2Output, elevatorHeight, armLocation;
+	public static NetworkTableEntry heading, speed, acceleration, left1Output, right1Output, intakeCurrent,
+			left2Output, right2Output, elevatorHeight, armLocation, armCurrent, elevatorCurrent;
 	public static MotionProfiling mp;
 
 	public static void init() {
@@ -69,5 +70,8 @@ public class Globals {
 		Globals.right2Output = table.getEntry("Right 2 Output");
 		Globals.elevatorHeight = table.getEntry("Elevator Height");
 		Globals.armLocation = table.getEntry("Arm Location");
+		Globals.armCurrent = table.getEntry("Arm Current");
+		Globals.elevatorCurrent = table.getEntry("Elevator Current");
+		Globals.intakeCurrent = table.getEntry("Intake Current");
 	}
 }

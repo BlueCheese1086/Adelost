@@ -36,13 +36,17 @@ public class Constants {
 	/**
 	 * Elevator Constants
 	 */
-	public static final double POTENTIOMETER_STRING_LENGTH = 50;
-	public static final double POTENTIOMETER_STRING_OFFSET = 2;
     public static final double ELEVATOR_HEIGHT = 75;
     public static final double ELEVATOR_GEAR_CIRCUMFERENCE = 1.22 * Math.PI;//FIX THIS
-	public static final int ELEVATOR_PEAK_CURRENT = 3; //amps
+	public static final int ELEVATOR_PEAK_CURRENT = 20; //amps
     public static final double ELEVATOR_KP = 0.25;
     public static final double ELEVATOR_KI = 0;
     public static final double ELEVATOR_KD = 0.01;
 
+	/**
+	 * Miscellaneous Constants
+	 */
+	public static final int INTAKE_PEAK_CURRENT = 8;
+	public static final int ARM_PEAK_CURRENT = 12;
+	public static final int MAX_ARM_ENC_UNITS = 900;
 }

@@ -29,15 +29,14 @@ public class Arm implements Tickable {
         armMotor.setInverted(true);
     }
     @Override public void tick(){
-    	SmartDashboard.putNumber("Arm enc units", armMotor.getSelectedSensorPosition(0));
-    	System.out.println(Globals.im.getArmPosition() * 900);
-        SmartDashboard.putNumber("Arm Output", armMotor.getMotorOutputPercent());
         armMotor.set(ControlMode.MotionMagic, Globals.im.getArmPosition() * 900);
+        Globals.armLocation.setNumber(getArmPosition());
+        Globals.armCurrent.setNumber(armMotor.getOutputCurrent());
     }
     public void setArmPosition(double angle) {
-        armMotor.set(ControlMode.MotionMagic, (1 - angle / 79.1) * 900);
+        armMotor.set(ControlMode.MotionMagic, (1 - angle / (360.0 * Constants.MAX_ARM_ENC_UNITS / 4096)) * Constants.MAX_ARM_ENC_UNITS);
     }
     public double getArmPosition() {
-		return 79.1 * (1 - armMotor.getSelectedSensorPosition(0)) / 900.0;
+		return 360.0 * Constants.MAX_ARM_ENC_UNITS / 4096 * (1 - (double)armMotor.getSelectedSensorPosition(0) / Constants.MAX_ARM_ENC_UNITS);
     }
 }

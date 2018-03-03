@@ -38,7 +38,7 @@ public class InputManager {
     }
     public boolean getElevatorSafety() { return auxStick.getRawButton(ButtonMap.SAFETY); }
     public double getElevator(){
-        return getElevatorSafety() ? (auxStick.getY() + 1) / 2 : 0;
+        return (auxStick.getY() + 1) / 2;
     }
     public boolean getElevator5() { return auxStick.getRawButton(ButtonMap.ELEVATOR_5);}
     public boolean getElevator70() { return auxStick.getRawButton(ButtonMap.ELEVATOR_70); }
