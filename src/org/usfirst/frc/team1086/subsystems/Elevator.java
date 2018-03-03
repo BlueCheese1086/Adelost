@@ -68,7 +68,12 @@ public class Elevator implements Tickable {
         }
         else elevatorMotor.set(ControlMode.PercentOutput, 0);
     }
-
+    public void set(double inches) {
+    	elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(inches));
+    }
+    public double get() {
+    	return encToInches(elevatorMotor.getSelectedSensorPosition(0));
+    }
     public double inchesToEnc(double inches){
         return inches * 4096 / 3.0 / Constants.ELEVATOR_GEAR_CIRCUMFERENCE;
     }
