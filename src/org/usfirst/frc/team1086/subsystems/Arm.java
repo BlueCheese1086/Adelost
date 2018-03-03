@@ -34,7 +34,10 @@ public class Arm implements Tickable {
         SmartDashboard.putNumber("Arm Output", armMotor.getMotorOutputPercent());
         armMotor.set(ControlMode.MotionMagic, Globals.im.getArmPosition() * 900);
     }
+    public void setArmPosition(double angle) {
+        armMotor.set(ControlMode.MotionMagic, (1 - angle / 79.1) * 900);
+    }
     public double getArmPosition() {
-		return 79.1 - armMotor.getSelectedSensorPosition(0) / 900.0;
+		return 79.1 * (1 - armMotor.getSelectedSensorPosition(0)) / 900.0;
     }
 }
