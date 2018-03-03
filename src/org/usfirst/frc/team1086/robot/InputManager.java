@@ -85,7 +85,7 @@ public class InputManager {
     	return auxStick.getRawButton(ButtonMap.CLIMBER);
     }
     public boolean getKick() {
-    	return auxStick.getRawButton(-1);
+    	return rightStick.getRawButton(11);
     }
     public boolean unKick() {
     	return auxStick.getRawButton(-1);
