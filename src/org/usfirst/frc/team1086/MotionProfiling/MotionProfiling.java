@@ -143,4 +143,8 @@ public class MotionProfiling implements Tickable {
     public boolean isFinished(){
         return left.isFinished() && right.isFinished();
     }
+
+    public double getRemainingDuration(){
+        return Math.max(left.getRemainingDuration(), right.getRemainingDuration());
+    }
 }

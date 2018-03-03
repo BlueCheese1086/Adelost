@@ -1,27 +1,26 @@
 package org.usfirst.frc.team1086.autonomous;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
-import org.usfirst.frc.team1086.autonomous.sections.Drive;
-import org.usfirst.frc.team1086.autonomous.sections.DriveDistance;
-import org.usfirst.frc.team1086.autonomous.sections.MotionProfiler;
-import org.usfirst.frc.team1086.autonomous.sections.TurnToAngleSection;
+import org.usfirst.frc.team1086.autonomous.sections.*;
 import org.usfirst.frc.team1086.robot.Constants;
 import org.usfirst.frc.team1086.robot.FieldMap;
 
 import java.util.ArrayList;
 
 public class AutonomousStarter {
+    Strategy selectedStrategy;
+    Side startSide;
     Side switchSide;
     Side scaleSide;
-    Side robotStartSide;
-    Strategy selectedStrategy;
     SendableChooser<Strategy> strategyChooser = new SendableChooser<>();
     SendableChooser<Side> sideChooser = new SendableChooser<>();
 
     AutonomousManager testAuto;
+    AutonomousManager driveForward;
     AutonomousManager centerLeftSwitchEnc;
     AutonomousManager centerLeftSwitchMP;
     AutonomousManager centerRightSwitchEnc;
@@ -50,21 +49,24 @@ public class AutonomousStarter {
         sideChooser.addObject("Right", Side.RIGHT);
         SmartDashboard.putData(sideChooser);
 
-        strategyChooser.addObject("Drive Forward", Strategy.DRIVEFORWARD);
+        strategyChooser.addObject("Drive Forward", Strategy.DRIVE_FORWARD);
         strategyChooser.addObject("Switch Only If Correct Side", Strategy.SWITCH_SAME_SIDE);
         strategyChooser.addObject("Switch Regardless of Side", Strategy.SWITCH_ALWAYS);
         strategyChooser.addObject("Scale Only If Correct Side", Strategy.SCALE_SAME_SIDE);
         strategyChooser.addObject("Scale Regardless of Side", Strategy.SCALE_ALWAYS);
-        strategyChooser.addDefault("Switch, Scale, or Both, whichever is on the correct side", Strategy.SWITCH_OR_SCALE_SAME_SIDE);
+        strategyChooser.addDefault("Switch or Scale (prioritizing switch)", Strategy.SWITCH_OR_SCALE_SAME_SIDE);
+        strategyChooser.addDefault("Switch or Scale (prioritizing scale)", Strategy.SCALE_OR_SWITCH_SAME_SIDE);
+        strategyChooser.addDefault("Switch, Scale, or Both (on same side)", Strategy.SWITCH_AND_SCALE_SAME_SIDE);
         strategyChooser.addObject("Switch then Scale", Strategy.SWITCH_THEN_SCALE);
         SmartDashboard.putData(strategyChooser);
 
         testAuto = new AutonomousManager();
-        testAuto.addSection(new MotionProfiler(new Waypoint[]{
-                new Waypoint(0, 0, 0),
-                new Waypoint(50, 0, 0)
-        }));
+        testAuto.addSection(new NetworkProfile());
         testAuto.addSection(new Drive(20, 0, 0));
+
+        driveForward = new AutonomousManager();
+        driveForward.addSection(new Drive(4000, 0.4, 0));
+        driveForward.addSection(new Drive(20, 0, 0));
 
         centerLeftSwitchEnc = new AutonomousManager();
         centerLeftSwitchEnc.addSection(new DriveDistance(50));
@@ -214,9 +216,6 @@ public class AutonomousStarter {
      * calls the appropriate auto mode.
  1    */
     public AutonomousManager start() {
-        //remove the comments for actual competition
-
-        /*
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
         if (gameData.length() > 0) {
             if (gameData.charAt(0) == 'L') {
@@ -230,12 +229,109 @@ public class AutonomousStarter {
                 scaleSide = Side.RIGHT;
             }
         }
-        robotStartSide = sideChooser.getSelected();
+        startSide = sideChooser.getSelected();
         selectedStrategy = strategyChooser.getSelected();
-        AutonomousManager auto = selectedStrategy.getAutoModeToRun();
-        return auto; */
-
-        return leftLeftSwitchSideMP;
+        switch(selectedStrategy){
+            case SCALE_SAME_SIDE:
+                if(startSide == scaleSide){
+                    if(startSide == Side.LEFT)
+                        return leftLeftScaleMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightScaleMP;
+                    else return driveForward;
+                } else return driveForward;
+            case SWITCH_SAME_SIDE:
+                if(startSide == switchSide){
+                    if(startSide == Side.LEFT)
+                        return leftLeftSwitchSideMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightSwitchSideMP;
+                    else return driveForward;
+                } else return driveForward;
+            case SWITCH_OR_SCALE_SAME_SIDE:
+                if(startSide == switchSide){
+                    if(startSide == Side.LEFT)
+                        return leftLeftSwitchSideMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightSwitchSideMP;
+                    else return driveForward;
+                } else if(startSide == scaleSide){
+                    if(startSide == Side.LEFT)
+                        return leftLeftScaleMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightScaleMP;
+                    else return driveForward;
+                } else return driveForward;
+            case SCALE_OR_SWITCH_SAME_SIDE:
+                if(startSide == scaleSide){
+                    if(startSide == Side.LEFT)
+                        return leftLeftScaleMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightScaleMP;
+                    else return driveForward;
+                } else if(startSide == switchSide){
+                    if(startSide == Side.LEFT)
+                        return leftLeftSwitchSideMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightSwitchSideMP;
+                    else return driveForward;
+                } else return driveForward;
+            case SCALE_ALWAYS:
+                if(startSide == Side.LEFT) {
+                    if (scaleSide == Side.LEFT)
+                        return leftLeftScaleMP;
+                    else return null; /************TO BE FIXED***********/
+                } else if (startSide == Side.RIGHT){
+                    if (scaleSide == Side.RIGHT)
+                        return rightRightScaleMP;
+                    else return null; /************TO BE FIXED***********/
+                } else {
+                    if(scaleSide == Side.LEFT)
+                        return null; /*************TO BE FIXED***********/
+                    else return null;/*************TO BE FIXED***********/
+                }
+            case SWITCH_ALWAYS:
+                if(startSide == Side.LEFT) {
+                    if (switchSide == Side.LEFT)
+                        return leftLeftSwitchSideMP;
+                    else return leftRightSwitchFrontMP;
+                } else if (startSide == Side.RIGHT){
+                    if (scaleSide == Side.RIGHT)
+                        return rightRightSwitchSideMP;
+                    else return rightLeftSwitchFrontMP;
+                } else {
+                    if(scaleSide == Side.LEFT)
+                        return centerLeftSwitchMP;
+                    else return centerRightSwitchMP;
+                }
+            case SWITCH_AND_SCALE_SAME_SIDE:
+                if(startSide == scaleSide && startSide == switchSide) {
+                    if(startSide == startSide.LEFT)
+                        return null; /***********TO BE FIXED************/
+                    else return null;/***********TO BE FIXED************/
+                } else if(startSide == scaleSide){
+                    if(startSide == Side.LEFT)
+                        return leftLeftScaleMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightScaleMP;
+                    else return driveForward;
+                } else if(startSide == switchSide){
+                    if(startSide == Side.LEFT)
+                        return leftLeftSwitchSideMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightSwitchSideMP;
+                    else return driveForward;
+                } else return driveForward;
+            case SWITCH_THEN_SCALE:
+                if(startSide == scaleSide && startSide == switchSide) {
+                    if(startSide == startSide.LEFT)
+                        return null; /***********TO BE FIXED************/
+                    else return null;/***********TO BE FIXED************/
+                } else return driveForward; /*********TO BE COMPLETED**********/
+            case DRIVE_FORWARD:
+            default:
+                return driveForward;
+        }
     }
 }
 
@@ -244,19 +340,13 @@ enum Side {
 }
 
 enum Strategy {
-    DRIVEFORWARD, SWITCH_SAME_SIDE, SWITCH_ALWAYS, SCALE_SAME_SIDE, SCALE_ALWAYS, SWITCH_OR_SCALE_SAME_SIDE, SWITCH_THEN_SCALE;
-    ArrayList<AutonomousManager> autoModes = new ArrayList<>();
-    Strategy(){
-
-    }
-
-    public void addAutoMode(AutonomousManager autoMode){
-        autoModes.add(autoMode);
-    }
-
-    public AutonomousManager getAutoModeToRun(){
-        // Add logic later
-
-        return autoModes.get(0);
-    }
+    DRIVE_FORWARD,
+    SWITCH_SAME_SIDE,
+    SWITCH_ALWAYS,
+    SCALE_SAME_SIDE,
+    SCALE_ALWAYS,
+    SWITCH_OR_SCALE_SAME_SIDE,
+    SCALE_OR_SWITCH_SAME_SIDE,
+    SWITCH_AND_SCALE_SAME_SIDE,
+    SWITCH_THEN_SCALE
 }

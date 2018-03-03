@@ -18,7 +18,15 @@ import java.util.HashMap;
  */
 public abstract class CombinedSection extends AutonomousSection {
 	HashMap<SectionTrigger, AutonomousSection> sections = new HashMap<>();
-	
+
+	/**
+	 * Adds a section to the list to run
+	 * @param trigger The trigger for the section
+	 * @param section The section to run while the trigger is true
+	 */
+	public void addSection(SectionTrigger trigger, AutonomousSection section){
+		sections.put(trigger, section);
+	}
 	/**
 	 * Manages running sections, started sections, and ending sections
 	 */

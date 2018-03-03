@@ -10,10 +10,16 @@ import jaci.pathfinder.Waypoint;
 public class MotionProfiler extends AutonomousSection implements SectionTrigger {
     Waypoint[] points;
     MotionProfiling mp;
-    public MotionProfiler(Waypoint[] points){
+    int triggerTime;
+    public MotionProfiler(Waypoint[] points, int triggerTime){
         this.duration = -1;
+        this.triggerTime = triggerTime;
         this.points = points;
         this.mp = Globals.mp;
+    }
+
+    public MotionProfiler(Waypoint[] points){
+        this(points, -1);
     }
 
     @Override public void start(){
@@ -30,7 +36,7 @@ public class MotionProfiler extends AutonomousSection implements SectionTrigger 
 
     }
     @Override public boolean trigger() {
-    	return true;
+    	return mp.getRemainingDuration() <= triggerTime;
     }
 
     @Override public boolean isFinished(){
