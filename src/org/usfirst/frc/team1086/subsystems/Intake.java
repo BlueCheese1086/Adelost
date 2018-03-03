@@ -29,17 +29,18 @@ public class Intake implements Tickable {
 	}
 	
 	public void motorIn() {
-		intake1.set(ControlMode.PercentOutput, -0.75);
-		intake2.set(ControlMode.PercentOutput, -0.75);
+		run(-0.75);
 	}
 		
 	public void motorOff() {
-		intake1.set(ControlMode.PercentOutput, 0.0);
-		intake2.set(ControlMode.PercentOutput, 0.0);
+		run(0);
 	}
 	
 	public void motorOut() {
-		intake1.set(ControlMode.PercentOutput, 0.3);
-		intake2.set(ControlMode.PercentOutput, 0.3);
+		run(0.3);
 	}
+	public void run(double power){
+        intake1.set(ControlMode.PercentOutput, power);
+        intake2.set(ControlMode.PercentOutput, power);
+    }
 }
