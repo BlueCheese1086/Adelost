@@ -40,15 +40,6 @@ public class InputManager {
     }
     public boolean getElevator5() { return auxStick.getRawButton(ButtonMap.ELEVATOR_5);}
     public boolean getElevator70() { return auxStick.getRawButton(ButtonMap.ELEVATOR_70); }
-    public boolean getTurnToAngleStart() {
-    	return rightStick.getRawButtonPressed(ButtonMap.TURN_TO_ANGLE);
-    }
-    public boolean getTurnToAngleTick() {
-    	return rightStick.getRawButton(ButtonMap.TURN_TO_ANGLE);
-    }
-    public boolean getTurnToAngleRelease() {
-    	return rightStick.getRawButtonReleased(ButtonMap.TURN_TO_ANGLE);
-    }
     public boolean getClimber() {
     	return rightStick.getRawButton(ButtonMap.CLIMBER);
     }
