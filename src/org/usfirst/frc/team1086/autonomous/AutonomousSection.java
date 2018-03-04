@@ -57,4 +57,12 @@ public abstract class AutonomousSection {
     public boolean isFinished(){
         return isTimedOut();
     }
+    
+    /**
+     * Determines whether or not the section has been started. This should not be overriden.
+     * @return whether or not the section has been started.
+     */
+    public boolean isStarted() {
+    	return isStarted;
+    }
 }

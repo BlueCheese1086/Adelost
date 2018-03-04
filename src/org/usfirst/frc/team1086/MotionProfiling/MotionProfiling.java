@@ -79,12 +79,6 @@ public class MotionProfiling implements Tickable {
     }
 
     @Override public void tick(){
-        if(im.getMotionProfileStart()){
-            init();
-        }
-        if(im.getMotionProfileTick()){
-            run();
-        }
     }
 
     /**
@@ -142,5 +136,9 @@ public class MotionProfiling implements Tickable {
 
     public boolean isFinished(){
         return left.isFinished() && right.isFinished();
+    }
+
+    public double getRemainingDuration(){
+        return left == null || right == null ? -1 : Math.max(left.getRemainingDuration(), right.getRemainingDuration());
     }
 }

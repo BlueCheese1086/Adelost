@@ -15,7 +15,7 @@ public  class BalanceChecker implements Tickable {
 	Elevator elevator;
 	Arm arm;
 	boolean saving = false;
-	public static final double MAX_PITCH_FORWARD = 17;
+	public static final double MAX_PITCH_FORWARD = 20;
 	public static final double MAX_PITCH_BACKWARDS = -20;
 	public BalanceChecker() {
 		drivetrain = Globals.drivetrain;
@@ -30,9 +30,10 @@ public  class BalanceChecker implements Tickable {
 	@Override
 	public void tick() {
 		pitchCurrent = navx.getPitch();
-        saving = needsPitchCorrection();
-		if(saving && !Globals.im.getTipCorrectionOverride()) {
-			pitchSave();
+		if(!Globals.im.getTipCorrectionOverride()) {
+        	saving = needsPitchCorrection();
+        	if(saving)
+				pitchSave();
 		}
 	}
     public boolean needsPitchCorrection(){

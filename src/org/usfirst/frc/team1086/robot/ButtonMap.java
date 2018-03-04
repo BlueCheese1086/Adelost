@@ -5,27 +5,26 @@ public class ButtonMap {
      * Buttons for the left drive joystick
      */
     public static final int SAFETY = 1;
-    public static final int DRIVE_STRAIGHT_OVERRIDE = -1;
-    public static final int TIP_CORRECTION_OVERRIDE = -1;
 
     /**
      * Buttons for the right drive joystick
      */
-    public static final int TURN_TO_ANGLE = 2;
+    public static final int DRIVE_STRAIGHT_OVERRIDE = 1;
+    public static final int TIP_CORRECTION_OVERRIDE = 1;
+    public static final int CLIMBER = 7;
+    public static final int KICK = 10;
+    public static final int UNKICK = 11;
+
 
     /**
      * Buttons for the auxiliary stick
      */
-    public static final int INTAKE = 2;
-    public static final int MOTION_PROFILE = 3;
-    public static final int ENCODER_DRIVE = 4;
+    public static final int INTAKE = 4;
     public static final int EVICT = 5;
-    public static final int ARM_UP = 6;
-    public static final int ARM_DOWN = 7;
-    public static final int ARM_MID = 8;
-    public static final int ELEVATOR_5 = 9;
-    public static final int CLIMBER = 10;
-    public static final int ELEVATOR_70 = 11;
-    public static final int ELEVATOR_OVERRIDE = -1;
-    public static final int ULTRASONIC = -1;
+    public static final int ELEVATOR_5 = 7;
+    public static final int ELEVATOR_70 = 6;
+    public static final int ELEVATOR_OVERRIDE = 8;
+    public static final int ARM_UP = 3;
+    public static final int ARM_DOWN = 2;
+    public static final int MANUAL_ARM_DOWN = 10;
 }
