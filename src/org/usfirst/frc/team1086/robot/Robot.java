@@ -74,6 +74,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		elevator.reset();
+		arm.reset();
 		arm.armMotor.setSelectedSensorPosition(900, 0, 0);
 		drivetrain.em.resetEncoders();
 		elevator.start();

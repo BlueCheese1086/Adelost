@@ -36,7 +36,7 @@ public class MotionProfiler extends AutonomousSection implements SectionTrigger 
 
     }
     @Override public boolean trigger() {
-    	return mp.getRemainingDuration() <= triggerTime;
+    	return mp.getRemainingDuration() <= triggerTime && mp.getRemainingDuration() != -1;
     }
 
     @Override public boolean isFinished(){

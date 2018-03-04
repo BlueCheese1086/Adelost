@@ -139,6 +139,6 @@ public class MotionProfiling implements Tickable {
     }
 
     public double getRemainingDuration(){
-        return Math.max(left.getRemainingDuration(), right.getRemainingDuration());
+        return left == null || right == null ? -1 : Math.max(left.getRemainingDuration(), right.getRemainingDuration());
     }
 }

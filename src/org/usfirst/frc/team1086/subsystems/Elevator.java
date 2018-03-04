@@ -41,6 +41,9 @@ public class Elevator implements Tickable {
     public void start(){
         elevatorMotor.setSelectedSensorPosition(0, 0, 0);
     }
+    public void reset(){
+        targetHeight = 0;
+    }
     @Override public void tick(){
         Globals.elevatorHeight.setDouble(encToInches(elevatorMotor.getSelectedSensorPosition(0)));
         Globals.elevatorCurrent.setNumber(elevatorMotor.getOutputCurrent() / 2 + elevatorFollower.getOutputCurrent() / 2);

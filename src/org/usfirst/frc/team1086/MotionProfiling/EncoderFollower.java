@@ -158,6 +158,6 @@ public class EncoderFollower {
      * @return the remaining duration in the current motion profile
      */
     public double getRemainingDuration(){
-        return (trajectory.length() - segment) * MPConstants.DELTA_TIME;
+        return 1000 * (trajectory.length() - segment) * MPConstants.DELTA_TIME;
     }
 }

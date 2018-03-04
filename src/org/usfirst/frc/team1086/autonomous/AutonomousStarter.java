@@ -113,13 +113,14 @@ public class AutonomousStarter {
         centerRightSwitchEnc.addSection(new RunIntake(0.3, 500));
 
         centerRightSwitchMP = new AutonomousManager();
-        centerRightSwitchMP.addSection(new MotionProfiler(new Waypoint[]{
+        centerRightSwitchMP.addSection(new ArmMover(45, 20));
+        centerRightSwitchMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD - Constants.ROBOT_LENGTH, FieldMap.CENTER_SWITCH_WALL_HORIZONTAL, Pathfinder.d2r(0))
-        }));
+        }, 15));
         centerRightSwitchMP.addSection(new Drive(20, 0,0));
-        centerRightSwitchMP.addSection(new ArmMover(60, 400));
-        centerRightSwitchMP.addSection(new RunIntake(1, 500));
+        centerRightSwitchMP.addSection(new ElevatorMover(15, 700));
+        centerRightSwitchMP.addSection(new RunIntake(0.5, 500));
 
         leftLeftSwitchSideEnc = new AutonomousManager();
         leftLeftSwitchSideEnc.addSection(new DriveDistance(FieldMap.LEFT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH));

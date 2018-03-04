@@ -65,7 +65,7 @@ public class InputManager {
         return (auxStick.getRawButton(ButtonMap.ARM_UP) ? 1 : 0) - (auxStick.getRawButton(ButtonMap.ARM_DOWN) ? 1 : 0);
     }
     public double manualArm(){
-        return (auxStick.getRawButton(ButtonMap.MANUAL_ARM_DOWN)) ? 0.3 : 0;
+        return (auxStick.getRawButton(ButtonMap.MANUAL_ARM_DOWN)) ? 0.5 : 0;
 
     }
 }

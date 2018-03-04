@@ -30,6 +30,9 @@ public class Arm implements Tickable {
         armMotor.configPeakCurrentLimit(Constants.ARM_PEAK_CURRENT,0);
         armMotor.setInverted(true);
     }
+    public void reset(){
+        armPos = 0;
+    }
     @Override public void tick(){
         if(inputManager.manualArm() != 0)
             armMotor.set(ControlMode.PercentOutput, inputManager.manualArm());
