@@ -6,6 +6,8 @@ import jaci.pathfinder.Waypoint;
 public class NetworkProfile extends MotionProfiler {
 	public NetworkProfile() {
 		super(null);
+	}
+	@Override public void start(){
 		double[] xs = NetworkTableInstance.getDefault().getTable("GeneratedAuto").getEntry("x coordinates").getDoubleArray(new double[]{});
 		double[] ys = NetworkTableInstance.getDefault().getTable("GeneratedAuto").getEntry("y coordinates").getDoubleArray(new double[]{});
 		double[] angles = NetworkTableInstance.getDefault().getTable("GeneratedAuto").getEntry("angle").getDoubleArray(new double[]{});
@@ -20,5 +22,6 @@ public class NetworkProfile extends MotionProfiler {
 		for(int i = 0; i < xs.length; i++) {
 			points[i] = new Waypoint(xs[i], ys[i], angles[i]);
 		}
+		super.start();
 	}
 }

@@ -55,9 +55,10 @@ public class Elevator implements Tickable {
                 else if (inputManager.getElevator70())
                     targetHeight = 70;
                 else
-                    targetHeight = inputManager.getElevator() * Constants.ELEVATOR_HEIGHT;
+                    targetHeight += inputManager.getElevator() * Constants.ELEVATOR_HEIGHT / 50;
             }
         }
+        targetHeight = Math.max(Math.min(targetHeight, Constants.ELEVATOR_HEIGHT), 0);
         elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(targetHeight));
     }
     public void set(double inches) {

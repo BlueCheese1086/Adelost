@@ -33,11 +33,11 @@ public class Intake implements Tickable {
 	}
 		
 	public void motorOff() {
-		run(0);
+		run(-0.2);
 	}
 	
 	public void motorOut() {
-		run(0.3);
+		run(0.8 - 0.6 * Globals.elevator.getElevatorHeight() / Constants.ELEVATOR_HEIGHT);
 	}
 	public void run(double power){
         intake1.set(ControlMode.PercentOutput, power);

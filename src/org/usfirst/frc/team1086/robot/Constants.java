@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1086.robot;
 
 public class Constants {
-	public static final int ROBOT_LENGTH = 32;
-	public static final int ROBOT_WIDTH = 28;
+	public static final int ROBOT_LENGTH = 37;
+	public static final int ROBOT_WIDTH = 35;
 	public static final int ROBOT_HALF_LENGTH = ROBOT_LENGTH / 2;
 	public static final int ROBOT_HALF_WIDTH = ROBOT_WIDTH / 2;
 	
@@ -47,6 +47,6 @@ public class Constants {
 	 * Miscellaneous Constants
 	 */
 	public static final int INTAKE_PEAK_CURRENT = 8;
-	public static final int ARM_PEAK_CURRENT = 12;
+	public static final int ARM_PEAK_CURRENT = 10;
 	public static final int MAX_ARM_ENC_UNITS = 900;
 }
