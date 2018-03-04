@@ -31,9 +31,9 @@ public class Arm implements Tickable {
         armMotor.setInverted(true);
     }
     @Override public void tick(){
-        armMotor.set(ControlMode.MotionMagic, armPos * Constants.MAX_ARM_ENC_UNITS);
         armPos += inputManager.getDeltaArm() * 2;
         armPos = Math.max(Math.min(armPos, (360.0 * Constants.MAX_ARM_ENC_UNITS / 4096)), 0);
+        armMotor.set(ControlMode.MotionMagic, armPos * Constants.MAX_ARM_ENC_UNITS);
 
         Globals.armLocation.setNumber(getArmPosition());
         SmartDashboard.putNumber("Raw Arm Encoder", armMotor.getSelectedSensorPosition(0));
