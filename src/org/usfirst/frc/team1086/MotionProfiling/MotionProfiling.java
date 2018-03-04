@@ -79,12 +79,6 @@ public class MotionProfiling implements Tickable {
     }
 
     @Override public void tick(){
-        if(im.getMotionProfileStart()){
-            init();
-        }
-        if(im.getMotionProfileTick()){
-            run();
-        }
     }
 
     /**

@@ -47,10 +47,12 @@ public class Elevator implements Tickable {
         SmartDashboard.putNumber("Target Height", targetHeight);
         SmartDashboard.putNumber("Current 1", elevatorMotor.getOutputCurrent());
         SmartDashboard.putNumber("Current 2", elevatorFollower.getOutputCurrent());
-        if(inputManager.getElevatorSafety()) {
-            if(inputManager.getElevatorOverride()){
-                elevatorMotor.set(ControlMode.PercentOutput, inputManager.getElevator() * 2 - 1);
-            } else {
+        if(inputManager.getElevatorOverride()) {
+            if (inputManager.getElevatorSafety()) {
+                elevatorMotor.set(ControlMode.PercentOutput, inputManager.getElevator());
+            }
+        } else {
+            if (inputManager.getElevatorSafety()) {
                 if (inputManager.getElevator5())
                     targetHeight = 5;
                 else if (inputManager.getElevator70())
@@ -58,9 +60,9 @@ public class Elevator implements Tickable {
                 else
                     targetHeight += inputManager.getElevator() * Constants.ELEVATOR_HEIGHT / 50;
             }
+            targetHeight = Math.max(Math.min(targetHeight, Constants.ELEVATOR_HEIGHT), 0);
+            elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(targetHeight));
         }
-        targetHeight = Math.max(Math.min(targetHeight, Constants.ELEVATOR_HEIGHT), 0);
-        elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(targetHeight));
     }
     public void set(double inches) {
     	elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(inches));

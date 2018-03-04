@@ -31,19 +31,24 @@ public class Arm implements Tickable {
         armMotor.setInverted(true);
     }
     @Override public void tick(){
-        armPos += inputManager.getDeltaArm() * 2;
-        armPos = Math.max(Math.min(armPos, (360.0 * Constants.MAX_ARM_ENC_UNITS / 4096)), 0);
-        armMotor.set(ControlMode.MotionMagic, armPos * Constants.MAX_ARM_ENC_UNITS);
+        if(inputManager.manualArm() != 0)
+            armMotor.set(ControlMode.PercentOutput, inputManager.manualArm());
+        else {
+            armPos += inputManager.getDeltaArm() * 2;
+            armPos = Math.max(Math.min(armPos, Constants.MAX_ARM_ANGLE), 0);
+            System.out.println(armPos);
+            armMotor.set(ControlMode.MotionMagic, (1 - armPos / Constants.MAX_ARM_ANGLE) * Constants.MAX_ARM_ENC_UNITS);
+        }
 
         Globals.armLocation.setNumber(getArmPosition());
         SmartDashboard.putNumber("Raw Arm Encoder", armMotor.getSelectedSensorPosition(0));
         Globals.armCurrent.setNumber(armMotor.getOutputCurrent());
     }
     public void setArmPosition(double angle) {
-        armMotor.set(ControlMode.MotionMagic, (1 - angle / (360.0 * Constants.MAX_ARM_ENC_UNITS / 4096)) * Constants.MAX_ARM_ENC_UNITS);
+        armMotor.set(ControlMode.MotionMagic, (1 - angle / Constants.MAX_ARM_ANGLE) * Constants.MAX_ARM_ENC_UNITS);
         armPos = angle;
     }
     public double getArmPosition() {
-		return 360.0 * Constants.MAX_ARM_ENC_UNITS / 4096 * (1 - (double)armMotor.getSelectedSensorPosition(0) / Constants.MAX_ARM_ENC_UNITS);
+		return Constants.MAX_ARM_ANGLE * (1 - (double)armMotor.getSelectedSensorPosition(0) / Constants.MAX_ARM_ENC_UNITS);
     }
 }

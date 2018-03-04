@@ -26,4 +26,5 @@ public class ButtonMap {
     public static final int ELEVATOR_OVERRIDE = 8;
     public static final int ARM_UP = 3;
     public static final int ARM_DOWN = 2;
+    public static final int MANUAL_ARM_DOWN = 10;
 }

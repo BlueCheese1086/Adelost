@@ -7,5 +7,10 @@ public interface Printable {
 	 * 
 	 * @return the value
 	 */
-	public String get();
+	public String getValue();
+
+	/**
+	 * @return the key
+	 */
+	public String getKey();
 }

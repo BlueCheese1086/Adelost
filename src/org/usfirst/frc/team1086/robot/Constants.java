@@ -49,4 +49,6 @@ public class Constants {
 	public static final int INTAKE_PEAK_CURRENT = 8;
 	public static final int ARM_PEAK_CURRENT = 10;
 	public static final int MAX_ARM_ENC_UNITS = 900;
+	public static final double MAX_ARM_ANGLE = 360.0 * MAX_ARM_ENC_UNITS / 4096;
+
 }
