@@ -60,43 +60,10 @@ public class Drivetrain implements Tickable {
 	}
 	
 	@Override public void tick(){
-		if(im.getSafety()){
-			if(im.getEncodersDriveStart()) {
-				em.setPosition(50);
-			}
-			else if(im.getTurnToAngleStart()) {
-				turnToAngleController.setSetpoint(Utils.normalizeAngle(gyro.getNormalizedAngle() + 90));
-				turnToAngleController.enable();
-			}
-			else if(im.getTurnToAngleTick()) {
-				drive(0, getTurn());
-			}
-			else if(im.getTurnToAngleRelease()) {
-				turnToAngleController.reset();
-				turnToAngleController.disable();
-			}
-			else if(im.getUltraSonicStart()) {
-				ultrasonicController.setSetpoint(0);
-				ultrasonicController.enable();
-			}
-			else if(im.getUltraSonicTick()) {
-				drive(ultrasonicController.get(), 0);
-			}
-			else if(im.getUltraSonicReleased()) {
-				ultrasonicController.reset();
-				ultrasonicController.disable();
-			}
-			else {
-				drive(im.getDrive(), getTurn());
-			}
-		}
-		else {
-			if(!im.getMotionProfileTick())
-				drive(0, 0);
-			else
-				driveStraightController.disable();
-		}
-		
+		if(im.getSafety())
+			drive(im.getDrive(), getTurn());
+		else
+			driveStraightController.disable();
 	}
 
 	/**

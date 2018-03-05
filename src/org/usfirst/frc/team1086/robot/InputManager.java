@@ -3,8 +3,6 @@ package org.usfirst.frc.team1086.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Utility;
 
-import java.awt.*;
-
 public class InputManager {
 
     Joystick leftStick;
@@ -38,71 +36,36 @@ public class InputManager {
     }
     public boolean getElevatorSafety() { return auxStick.getRawButton(ButtonMap.SAFETY); }
     public double getElevator(){
-        return getElevatorSafety() ? (auxStick.getY() + 1) / 2 : 0;
+        return auxStick.getY();
     }
     public boolean getElevator5() { return auxStick.getRawButton(ButtonMap.ELEVATOR_5);}
     public boolean getElevator70() { return auxStick.getRawButton(ButtonMap.ELEVATOR_70); }
-    public boolean getMotionProfileStart(){
-        return auxStick.getRawButtonPressed(ButtonMap.MOTION_PROFILE);
-    }
-    public boolean getMotionProfileTick(){
-        return auxStick.getRawButton(ButtonMap.MOTION_PROFILE);
-    }
-    public boolean getEncodersDriveStart() {
-    	return auxStick.getRawButtonPressed(ButtonMap.ENCODER_DRIVE);
-    }
-    public boolean getEncodersDriveTick() {
-    	return auxStick.getRawButton(ButtonMap.ENCODER_DRIVE);
-    }
-    public boolean getTurnToAngleStart() {
-    	return rightStick.getRawButtonPressed(ButtonMap.TURN_TO_ANGLE);
-    }
-    public boolean getTurnToAngleTick() {
-    	return rightStick.getRawButton(ButtonMap.TURN_TO_ANGLE);
-    }
-    public boolean getTurnToAngleRelease() {
-    	return rightStick.getRawButtonReleased(ButtonMap.TURN_TO_ANGLE);
-    }
-    public boolean getArm90Degree(){
-        return auxStick.getRawButtonPressed(ButtonMap.ARM_UP);
-    }
-    public boolean getArm45Degree(){
-        return auxStick.getRawButtonPressed(ButtonMap.ARM_MID);
-    }
-    public boolean getArm0Degree(){
-        return auxStick.getRawButtonPressed(ButtonMap.ARM_DOWN);
-    }
-    public boolean getUltraSonicStart() {
-    	return auxStick.getRawButtonPressed(ButtonMap.ULTRASONIC);
-    }
-    public boolean getUltraSonicTick() {
-    	return auxStick.getRawButton(ButtonMap.ULTRASONIC);
-    }
-    public boolean getUltraSonicReleased() {
-    	return auxStick.getRawButtonReleased(ButtonMap.ULTRASONIC);
-    }
     public boolean getClimber() {
-    	return auxStick.getRawButton(ButtonMap.CLIMBER);
+    	return rightStick.getRawButton(ButtonMap.CLIMBER);
     }
     public boolean getKick() {
-    	return auxStick.getRawButton(-1);
+    	return rightStick.getRawButton(ButtonMap.KICK);
     }
     public boolean unKick() {
-    	return auxStick.getRawButton(-1);
+    	return rightStick.getRawButton(ButtonMap.UNKICK);
     }
     public boolean getClimberRelease(){
         return Utility.getUserButton();
-    }
-    public double getArmPosition() {
-    	return (auxStick.getZ() + 1) / 2;
     }
     public boolean getElevatorOverride(){
         return auxStick.getRawButtonPressed (ButtonMap.ELEVATOR_OVERRIDE) ? elevatorOverrideToggle = !elevatorOverrideToggle : elevatorOverrideToggle;
     }
     public boolean getDriveStraightOverride(){
-        return leftStick.getRawButtonPressed (ButtonMap.DRIVE_STRAIGHT_OVERRIDE) ? turningOverrideToggle = !turningOverrideToggle: turningOverrideToggle;
+        return rightStick.getRawButtonPressed (ButtonMap.DRIVE_STRAIGHT_OVERRIDE) ? turningOverrideToggle = !turningOverrideToggle: turningOverrideToggle;
     }
     public boolean getTipCorrectionOverride(){
-        return leftStick.getRawButtonPressed (ButtonMap.TIP_CORRECTION_OVERRIDE) ? tippingOverrideToggle = !tippingOverrideToggle: tippingOverrideToggle;
+        return rightStick.getRawButtonPressed (ButtonMap.TIP_CORRECTION_OVERRIDE) ? tippingOverrideToggle = !tippingOverrideToggle: tippingOverrideToggle;
+    }
+    public int getDeltaArm(){
+        return (auxStick.getRawButton(ButtonMap.ARM_UP) ? 1 : 0) - (auxStick.getRawButton(ButtonMap.ARM_DOWN) ? 1 : 0);
+    }
+    public double manualArm(){
+        return (auxStick.getRawButton(ButtonMap.MANUAL_ARM_DOWN)) ? 0.5 : 0;
+
     }
 }

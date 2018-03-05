@@ -16,7 +16,9 @@ public class Logger implements Tickable {
 			System.out.println("Problem setting up logger -- File not found");
 		}
 	}
-
+    public void addPrintable(Printable printable){
+	    printList.add(printable);
+    }
 	/**
 	 * Allows you to directly print a valid value to the file
 	 * 
@@ -31,8 +33,8 @@ public class Logger implements Tickable {
 
 	@Override
 	public void tick() {
-		for (Printable p:printList) {
-			out.println(p.get());
+		for (Printable p : printList) {
+			print(p.getKey(), p.getValue());
 		}
 	}
 }

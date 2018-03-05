@@ -1,6 +1,9 @@
 package org.usfirst.frc.team1086.robot;
 
 import java.util.ArrayList;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
 import org.usfirst.frc.team1086.autonomous.AutonomousManager;
 import org.usfirst.frc.team1086.autonomous.AutonomousStarter;
@@ -20,6 +23,7 @@ public class Robot extends TimedRobot {
 	Arm arm;
 	Logger logger;
 	Ultrasonic ultrasonic;
+	DigitalInput dio;
 	Climber climber;
 	MotionProfiling motionProfiling;
 	BalanceChecker balancer;
@@ -31,6 +35,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		Globals.init();
 		drivetrain = Globals.drivetrain;
+		dio = new DigitalInput(0);
 		drivetrain.em.resetEncoders();
 		logger = Globals.logger;
 		autoStarter = new AutonomousStarter();
@@ -58,6 +63,7 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		arm.armMotor.setSelectedSensorPosition(0, 0, 0);
 		selectedAuto = autoStarter.start();
+        System.out.println(selectedAuto);
 		selectedAuto.start();
 	}
 
@@ -68,13 +74,16 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		arm.armMotor.setSelectedSensorPosition(0, 0, 0);
+		elevator.reset();
+		arm.reset();
+		arm.armMotor.setSelectedSensorPosition(900, 0, 0);
 		drivetrain.em.resetEncoders();
 		elevator.start();
 	}
 
 	@Override
 	public void teleopPeriodic() {
+		SmartDashboard.putBoolean("HMMMM", dio.get());
 	    if(!balancer.isSaving()) {
             tickables.forEach(Tickable::tick);
             System.out.println("Your life doesn't matter to me right now.");

@@ -16,6 +16,7 @@ public  class BalanceChecker implements Tickable {
 	Arm arm;
 	boolean saving = false;
 	public static double maxPitch;
+
 	public BalanceChecker() {
 		drivetrain = Globals.drivetrain;
 		navx = Globals.gyro;
@@ -29,9 +30,10 @@ public  class BalanceChecker implements Tickable {
 	@Override
 	public void tick() {
 		pitchCurrent = navx.getPitch();
-        saving = needsPitchCorrection();
-		if(saving && !Globals.im.getTipCorrectionOverride()) {
-			pitchSave();
+		if(!Globals.im.getTipCorrectionOverride()) {
+        	saving = needsPitchCorrection();
+        	if(saving)
+				pitchSave();
 		}
 	}
     public boolean needsPitchCorrection(){
