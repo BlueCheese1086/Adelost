@@ -15,8 +15,7 @@ public  class BalanceChecker implements Tickable {
 	Elevator elevator;
 	Arm arm;
 	boolean saving = false;
-	public static final double MAX_PITCH_FORWARD = 17;
-	public static final double MAX_PITCH_BACKWARDS = -20;
+	public static double maxPitch;
 	public BalanceChecker() {
 		drivetrain = Globals.drivetrain;
 		navx = Globals.gyro;
@@ -39,25 +38,14 @@ public  class BalanceChecker implements Tickable {
 	    double pitch = pitchCurrent - normalPitch;
 	    System.out.println(pitch);
 	    double pitchRate = (-lastPitch + (lastPitch = pitch)) / 0.05;
-        return (pitch > MAX_PITCH_FORWARD || pitchRate * 0.1 + pitch > MAX_PITCH_FORWARD) || (pitch < MAX_PITCH_BACKWARDS || pitchRate * 0.1 + pitch < MAX_PITCH_BACKWARDS);
+	    double a = arm.getArmPosition();
+	    double e= elevator.getElevatorHeight()/75;
+	    maxPitch=(61.725-34.027*e)-a*(4.325-2.342*e)+23*(e)*(e-1);
+	     			//max and min     //arm shift       //adds shape to graph (similar to a taylor series)
+        return (Math.abs(pitch) > maxPitch || Math.abs(pitchRate * 0.1 + pitch) > maxPitch);
     }
 
-	private boolean checkPitchMax() {
-		return (pitchCurrent
-				- normalPitch > Math.atan((11.62462197 + (0.3887131055434038
-						+ 1.259343264446456 * Math.cos(0.1582261234411514 - arm.getArmPosition())))
-						/ ((9.921413831539647 + (18.12367710411075 * elevator.getElevatorHeight() / 75
-								- 1.259343264446456 * Math.sin(0.1582261234411514 - arm.getArmPosition())))
-								- 2.59375000))
-						- 0.004363323129985824
-				|| pitchCurrent - normalPitch < -Math.atan((11.62462197 + (0.3887131055434038
-						+ 1.259343264446456 * Math.cos(0.1582261234411514 - arm.getArmPosition())))
-						/ ((9.921413831539647 + (18.12367710411075 * elevator.getElevatorHeight() / 75
-								- 1.259343264446456 * Math.sin(0.1582261234411514 - arm.getArmPosition())))
-								- 2.59375000))
-						+ 0.004363323129985824);
-
-	}
+	
 
 	private void pitchSave() {
 		System.out.println("PITCH!!!");
