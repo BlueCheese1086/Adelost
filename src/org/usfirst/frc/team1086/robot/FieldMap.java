@@ -14,7 +14,7 @@ public class FieldMap {
     /**
      * Coordinates relative to the Left starting position
      */
-    public static final int LEFT_SWITCH_SIDE_WALL_START_TURN = 116;
+    public static final int LEFT_SWITCH_SIDE_WALL_START_TURN = 100;
     public static final int LEFT_SWITCH_SIDE_WALL_FORWARD = 166;
     public static final int LEFT_SWITCH_SIDE_WALL_HORIZONTAL = 54;
     public static final int LEFT_SWITCH_BACK_WALL_FORWARD = 197;
