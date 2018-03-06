@@ -65,10 +65,10 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+	    Globals.logger.print("Event", "Autonomous Init");
         ranAuto = true;
 		arm.armMotor.setSelectedSensorPosition(0, 0, 0);
 		selectedAuto = autoStarter.start();
-        System.out.println(selectedAuto);
 		selectedAuto.start();
 	}
 

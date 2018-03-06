@@ -8,6 +8,7 @@ import jaci.pathfinder.Waypoint;
 import org.usfirst.frc.team1086.autonomous.sections.*;
 import org.usfirst.frc.team1086.robot.Constants;
 import org.usfirst.frc.team1086.robot.FieldMap;
+import org.usfirst.frc.team1086.robot.Globals;
 
 public class AutonomousStarter {
     Strategy selectedStrategy;
@@ -291,20 +292,27 @@ public class AutonomousStarter {
      * modes we haven't written yet.
  1    */
     public AutonomousManager start() {
+        Globals.logger.print("Event", "Autonomous Starter start");
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
+        Globals.logger.print("Autonomous Randomization Data", gameData);
         if (gameData.length() > 0) {
             if (gameData.charAt(0) == 'L') {
                 switchSide = Side.LEFT;
+                Globals.logger.print("Autonomous Randomization Data", "Switch is on the left");
             } else {
                 switchSide = Side.RIGHT;
+                Globals.logger.print("Autonomous Randomization Data", "Switch is on the right");
             }
             if (gameData.charAt(1) == 'L') {
                 scaleSide = Side.LEFT;
+                Globals.logger.print("Autonomous Randomization Data", "Scale is on the left");
             } else {
                 scaleSide = Side.RIGHT;
+                Globals.logger.print("Autonomous Randomization Data", "Scale is on the right");
             }
         }
         startSide = sideChooser.getSelected();
+        Globals.logger.print("Autonomous Start Side", startSide == Side.LEFT ? "Left" : startSide == Side.CENTER ? "Center" : "Right");
         selectedStrategy = strategyChooser.getSelected();
         scaleSide = scaleSideChooser.getSelected() != null ? scaleSideChooser.getSelected() : scaleSide;
         switchSide = switchSideChooser.getSelected() != null ? switchSideChooser.getSelected() : switchSide;
