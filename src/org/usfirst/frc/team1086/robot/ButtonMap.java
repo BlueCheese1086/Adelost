@@ -11,6 +11,7 @@ public class ButtonMap {
      */
     public static final int DRIVE_STRAIGHT_OVERRIDE = 1;
     public static final int TIP_CORRECTION_OVERRIDE = 1;
+    public static final int PIXY = 2;
     public static final int CLIMBER = 7;
     public static final int KICK = 10;
     public static final int UNKICK = 11;

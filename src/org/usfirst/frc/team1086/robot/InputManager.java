@@ -18,7 +18,9 @@ public class InputManager {
         rightStick = new Joystick(1);
         auxStick = new Joystick(5);
     }
-
+    public boolean getPixy() {
+    	return rightStick.getRawButton(ButtonMap.PIXY);
+    }
     public boolean getSafety() {
         return leftStick.getRawButton(ButtonMap.SAFETY);
     }
