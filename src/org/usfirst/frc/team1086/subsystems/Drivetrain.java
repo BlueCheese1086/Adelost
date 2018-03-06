@@ -72,6 +72,7 @@ public class Drivetrain implements Tickable {
 	 * @param turn - the power to send to turn the robot. 1 is full speed to the right, -1 is full speed to the left
 	 */
 	public void drive(double drive, double turn) {
+		if (!im.getPixy())
 		left1.set(ControlMode.PercentOutput, drive + turn);
 		right1.set(ControlMode.PercentOutput, drive - turn);
 	}
