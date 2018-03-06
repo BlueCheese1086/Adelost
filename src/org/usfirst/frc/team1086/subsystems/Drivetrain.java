@@ -106,13 +106,15 @@ public class Drivetrain implements Tickable {
 		right1.set(ControlMode.PercentOutput, right + turn);
 	}
 
-	public void logSmartDashboard(){
-		em.logSmartDashboard();
-		gyro.logSmartDashbard();
+	public void log(){
 		Globals.left1Output.setDouble(left1.getMotorOutputPercent());
 		Globals.left2Output.setDouble(left2.getMotorOutputPercent());
 		Globals.right1Output.setDouble(right1.getMotorOutputPercent());
 		Globals.right2Output.setDouble(right2.getMotorOutputPercent());
+		Globals.logger.print("General", "-----------------DRIVETRAIN-------------------");
+		Globals.logger.print("Drivetrain Left 1 Percent", Double.toString(left1.getMotorOutputPercent()));
+		Globals.logger.print("Drivetrain Left 2 Percent", Double.toString(left2.getMotorOutputPercent()));
+		Globals.logger.print("Drivetrain Right 1 Percent", Double.toString(right1.getMotorOutputPercent()));
+		Globals.logger.print("Drivetrain Right 2 Percent", Double.toString(right2.getMotorOutputPercent()));
 	}
-	
 }

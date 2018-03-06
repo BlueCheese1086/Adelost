@@ -31,6 +31,9 @@ public class Robot extends TimedRobot {
 	AutonomousManager selectedAuto;
 	ArrayList<Tickable> tickables = new ArrayList<>();
 
+	boolean isCompetition = true;
+    boolean ranAuto;
+
 	@Override
 	public void robotInit() {
 		Globals.init();
@@ -57,10 +60,12 @@ public class Robot extends TimedRobot {
 		tickables.add(arm);
         tickables.add(climber);
 		ultrasonic = Globals.ultrasonic;
+		Globals.logger.print("Event", "Robot Initialized");
 	}
 
 	@Override
 	public void autonomousInit() {
+        ranAuto = true;
 		arm.armMotor.setSelectedSensorPosition(0, 0, 0);
 		selectedAuto = autoStarter.start();
         System.out.println(selectedAuto);
@@ -74,11 +79,14 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		elevator.reset();
-		arm.reset();
-		arm.armMotor.setSelectedSensorPosition(900, 0, 0);
-		drivetrain.em.resetEncoders();
-		elevator.start();
+	    Globals.logger.print("Event", "Teleop Init");
+		if(!isCompetition && !ranAuto) {
+			elevator.reset();
+			arm.reset();
+			arm.armMotor.setSelectedSensorPosition(900, 0, 0);
+			drivetrain.em.resetEncoders();
+			elevator.start();
+		}
 	}
 
 	@Override
@@ -91,16 +99,21 @@ public class Robot extends TimedRobot {
 	        balancer.tick();
             System.out.println("I'm saving your life. trust me.");
         }
-		logSmartDashboard();
+		log();
 	}
 
 	@Override
 	public void testPeriodic() {
-	    //teleopPeriodic();
+	    teleopPeriodic();
 	}
 
-	private void logSmartDashboard() {
-		drivetrain.logSmartDashboard();
-		ultrasonic.logSmartDashboard();
+	private void log() {
+	    Globals.logger.print("General", "-----------------NEW TICK-------------------");
+		drivetrain.log();
+		drivetrain.em.log();
+        Globals.gyro.log();
+        elevator.log();
+        arm.log();
+		ultrasonic.log();
 	}
 }

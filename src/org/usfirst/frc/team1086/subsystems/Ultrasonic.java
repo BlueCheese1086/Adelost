@@ -20,7 +20,7 @@ public class Ultrasonic implements PIDSource {
 	public PIDSourceType getPIDSourceType(){
 		return PIDSourceType.kDisplacement;
 	}
-	public void logSmartDashboard() {
+	public void log() {
 		SmartDashboard.putNumber("ultrasonic", get());
 	}
 }

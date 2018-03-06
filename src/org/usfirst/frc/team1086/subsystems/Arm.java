@@ -33,19 +33,16 @@ public class Arm implements Tickable {
     public void reset(){
         armPos = 0;
     }
-    @Override public void tick(){
-        if(inputManager.manualArm() != 0)
+    @Override public void tick() {
+        if (inputManager.manualArm() != 0){
             armMotor.set(ControlMode.PercentOutput, inputManager.manualArm());
+            Globals.logger.print("Arm Manual", Double.toString(inputManager.manualArm()));
+        }
         else {
             armPos += inputManager.getDeltaArm() * 2;
             armPos = Math.max(Math.min(armPos, Constants.MAX_ARM_ANGLE), 0);
-            System.out.println(armPos);
             armMotor.set(ControlMode.MotionMagic, (1 - armPos / Constants.MAX_ARM_ANGLE) * Constants.MAX_ARM_ENC_UNITS);
         }
-
-        Globals.armLocation.setNumber(getArmPosition());
-        SmartDashboard.putNumber("Raw Arm Encoder", armMotor.getSelectedSensorPosition(0));
-        Globals.armCurrent.setNumber(armMotor.getOutputCurrent());
     }
     public void setArmPosition(double angle) {
         armMotor.set(ControlMode.MotionMagic, (1 - angle / Constants.MAX_ARM_ANGLE) * Constants.MAX_ARM_ENC_UNITS);
@@ -53,5 +50,15 @@ public class Arm implements Tickable {
     }
     public double getArmPosition() {
 		return Constants.MAX_ARM_ANGLE * (1 - (double)armMotor.getSelectedSensorPosition(0) / Constants.MAX_ARM_ENC_UNITS);
+    }
+    public void log(){
+        SmartDashboard.putNumber("Arm Pos", armPos);
+        SmartDashboard.putNumber("Arm Raw Encoder", armMotor.getSelectedSensorPosition(0));
+        Globals.armLocation.setNumber(getArmPosition());
+        Globals.armCurrent.setNumber(armMotor.getOutputCurrent());
+        Globals.logger.print("General", "-------------------ARM------------------");
+        Globals.logger.print("Arm Motor Set", Double.toString((1 - armPos / Constants.MAX_ARM_ANGLE) * Constants.MAX_ARM_ENC_UNITS));
+        Globals.logger.print("Arm Raw Encoder", Integer.toString(armMotor.getSelectedSensorPosition(0)));
+        Globals.logger.print("Arm Current", Double.toString(armMotor.getOutputCurrent()));
     }
 }

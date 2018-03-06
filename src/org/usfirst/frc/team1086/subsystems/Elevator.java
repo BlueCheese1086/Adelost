@@ -45,11 +45,6 @@ public class Elevator implements Tickable {
         targetHeight = 0;
     }
     @Override public void tick(){
-        Globals.elevatorHeight.setDouble(encToInches(elevatorMotor.getSelectedSensorPosition(0)));
-        Globals.elevatorCurrent.setNumber(elevatorMotor.getOutputCurrent() / 2 + elevatorFollower.getOutputCurrent() / 2);
-        SmartDashboard.putNumber("Target Height", targetHeight);
-        SmartDashboard.putNumber("Current 1", elevatorMotor.getOutputCurrent());
-        SmartDashboard.putNumber("Current 2", elevatorFollower.getOutputCurrent());
         if(inputManager.getElevatorOverride()) {
             if (inputManager.getElevatorSafety()) {
                 elevatorMotor.set(ControlMode.PercentOutput, inputManager.getElevator());
@@ -81,5 +76,14 @@ public class Elevator implements Tickable {
     }
     public double getElevatorHeight(){
         return encToInches(elevatorMotor.getSelectedSensorPosition(0));
+    }
+    public void log(){
+        Globals.elevatorHeight.setDouble(encToInches(elevatorMotor.getSelectedSensorPosition(0)));
+        Globals.elevatorCurrent.setNumber(elevatorMotor.getOutputCurrent() / 2 + elevatorFollower.getOutputCurrent() / 2);
+        SmartDashboard.putNumber("Target Height", targetHeight);
+        Globals.logger.print("General", "------------------ELEVATOR----------------");
+        Globals.logger.print("Elevator Height", Double.toString(encToInches(elevatorMotor.getSelectedSensorPosition(0))));
+        Globals.logger.print("Elevator Target Height", Double.toString(targetHeight));
+        Globals.logger.print("Elevator Average Current", Double.toString(elevatorMotor.getOutputCurrent() / 2 + elevatorFollower.getOutputCurrent() / 2));
     }
 }
