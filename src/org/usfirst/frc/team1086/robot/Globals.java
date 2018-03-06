@@ -32,19 +32,8 @@ public class Globals {
 	public static MotionProfiling mp;
 
 	public static void init() {
-		File least = new File(0 + "");
-		if (least.exists()) {
-			for (int i = 1; i < 10; i++) {
-				File file = new File(i + "");
-				if (file.lastModified() == 0L) {
-					least = file;
-					break;
-				} else if (file.lastModified() > least.lastModified()) {
-					least=file;
-				}
-			}
-		}
-		logger=new Logger(least);
+	
+		logger=new Logger();
 	
         im = new InputManager();
 		drivetrain = new Drivetrain();
