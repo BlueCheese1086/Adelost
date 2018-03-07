@@ -32,8 +32,9 @@ public class Gyro implements PIDSource {
         SmartDashboard.putNumber("Gyro Angle", this.getAngle());
         SmartDashboard.putNumber("Gyro Pitch", this.getPitch());
         Globals.heading.setDouble(this.getAngle());
-        Globals.logger.print("Gyro Angle", Double.toString(this.getNormalizedAngle()));
-        Globals.logger.print("Gyro Pitch", Double.toString(this.getPitch()));
+		Globals.logger.print("General", "-----------------GYRO-------------------");
+        Globals.logger.print("Gyro Angle", Globals.logger.format(this.getNormalizedAngle()));
+        Globals.logger.print("Gyro Pitch", Globals.logger.format(this.getPitch()));
     }
 
 

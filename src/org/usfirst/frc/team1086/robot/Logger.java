@@ -3,12 +3,13 @@ package org.usfirst.frc.team1086.robot;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-public class Logger implements Tickable {
+public class Logger {
 	PrintStream out;
-	ArrayList<Printable> printList=new ArrayList<Printable>();
+	DecimalFormat formatter = new DecimalFormat("00.00");
 	public Logger(File file){
 		try {
 			out = new PrintStream(file);
@@ -16,9 +17,7 @@ public class Logger implements Tickable {
 			System.out.println("Problem setting up logger -- File not found");
 		}
 	}
-    public void addPrintable(Printable printable){
-	    printList.add(printable);
-    }
+	
 	/**
 	 * Allows you to directly print a valid value to the file
 	 * 
@@ -28,13 +27,10 @@ public class Logger implements Tickable {
 	 *            the variable you want to print
 	 */
 	public void print(String name, String value) {
-		out.println(name + "  |  " + value);
+		out.println(name + "\t|\t" + value);
 	}
-
-	@Override
-	public void tick() {
-		for (Printable p : printList) {
-			print(p.getKey(), p.getValue());
-		}
+	
+	public String format(double d) {
+		return formatter.format(d);
 	}
 }

@@ -9,7 +9,6 @@ import org.usfirst.frc.team1086.subsystems.Climber;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 import org.usfirst.frc.team1086.subsystems.Elevator;
 import org.usfirst.frc.team1086.subsystems.Intake;
-import org.usfirst.frc.team1086.subsystems.Ultrasonic;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -20,7 +19,6 @@ public class Globals {
 	public static Elevator elevator;
 	public static Arm arm;
 	public static Intake intake;
-	public static Ultrasonic ultrasonic;
 	public static Gyro gyro;
 	public static Logger logger;
 	public static Climber climber;
@@ -56,7 +54,6 @@ public class Globals {
 		climber = new Climber();
 		mp = new MotionProfiling();
 		balanceChecker = new BalanceChecker();
-		ultrasonic = new Ultrasonic(RobotMap.ULTRASONIC);
 		drivetrain.init();
 
 		NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();

@@ -82,8 +82,8 @@ public class Elevator implements Tickable {
         Globals.elevatorCurrent.setNumber(elevatorMotor.getOutputCurrent() / 2 + elevatorFollower.getOutputCurrent() / 2);
         SmartDashboard.putNumber("Target Height", targetHeight);
         Globals.logger.print("General", "------------------ELEVATOR----------------");
-        Globals.logger.print("Elevator Height", Double.toString(encToInches(elevatorMotor.getSelectedSensorPosition(0))));
-        Globals.logger.print("Elevator Target Height", Double.toString(targetHeight));
-        Globals.logger.print("Elevator Average Current", Double.toString(elevatorMotor.getOutputCurrent() / 2 + elevatorFollower.getOutputCurrent() / 2));
+        Globals.logger.print("Elevator Height", Globals.logger.format(encToInches(elevatorMotor.getSelectedSensorPosition(0))));
+        Globals.logger.print("Elevator Target Height", Globals.logger.format(targetHeight));
+        Globals.logger.print("Elevator Average Current", Globals.logger.format(elevatorMotor.getOutputCurrent() / 2 + elevatorFollower.getOutputCurrent() / 2));
     }
 }

@@ -36,6 +36,8 @@ public class Arm implements Tickable {
     @Override public void tick() {
         if (inputManager.manualArm() != 0){
             armMotor.set(ControlMode.PercentOutput, inputManager.manualArm());
+            armMotor.setSelectedSensorPosition(0, 0, 0);
+            armPos = 0;
             Globals.logger.print("Arm Manual", Double.toString(inputManager.manualArm()));
         }
         else {
@@ -57,8 +59,8 @@ public class Arm implements Tickable {
         Globals.armLocation.setNumber(getArmPosition());
         Globals.armCurrent.setNumber(armMotor.getOutputCurrent());
         Globals.logger.print("General", "-------------------ARM------------------");
-        Globals.logger.print("Arm Motor Set", Double.toString((1 - armPos / Constants.MAX_ARM_ANGLE) * Constants.MAX_ARM_ENC_UNITS));
-        Globals.logger.print("Arm Raw Encoder", Integer.toString(armMotor.getSelectedSensorPosition(0)));
-        Globals.logger.print("Arm Current", Double.toString(armMotor.getOutputCurrent()));
+        Globals.logger.print("Arm Motor Set", Globals.logger.format((1 - armPos / Constants.MAX_ARM_ANGLE) * Constants.MAX_ARM_ENC_UNITS));
+        Globals.logger.print("Arm Raw Encoder", Globals.logger.format(armMotor.getSelectedSensorPosition(0)));
+        Globals.logger.print("Arm Current", Globals.logger.format(armMotor.getOutputCurrent()));
     }
 }

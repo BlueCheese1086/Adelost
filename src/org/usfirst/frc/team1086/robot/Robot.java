@@ -12,7 +12,6 @@ import org.usfirst.frc.team1086.subsystems.Climber;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 import org.usfirst.frc.team1086.subsystems.Elevator;
 import org.usfirst.frc.team1086.subsystems.Intake;
-import org.usfirst.frc.team1086.subsystems.Ultrasonic;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 
@@ -22,7 +21,6 @@ public class Robot extends TimedRobot {
 	Intake intake;
 	Arm arm;
 	Logger logger;
-	Ultrasonic ultrasonic;
 	DigitalInput dio;
 	Climber climber;
 	MotionProfiling motionProfiling;
@@ -51,7 +49,6 @@ public class Robot extends TimedRobot {
 		climber = Globals.climber;
 		balancer = Globals.balanceChecker;
 
-		tickables.add(logger);
 		tickables.add(elevator);
 		tickables.add(motionProfiling);
 		tickables.add(drivetrain);
@@ -59,7 +56,6 @@ public class Robot extends TimedRobot {
 		tickables.add(intake);
 		tickables.add(arm);
         tickables.add(climber);
-		ultrasonic = Globals.ultrasonic;
 		Globals.logger.print("Event", "Robot Initialized");
 	}
 
@@ -114,6 +110,5 @@ public class Robot extends TimedRobot {
         Globals.gyro.log();
         elevator.log();
         arm.log();
-		ultrasonic.log();
 	}
 }

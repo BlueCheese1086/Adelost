@@ -95,12 +95,12 @@ public class EncoderManager {
     	SmartDashboard.putNumber("Encoder Left", getLeftDistance());
     	SmartDashboard.putNumber("Encoder Right", getRightDistance());
     	SmartDashboard.putNumber("Encoder Distance", getEncDistance());
-    	Globals.logger.print("Drivetrain Encoder Left", Double.toString(getLeftDistance()));
+    	Globals.logger.print("Drive Enc L", Globals.logger.format(getLeftDistance()));
     	if(leftError() > .1)
-    	    Globals.logger.print("Drivetrain Encoder Left Error", Double.toString(leftError()));
-    	Globals.logger.print("Drivetrain Encoder Right", Double.toString(getRightDistance()));
+    	    Globals.logger.print("Drive Enc L Error", Globals.logger.format(leftError()));
+    	Globals.logger.print("Drive Enc R", Globals.logger.format(getRightDistance()));
     	if(rightError() > .1)
-    	    Globals.logger.print("Drivetrain Encoder Right Error", Double.toString(rightError()));
-    	Globals.logger.print("Drivetrain Encoder Distance", Double.toString(getEncDistance()));
+    	    Globals.logger.print("Drive Enc R Error", Globals.logger.format(rightError()));
+    	Globals.logger.print("Drive Enc Dis", Globals.logger.format(getEncDistance()));
     }
 }
