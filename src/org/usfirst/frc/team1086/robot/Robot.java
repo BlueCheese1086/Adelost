@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
 	AutonomousManager selectedAuto;
 	ArrayList<Tickable> tickables = new ArrayList<>();
 
-	boolean isCompetition = true;
+	boolean isCompetition = false;
     boolean ranAuto;
 
 	@Override
@@ -58,7 +58,10 @@ public class Robot extends TimedRobot {
         tickables.add(climber);
 		Globals.logger.print("Event", "Robot Initialized");
 	}
-
+    @Override public void startCompetition(){
+	    super.startCompetition();
+	    isCompetition = true;
+    }
 	@Override
 	public void autonomousInit() {
 	    Globals.logger.print("Event", "Autonomous Init");

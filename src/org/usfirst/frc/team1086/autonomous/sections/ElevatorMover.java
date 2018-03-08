@@ -13,7 +13,7 @@ public class ElevatorMover extends AutonomousSection {
 		this.targetHeight = targetHeight;
 	}
 	@Override public void update() {
-		Globals.elevator.set(targetHeight);
+		//Globals.elevator.set(targetHeight);
 	}
 	@Override public void finish(){}
 	@Override public boolean isFinished() {
