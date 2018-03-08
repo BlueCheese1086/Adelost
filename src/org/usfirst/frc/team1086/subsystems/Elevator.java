@@ -59,11 +59,13 @@ public class Elevator implements Tickable {
                     targetHeight += inputManager.getElevator() * Constants.ELEVATOR_HEIGHT / 50;
             }
             targetHeight = Math.max(Math.min(targetHeight, Constants.ELEVATOR_HEIGHT), 0);
-            elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(targetHeight));
+            //Elevator springs removed
+           // elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(targetHeight));
         }
     }
     public void set(double inches) {
-    	elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(inches));
+        //elevator springs removed
+    	//elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(inches));
     }
     public double get() {
     	return encToInches(elevatorMotor.getSelectedSensorPosition(0));
