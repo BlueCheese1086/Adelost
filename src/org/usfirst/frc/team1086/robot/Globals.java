@@ -15,6 +15,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Globals {
+	public static boolean isFinal = false;
 	public static Drivetrain drivetrain;
 	public static Elevator elevator;
 	public static Arm arm;
