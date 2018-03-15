@@ -226,7 +226,7 @@ public class AutonomousStarter {
         leftLeftScaleMP.addSection(new MotionProfiler(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(FieldMap.LEFT_SCALE_FORWARD_START_TURN - Constants.ROBOT_HALF_LENGTH, 0, 0),
-                new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH, FieldMap.LEFT_SCALE_HORIZONTAL - Constants.ROBOT_WIDTH - 5, 30)
+                new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 10, FieldMap.LEFT_SCALE_HORIZONTAL - Constants.ROBOT_WIDTH, 45)
         }));
         leftLeftScaleMP.addSection(new Drive(20, 0, 0));
         leftLeftScaleMP.addSection(new ArmMover(0, 400));
