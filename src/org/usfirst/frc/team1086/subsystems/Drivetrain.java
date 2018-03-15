@@ -1,6 +1,14 @@
 package org.usfirst.frc.team1086.subsystems;
 
-import org.usfirst.frc.team1086.robot.*;
+import java.text.DecimalFormat;
+
+import org.usfirst.frc.team1086.robot.Constants;
+import org.usfirst.frc.team1086.robot.EncoderManager;
+import org.usfirst.frc.team1086.robot.Globals;
+import org.usfirst.frc.team1086.robot.Gyro;
+import org.usfirst.frc.team1086.robot.InputManager;
+import org.usfirst.frc.team1086.robot.RobotMap;
+import org.usfirst.frc.team1086.robot.Tickable;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -12,10 +20,8 @@ public class Drivetrain implements Tickable {
 	private InputManager im;
 	public EncoderManager em;
 	private Gyro gyro;
-	private Ultrasonic ultrasonic;
 	public PIDController driveStraightController;
 	public PIDController turnToAngleController;
-	public PIDController ultrasonicController;
 	
 	/**
 	 * Initializer for the Drivetrain class.
@@ -35,7 +41,6 @@ public class Drivetrain implements Tickable {
 		im = Globals.im;
 		em = new EncoderManager();
 		gyro = Globals.gyro;
-		ultrasonic = Globals.ultrasonic;
 		driveStraightController = new PIDController(Constants.DRIVE_STRAIGHT_KP, Constants.DRIVE_STRAIGHT_KI,
 													Constants.DRIVE_STRAIGHT_KD, gyro, d -> {});
 		driveStraightController.setAbsoluteTolerance(0);
@@ -48,15 +53,7 @@ public class Drivetrain implements Tickable {
 		turnToAngleController.setAbsoluteTolerance(1);
 		turnToAngleController.setInputRange(-180, 180);
 		turnToAngleController.setOutputRange(-1, 1);
-		turnToAngleController.setContinuous(true);
-		
-		ultrasonicController = new PIDController(Constants.ULTRASONIC_KP, Constants.ULTRASONIC_KI,
-												 Constants.ULTRASONIC_KD, ultrasonic, d -> {});
-		
-		ultrasonicController.setAbsoluteTolerance(1);
-		ultrasonicController.setInputRange(0, 100);
-		ultrasonicController.setOutputRange(0, 1);
-		
+		turnToAngleController.setContinuous(true);		
 	}
 	
 	@Override public void tick(){
@@ -106,13 +103,15 @@ public class Drivetrain implements Tickable {
 		right1.set(ControlMode.PercentOutput, right + turn);
 	}
 
-	public void logSmartDashboard(){
-		em.logSmartDashboard();
-		gyro.logSmartDashbard();
-		Globals.left1Output.setDouble(left1.getMotorOutputPercent());
-		Globals.left2Output.setDouble(left2.getMotorOutputPercent());
-		Globals.right1Output.setDouble(right1.getMotorOutputPercent());
-		Globals.right2Output.setDouble(right2.getMotorOutputPercent());
+	public void log(){
+		Globals.left1Output.setDouble(left1.getOutputCurrent());
+		Globals.left2Output.setDouble(left2.getOutputCurrent());
+		Globals.right1Output.setDouble(right1.getOutputCurrent());
+		Globals.right2Output.setDouble(right2.getOutputCurrent());
+		Globals.logger.print("General", "-----------------DRIVETRAIN-------------------");
+		Globals.logger.print("Drive L1 Current", Globals.logger.format(left1.getOutputCurrent()));
+		Globals.logger.print("Drive L2 Current", Globals.logger.format(left2.getOutputCurrent()));
+		Globals.logger.print("Drive R1 Current", Globals.logger.format(right1.getOutputCurrent()));
+		Globals.logger.print("Drive R2 Current", Globals.logger.format(right2.getOutputCurrent()));
 	}
-	
 }

@@ -1,24 +1,25 @@
 package org.usfirst.frc.team1086.robot;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.function.Consumer;
+import java.io.FileWriter;
+import java.text.DecimalFormat;
 
-public class Logger implements Tickable {
-	PrintStream out;
-	ArrayList<Printable> printList=new ArrayList<Printable>();
+public class Logger {
+	BufferedWriter out;
+	DecimalFormat formatter = new DecimalFormat("00.00");
+	boolean error = false;
 	public Logger(File file){
 		try {
-			out = new PrintStream(file);
-		} catch (FileNotFoundException e) {
+			if(!file.exists())
+				file.createNewFile();
+			out = new BufferedWriter(new FileWriter(file));
+		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Problem setting up logger -- File not found");
 		}
 	}
-    public void addPrintable(Printable printable){
-	    printList.add(printable);
-    }
+	
 	/**
 	 * Allows you to directly print a valid value to the file
 	 * 
@@ -28,13 +29,24 @@ public class Logger implements Tickable {
 	 *            the variable you want to print
 	 */
 	public void print(String name, String value) {
-		out.println(name + "  |  " + value);
+	    if(!error){
+            try {
+                out.write(name + "\t|\t" + value);
+                out.newLine();
+            } catch(Exception e){
+            	e.printStackTrace();
+                error = true;
+            }
+	    }
 	}
-
-	@Override
-	public void tick() {
-		for (Printable p : printList) {
-			print(p.getKey(), p.getValue());
-		}
+	
+	public void finish() {
+		try {
+			out.flush();
+		} catch(Exception e) {}
+	}
+	
+	public String format(double d) {
+		return formatter.format(d);
 	}
 }

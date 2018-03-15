@@ -8,6 +8,7 @@ import jaci.pathfinder.Waypoint;
 import org.usfirst.frc.team1086.autonomous.sections.*;
 import org.usfirst.frc.team1086.robot.Constants;
 import org.usfirst.frc.team1086.robot.FieldMap;
+import org.usfirst.frc.team1086.robot.Globals;
 
 public class AutonomousStarter {
     Strategy selectedStrategy;
@@ -136,7 +137,7 @@ public class AutonomousStarter {
         leftLeftSwitchSideMP.addSection(new RunIntake(-0.2, 20));
         leftLeftSwitchSideMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(FieldMap.LEFT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, FieldMap.LEFT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_HALF_WIDTH - Constants.ROBOT_HALF_WIDTH - 5, Pathfinder.d2r(0))
+                new Waypoint(FieldMap.LEFT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, FieldMap.LEFT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_WIDTH - 6, Pathfinder.d2r(0))
         }, 15));
         leftLeftSwitchSideMP.addSection(new TurnToAngleSection(90, 1000));
         leftLeftSwitchSideMP.addSection(new Drive(20, 0,0));
@@ -160,14 +161,19 @@ public class AutonomousStarter {
 
         rightRightSwitchSideMP = new AutonomousManager();
         rightRightSwitchSideMP.addSection(new ArmMover(45, 20));
-        rightRightSwitchSideMP.addSection(new MotionProfiler(new Waypoint[]{
+        rightRightSwitchSideMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(FieldMap.RIGHT_SWITCH_SIDE_WALL_START_TURN - Constants.ROBOT_HALF_LENGTH, 0, 0),
-                new Waypoint(FieldMap.RIGHT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_WIDTH, FieldMap.RIGHT_SWITCH_SIDE_WALL_HORIZONTAL + Constants.ROBOT_HALF_LENGTH, Pathfinder.d2r(-90))
-        }));
-        rightRightSwitchSideMP.addSection(new Drive(20, 0, 0));
+                new Waypoint(FieldMap.RIGHT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, FieldMap.RIGHT_SWITCH_SIDE_WALL_HORIZONTAL + Constants.ROBOT_WIDTH + 6, Pathfinder.d2r(0))
+        }, 15));
+        rightRightSwitchSideMP.addSection(new TurnToAngleSection(-90, 1000));
         rightRightSwitchSideMP.addSection(new Drive(20, 0,0));
         rightRightSwitchSideMP.addSection(new ElevatorMover(15, 700));
+        rightRightSwitchSideMP.addSection(new ArmMover(0, 20));
+        rightRightSwitchSideMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(5, 0, 0)
+        }));
+        rightRightSwitchSideMP.addSection(new Drive(20, 0, 0));
         rightRightSwitchSideMP.addSection(new RunIntake(0.5, 500));
 
         leftLeftSwitchBackEnc = new AutonomousManager();
@@ -220,11 +226,11 @@ public class AutonomousStarter {
         leftLeftScaleMP.addSection(new MotionProfiler(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(FieldMap.LEFT_SCALE_FORWARD_START_TURN - Constants.ROBOT_HALF_LENGTH, 0, 0),
-                new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_HALF_WIDTH, FieldMap.LEFT_SCALE_HORIZONTAL - Constants.ROBOT_HALF_LENGTH, Pathfinder.d2r(90))
+                new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 10, FieldMap.LEFT_SCALE_HORIZONTAL - Constants.ROBOT_WIDTH, 45)
         }));
         leftLeftScaleMP.addSection(new Drive(20, 0, 0));
         leftLeftScaleMP.addSection(new ArmMover(0, 400));
-        leftLeftScaleMP.addSection(new ElevatorMover(65, 1200));
+       // leftLeftScaleMP.addSection(new ElevatorMover(65, 1200));
         leftLeftScaleMP.addSection(new RunIntake(0.3, 500));
 
         rightRightScaleMP = new AutonomousManager();
@@ -291,20 +297,27 @@ public class AutonomousStarter {
      * modes we haven't written yet.
  1    */
     public AutonomousManager start() {
+        Globals.logger.print("Event", "Autonomous Starter start");
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
+        Globals.logger.print("Autonomous Randomization Data", gameData);
         if (gameData.length() > 0) {
             if (gameData.charAt(0) == 'L') {
                 switchSide = Side.LEFT;
+                Globals.logger.print("Autonomous Randomization Data", "Switch is on the left");
             } else {
                 switchSide = Side.RIGHT;
+                Globals.logger.print("Autonomous Randomization Data", "Switch is on the right");
             }
             if (gameData.charAt(1) == 'L') {
                 scaleSide = Side.LEFT;
+                Globals.logger.print("Autonomous Randomization Data", "Scale is on the left");
             } else {
                 scaleSide = Side.RIGHT;
+                Globals.logger.print("Autonomous Randomization Data", "Scale is on the right");
             }
         }
         startSide = sideChooser.getSelected();
+        Globals.logger.print("Autonomous Start Side", startSide == Side.LEFT ? "Left" : startSide == Side.CENTER ? "Center" : "Right");
         selectedStrategy = strategyChooser.getSelected();
         scaleSide = scaleSideChooser.getSelected() != null ? scaleSideChooser.getSelected() : scaleSide;
         switchSide = switchSideChooser.getSelected() != null ? switchSideChooser.getSelected() : switchSide;

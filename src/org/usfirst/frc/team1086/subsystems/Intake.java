@@ -13,8 +13,12 @@ public class Intake implements Tickable {
 		intake1 = new TalonSRX(RobotMap.INTAKE_1); 
 		intake2 = new TalonSRX(RobotMap.INTAKE_2);
 		intake1.setInverted(true);
-        intake1.configPeakCurrentLimit(Constants.INTAKE_PEAK_CURRENT, 0);
-        intake2.configPeakCurrentLimit(Constants.INTAKE_PEAK_CURRENT, 0);
+        intake1.configContinuousCurrentLimit(Constants.INTAKE_PEAK_CURRENT, 0);
+        intake1.configPeakCurrentLimit(Constants.INTAKE_PEAK_CURRENT * 2, 0);
+        intake1.configPeakCurrentDuration(1000, 0);
+        intake2.configContinuousCurrentLimit(Constants.INTAKE_PEAK_CURRENT, 0);
+        intake2.configPeakCurrentLimit(Constants.INTAKE_PEAK_CURRENT * 2, 0);
+        intake2.configPeakCurrentDuration(1000, 0);
 		im = Globals.im;
 	}
 	
@@ -33,11 +37,11 @@ public class Intake implements Tickable {
 	}
 		
 	public void motorOff() {
-		run(-0.2);
+		run(-0.3);
 	}
 	
 	public void motorOut() {
-		run(0.8 - 0.6 * Globals.elevator.getElevatorHeight() / Constants.ELEVATOR_HEIGHT);
+		run(1);
 	}
 	public void run(double power){
         intake1.set(ControlMode.PercentOutput, power);

@@ -28,15 +28,17 @@ public class Elevator implements Tickable {
         elevatorMotor.configPeakOutputForward(1, 0);
         elevatorMotor.configPeakOutputReverse(-1, 0);
         elevatorMotor.configMotionCruiseVelocity(3800, 0);
-        elevatorMotor.configMotionAcceleration(3500, 0);
+        elevatorMotor.configMotionAcceleration(1500, 0);
         elevatorMotor.setSelectedSensorPosition(0, 0, 0);
         elevatorMotor.config_kP(0, Constants.ELEVATOR_KP, 0);
         elevatorMotor.config_kI(0, Constants.ELEVATOR_KI, 0);
         elevatorMotor.config_kD(0, Constants.ELEVATOR_KD, 0);
-        elevatorMotor.configPeakCurrentLimit(20, 0);
+        elevatorMotor.configPeakCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
+        elevatorMotor.configContinuousCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
         elevatorFollower = new TalonSRX(RobotMap.ELEVATOR_2);
         elevatorFollower.set(ControlMode.Follower, RobotMap.ELEVATOR_1);
         elevatorFollower.configPeakCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
+        elevatorFollower.configContinuousCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
     }
     public void start(){
         elevatorMotor.setSelectedSensorPosition(0, 0, 0);
@@ -45,21 +47,18 @@ public class Elevator implements Tickable {
         targetHeight = 0;
     }
     @Override public void tick(){
-        Globals.elevatorHeight.setDouble(encToInches(elevatorMotor.getSelectedSensorPosition(0)));
-        Globals.elevatorCurrent.setNumber(elevatorMotor.getOutputCurrent() / 2 + elevatorFollower.getOutputCurrent() / 2);
-        SmartDashboard.putNumber("Target Height", targetHeight);
-        SmartDashboard.putNumber("Current 1", elevatorMotor.getOutputCurrent());
-        SmartDashboard.putNumber("Current 2", elevatorFollower.getOutputCurrent());
         if(inputManager.getElevatorOverride()) {
             if (inputManager.getElevatorSafety()) {
                 elevatorMotor.set(ControlMode.PercentOutput, inputManager.getElevator());
             }
         } else {
             if (inputManager.getElevatorSafety()) {
-                if (inputManager.getElevator5())
-                    targetHeight = 5;
-                else if (inputManager.getElevator70())
+                if (inputManager.getElevatorGround())
+                    targetHeight = 1;
+                else if (inputManager.getElevatorScale())
                     targetHeight = 70;
+                else if (inputManager.getElevatorSwitch())
+                    targetHeight = 15;
                 else
                     targetHeight += inputManager.getElevator() * Constants.ELEVATOR_HEIGHT / 50;
             }
@@ -81,5 +80,14 @@ public class Elevator implements Tickable {
     }
     public double getElevatorHeight(){
         return encToInches(elevatorMotor.getSelectedSensorPosition(0));
+    }
+    public void log(){
+        Globals.elevatorHeight.setDouble(encToInches(elevatorMotor.getSelectedSensorPosition(0)));
+        Globals.elevatorCurrent.setNumber(elevatorMotor.getOutputCurrent() / 2 + elevatorFollower.getOutputCurrent() / 2);
+        SmartDashboard.putNumber("Target Height", targetHeight);
+        Globals.logger.print("General", "------------------ELEVATOR----------------");
+        Globals.logger.print("Elevator Height", Globals.logger.format(encToInches(elevatorMotor.getSelectedSensorPosition(0))));
+        Globals.logger.print("Elevator Target Height", Globals.logger.format(targetHeight));
+        Globals.logger.print("Elevator Average Current", Globals.logger.format(elevatorMotor.getOutputCurrent() / 2 + elevatorFollower.getOutputCurrent() / 2));
     }
 }

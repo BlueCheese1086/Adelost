@@ -13,8 +13,10 @@ public class Gyro implements PIDSource {
         try {
             gyro = new AHRS(SerialPort.Port.kUSB1);
             System.out.println("VMX successfully instantiated");
+            Globals.logger.print("Event", "VMX successfully instantiated");
         } catch(Exception e){
             System.out.println("VMX was unable to be found");
+            Globals.logger.print("Event", "VMX was unable to be instantiated");
             e.printStackTrace();
         }
     }
@@ -26,8 +28,13 @@ public class Gyro implements PIDSource {
         return Utils.normalizeAngle(getAngle());
     }
     
-    public void logSmartDashbard() {
-    	SmartDashboard.putNumber("Gyro Angle", this.getAngle());
+    public void log() {
+        SmartDashboard.putNumber("Gyro Angle", this.getAngle());
+        SmartDashboard.putNumber("Gyro Pitch", this.getPitch());
+        Globals.heading.setDouble(this.getAngle());
+		Globals.logger.print("General", "-----------------GYRO-------------------");
+        Globals.logger.print("Gyro Angle", Globals.logger.format(this.getNormalizedAngle()));
+        Globals.logger.print("Gyro Pitch", Globals.logger.format(this.getPitch()));
     }
 
 

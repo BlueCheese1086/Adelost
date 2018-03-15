@@ -49,5 +49,4 @@ public class Climber implements Tickable {
 		climberMotor1.set(ControlMode.PercentOutput, 0);
 		climberMotor2.set(ControlMode.PercentOutput, 0);
 	}
-
 }

@@ -41,11 +41,13 @@ public class EncoderManager {
         drive.right1.config_kF(0, Constants.ENCODER_KF, 0);
 
         resetEncoders();
+        Globals.logger.print("Event", "Encoder Manager Initialized");
     }
 
     public void resetEncoders(){
         drive.left1.setSelectedSensorPosition(0, 0, 0);
         drive.right1.setSelectedSensorPosition(0, 0, 0);
+        Globals.logger.print("Event", "Drivetrain Encoders Reset!");
     }
 
     /**
@@ -60,6 +62,7 @@ public class EncoderManager {
         this.rightSetpoint = rightPosNative + distNative;
         drive.left1.set(ControlMode.Position, leftPosNative + distNative);
         drive.right1.set(ControlMode.Position, rightPosNative + distNative);
+        Globals.logger.print("Event", "Set Encoder Position to : " + dist + " more inches");
     }
 
     public double getLeftDistance(){
@@ -88,9 +91,16 @@ public class EncoderManager {
         return Math.abs(rightSetpoint / 4096.0 * Constants.WHEEL_DIAMETER * Math.PI - getRightDistance());
     }
 
-    public void logSmartDashboard(){
+    public void log(){
     	SmartDashboard.putNumber("Encoder Left", getLeftDistance());
     	SmartDashboard.putNumber("Encoder Right", getRightDistance());
     	SmartDashboard.putNumber("Encoder Distance", getEncDistance());
+    	Globals.logger.print("Drive Enc L", Globals.logger.format(getLeftDistance()));
+    	if(leftError() > .1)
+    	    Globals.logger.print("Drive Enc L Error", Globals.logger.format(leftError()));
+    	Globals.logger.print("Drive Enc R", Globals.logger.format(getRightDistance()));
+    	if(rightError() > .1)
+    	    Globals.logger.print("Drive Enc R Error", Globals.logger.format(rightError()));
+    	Globals.logger.print("Drive Enc Dis", Globals.logger.format(getEncDistance()));
     }
 }

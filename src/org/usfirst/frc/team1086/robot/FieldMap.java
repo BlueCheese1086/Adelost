@@ -8,8 +8,8 @@ public class FieldMap {
     /**
      * Coordinates relative to the Center starting position
      */
-    public static final int CENTER_SWITCH_WALL_FORWARD = 140;
-    public static final int CENTER_SWITCH_WALL_HORIZONTAL = 68;
+    public static final int CENTER_SWITCH_WALL_FORWARD = 143;
+    public static final int CENTER_SWITCH_WALL_HORIZONTAL = 64;
 
     /**
      * Coordinates relative to the Left starting position
@@ -19,9 +19,9 @@ public class FieldMap {
     public static final int LEFT_SWITCH_SIDE_WALL_HORIZONTAL = 54;
     public static final int LEFT_SWITCH_BACK_WALL_FORWARD = 197;
     public static final int LEFT_SWITCH_BACK_WALL_HORIZONTAL = 95;
-    public static final int LEFT_SCALE_FORWARD = 324;
-    public static final int LEFT_SCALE_FORWARD_START_TURN = LEFT_SCALE_FORWARD - 40;
-    public static final int LEFT_SCALE_HORIZONTAL = 54;
+    public static final int LEFT_SCALE_FORWARD = 300 - 4; //Margin of error
+    public static final int LEFT_SCALE_FORWARD_START_TURN = LEFT_SWITCH_SIDE_WALL_FORWARD;
+    public static final int LEFT_SCALE_HORIZONTAL = 50;
     public static final int LEFT_FAR_SWITCH_FRONT_FORWARD = CENTER_SWITCH_WALL_FORWARD;
     public static final int LEFT_FAR_SWITCH_FRONT_HORIZONTAL = DRIVER_STATION_FIELD_WIDTH / 2 + CENTER_SWITCH_WALL_HORIZONTAL;
     public static final int LEFT_FAR_SWITCH_BACK_FORWARD = LEFT_SWITCH_BACK_WALL_FORWARD;
@@ -36,7 +36,7 @@ public class FieldMap {
     public static final int RIGHT_SWITCH_BACK_WALL_FORWARD = LEFT_SWITCH_BACK_WALL_FORWARD;
     public static final int RIGHT_SWITCH_BACK_WALL_HORIZONTAL = -LEFT_SWITCH_BACK_WALL_HORIZONTAL;
     public static final int RIGHT_SCALE_FORWARD = LEFT_SCALE_FORWARD;
-    public static final int RIGHT_SCALE_FORWARD_START_TURN = RIGHT_SCALE_FORWARD - 40;
+    public static final int RIGHT_SCALE_FORWARD_START_TURN = LEFT_SCALE_FORWARD_START_TURN;
     public static final int RIGHT_SCALE_HORIZONTAL = -LEFT_SCALE_HORIZONTAL;
     public static final int RIGHT_FAR_SWITCH_FRONT_FORWARD = LEFT_FAR_SWITCH_FRONT_FORWARD;
     public static final int RIGHT_FAR_SWITCH_FRONT_HORIZONTAL = -LEFT_FAR_SWITCH_FRONT_HORIZONTAL;
