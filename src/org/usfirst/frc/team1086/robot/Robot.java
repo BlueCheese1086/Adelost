@@ -2,8 +2,6 @@ package org.usfirst.frc.team1086.robot;
 
 import java.util.ArrayList;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
 import org.usfirst.frc.team1086.autonomous.AutonomousManager;
 import org.usfirst.frc.team1086.autonomous.AutonomousStarter;
@@ -13,6 +11,9 @@ import org.usfirst.frc.team1086.subsystems.Drivetrain;
 import org.usfirst.frc.team1086.subsystems.Elevator;
 import org.usfirst.frc.team1086.subsystems.Intake;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot {
@@ -24,12 +25,13 @@ public class Robot extends TimedRobot {
 	DigitalInput dio;
 	Climber climber;
 	MotionProfiling motionProfiling;
+	Relay lights;
 	BalanceChecker balancer;
 	AutonomousStarter autoStarter;
 	AutonomousManager selectedAuto;
 	ArrayList<Tickable> tickables = new ArrayList<>();
 
-	boolean isCompetition = false;
+	boolean isCompetition = true;
     boolean ranAuto;
 
 	@Override
@@ -41,7 +43,9 @@ public class Robot extends TimedRobot {
 		logger = Globals.logger;
 		autoStarter = new AutonomousStarter();
 		autoStarter.initAutoModes();
-
+		lights = new Relay(0);
+		lights.set(Value.kOn);
+		
 		elevator = Globals.elevator;
 		arm = Globals.arm;
 		intake = Globals.intake;
@@ -67,6 +71,7 @@ public class Robot extends TimedRobot {
 	    Globals.logger.print("Event", "Autonomous Init");
         ranAuto = true;
 		arm.armMotor.setSelectedSensorPosition(0, 0, 0);
+		arm.setArmPosition(Constants.MAX_ARM_ANGLE);
 		selectedAuto = autoStarter.start();
 		selectedAuto.start();
 	}
@@ -79,10 +84,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 	    Globals.logger.print("Event", "Teleop Init");
-		if(!isCompetition && !ranAuto) {
+	    lights.set(Value.kOn);
+		if(!isCompetition) {
 			elevator.reset();
 			arm.reset();
-			arm.armMotor.setSelectedSensorPosition(900, 0, 0);
+			arm.armMotor.setSelectedSensorPosition(Constants.MAX_ARM_ENC_UNITS, 0, 0);
+			arm.setArmPosition(0);
 			drivetrain.em.resetEncoders();
 			elevator.start();
 		}
@@ -90,13 +97,10 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putBoolean("HMMMM", dio.get());
-	    if(!balancer.isSaving()) {
+	    if(!balancer.isSaving() || Globals.im.getTipCorrectionOverride()) {
             tickables.forEach(Tickable::tick);
-            System.out.println("Your life doesn't matter to me right now.");
         } else {
 	        balancer.tick();
-            System.out.println("I'm saving your life. trust me.");
         }
 		log();
 	}
@@ -104,6 +108,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 	    teleopPeriodic();
+	}
+	
+	@Override public void disabledInit() {
+		logger.finish();
 	}
 
 	private void log() {

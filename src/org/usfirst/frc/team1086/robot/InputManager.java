@@ -38,8 +38,9 @@ public class InputManager {
     public double getElevator(){
         return auxStick.getY();
     }
-    public boolean getElevator5() { return auxStick.getRawButton(ButtonMap.ELEVATOR_5);}
-    public boolean getElevator70() { return auxStick.getRawButton(ButtonMap.ELEVATOR_70); }
+    public boolean getElevatorGround() { return auxStick.getRawButton(ButtonMap.ELEVATOR_1);}
+    public boolean getElevatorScale() { return auxStick.getRawButton(ButtonMap.ELEVATOR_SCALE); }
+    public boolean getElevatorSwitch() { return auxStick.getRawButton(ButtonMap.ELEVATOR_SWITCH); }
     public boolean getClimber() {
     	return rightStick.getRawButton(ButtonMap.CLIMBER);
     }

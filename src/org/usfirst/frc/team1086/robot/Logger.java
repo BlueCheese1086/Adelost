@@ -1,19 +1,21 @@
 package org.usfirst.frc.team1086.robot;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
+import java.io.FileWriter;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.function.Consumer;
 
 public class Logger {
-	PrintStream out;
+	BufferedWriter out;
 	DecimalFormat formatter = new DecimalFormat("00.00");
+	boolean error = false;
 	public Logger(File file){
 		try {
-			out = new PrintStream(file);
-		} catch (FileNotFoundException e) {
+			if(!file.exists())
+				file.createNewFile();
+			out = new BufferedWriter(new FileWriter(file));
+		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Problem setting up logger -- File not found");
 		}
 	}
@@ -27,7 +29,21 @@ public class Logger {
 	 *            the variable you want to print
 	 */
 	public void print(String name, String value) {
-		out.println(name + "\t|\t" + value);
+	    if(!error){
+            try {
+                out.write(name + "\t|\t" + value);
+                out.newLine();
+            } catch(Exception e){
+            	e.printStackTrace();
+                error = true;
+            }
+	    }
+	}
+	
+	public void finish() {
+		try {
+			out.flush();
+		} catch(Exception e) {}
 	}
 	
 	public String format(double d) {

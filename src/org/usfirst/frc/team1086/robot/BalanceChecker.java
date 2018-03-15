@@ -39,7 +39,10 @@ public  class BalanceChecker implements Tickable {
     public boolean needsPitchCorrection(){
 	    double pitch = pitchCurrent - normalPitch;
 	    double pitchRate = (-lastPitch + (lastPitch = pitch)) / 0.05;
-        return (pitch > MAX_PITCH_FORWARD || pitchRate * 0.1 + pitch > MAX_PITCH_FORWARD) || (pitch < MAX_PITCH_BACKWARDS || pitchRate * 0.1 + pitch < MAX_PITCH_BACKWARDS);
+	    double multiplier = 0.5 * (1 - Globals.elevator.get() / Constants.ELEVATOR_HEIGHT) + 1;
+        multiplier = Math.max(1.0, Math.min(multiplier, 1.5));
+	    return (pitch > MAX_PITCH_FORWARD * multiplier || pitchRate * 0.1 + pitch > MAX_PITCH_FORWARD * multiplier)
+        		|| (pitch < MAX_PITCH_BACKWARDS  * multiplier|| pitchRate * 0.1 + pitch < MAX_PITCH_BACKWARDS * multiplier);
     }
 
 	private boolean checkPitchMax() {
@@ -62,9 +65,6 @@ public  class BalanceChecker implements Tickable {
 	private void pitchSave() {
         log();
 		drivetrain.drive(Math.signum(pitchCurrent) * .3, 0);
-		//elevator.elevatorMotor.set(ControlMode.MotionMagic,0);
-		//arm.armMotor.set(ControlMode.Position, 0);
-
 	}
 
 	public boolean isSaving(){

@@ -28,6 +28,7 @@ public class Arm implements Tickable {
         armMotor.configMotionCruiseVelocity(1000, 0);
         armMotor.configMotionAcceleration(2000, 0);
         armMotor.configPeakCurrentLimit(Constants.ARM_PEAK_CURRENT,0);
+        armMotor.configContinuousCurrentLimit(Constants.ARM_PEAK_CURRENT,0);
         armMotor.setInverted(true);
     }
     public void reset(){

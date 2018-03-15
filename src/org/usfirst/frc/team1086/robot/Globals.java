@@ -30,10 +30,10 @@ public class Globals {
 	public static MotionProfiling mp;
 
 	public static void init() {
-		File least = new File(0 + "");
+		File least = new File("/home/lvuser/logs/0");
 		if (least.exists()) {
 			for (int i = 1; i < 10; i++) {
-				File file = new File(i + "");
+				File file = new File("/home/lvuser/logs/" + i);
 				if (file.lastModified() == 0L) {
 					least = file;
 					break;
