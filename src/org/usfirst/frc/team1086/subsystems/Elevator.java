@@ -28,15 +28,17 @@ public class Elevator implements Tickable {
         elevatorMotor.configPeakOutputForward(1, 0);
         elevatorMotor.configPeakOutputReverse(-1, 0);
         elevatorMotor.configMotionCruiseVelocity(3800, 0);
-        elevatorMotor.configMotionAcceleration(3500, 0);
+        elevatorMotor.configMotionAcceleration(1500, 0);
         elevatorMotor.setSelectedSensorPosition(0, 0, 0);
         elevatorMotor.config_kP(0, Constants.ELEVATOR_KP, 0);
         elevatorMotor.config_kI(0, Constants.ELEVATOR_KI, 0);
         elevatorMotor.config_kD(0, Constants.ELEVATOR_KD, 0);
-        elevatorMotor.configPeakCurrentLimit(20, 0);
+        elevatorMotor.configPeakCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
+        elevatorMotor.configContinuousCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
         elevatorFollower = new TalonSRX(RobotMap.ELEVATOR_2);
         elevatorFollower.set(ControlMode.Follower, RobotMap.ELEVATOR_1);
         elevatorFollower.configPeakCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
+        elevatorFollower.configContinuousCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
     }
     public void start(){
         elevatorMotor.setSelectedSensorPosition(0, 0, 0);
@@ -51,10 +53,12 @@ public class Elevator implements Tickable {
             }
         } else {
             if (inputManager.getElevatorSafety()) {
-                if (inputManager.getElevator5())
-                    targetHeight = 5;
-                else if (inputManager.getElevator70())
+                if (inputManager.getElevatorGround())
+                    targetHeight = 1;
+                else if (inputManager.getElevatorScale())
                     targetHeight = 70;
+                else if (inputManager.getElevatorSwitch())
+                    targetHeight = 15;
                 else
                     targetHeight += inputManager.getElevator() * Constants.ELEVATOR_HEIGHT / 50;
             }

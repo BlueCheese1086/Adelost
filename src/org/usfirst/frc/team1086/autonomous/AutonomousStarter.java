@@ -137,7 +137,7 @@ public class AutonomousStarter {
         leftLeftSwitchSideMP.addSection(new RunIntake(-0.2, 20));
         leftLeftSwitchSideMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(FieldMap.LEFT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, FieldMap.LEFT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_HALF_WIDTH - Constants.ROBOT_HALF_WIDTH - 5, Pathfinder.d2r(0))
+                new Waypoint(FieldMap.LEFT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, FieldMap.LEFT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_WIDTH - 6, Pathfinder.d2r(0))
         }, 15));
         leftLeftSwitchSideMP.addSection(new TurnToAngleSection(90, 1000));
         leftLeftSwitchSideMP.addSection(new Drive(20, 0,0));
@@ -161,14 +161,19 @@ public class AutonomousStarter {
 
         rightRightSwitchSideMP = new AutonomousManager();
         rightRightSwitchSideMP.addSection(new ArmMover(45, 20));
-        rightRightSwitchSideMP.addSection(new MotionProfiler(new Waypoint[]{
+        rightRightSwitchSideMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(FieldMap.RIGHT_SWITCH_SIDE_WALL_START_TURN - Constants.ROBOT_HALF_LENGTH, 0, 0),
-                new Waypoint(FieldMap.RIGHT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_WIDTH, FieldMap.RIGHT_SWITCH_SIDE_WALL_HORIZONTAL + Constants.ROBOT_HALF_LENGTH, Pathfinder.d2r(-90))
-        }));
-        rightRightSwitchSideMP.addSection(new Drive(20, 0, 0));
+                new Waypoint(FieldMap.RIGHT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, FieldMap.RIGHT_SWITCH_SIDE_WALL_HORIZONTAL + Constants.ROBOT_WIDTH + 6, Pathfinder.d2r(0))
+        }, 15));
+        rightRightSwitchSideMP.addSection(new TurnToAngleSection(-90, 1000));
         rightRightSwitchSideMP.addSection(new Drive(20, 0,0));
         rightRightSwitchSideMP.addSection(new ElevatorMover(15, 700));
+        rightRightSwitchSideMP.addSection(new ArmMover(0, 20));
+        rightRightSwitchSideMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(5, 0, 0)
+        }));
+        rightRightSwitchSideMP.addSection(new Drive(20, 0, 0));
         rightRightSwitchSideMP.addSection(new RunIntake(0.5, 500));
 
         leftLeftSwitchBackEnc = new AutonomousManager();

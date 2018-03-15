@@ -21,8 +21,9 @@ public class ButtonMap {
      */
     public static final int INTAKE = 4;
     public static final int EVICT = 5;
-    public static final int ELEVATOR_5 = 7;
-    public static final int ELEVATOR_70 = 6;
+    public static final int ELEVATOR_1 = 7;
+    public static final int ELEVATOR_SWITCH = 9;
+    public static final int ELEVATOR_SCALE = 6;
     public static final int ELEVATOR_OVERRIDE = 8;
     public static final int ARM_UP = 3;
     public static final int ARM_DOWN = 2;

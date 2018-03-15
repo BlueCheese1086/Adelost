@@ -9,7 +9,7 @@ public class Constants {
     /**
      * Encoders and Drivetrain constants
      */
-	public static final double WHEEL_DIAMETER = 5 / 1.04;
+	public static final double WHEEL_DIAMETER = 5 * 1.05;
 	public static final int ALLOWABLE_ERROR = 0;
 
 	public static final double ENCODER_KP = .1;
@@ -37,8 +37,8 @@ public class Constants {
 	 * Elevator Constants
 	 */
     public static final double ELEVATOR_HEIGHT = 75;
-    public static final double ELEVATOR_GEAR_CIRCUMFERENCE = 1.22 * Math.PI;//FIX THIS
-	public static final int ELEVATOR_PEAK_CURRENT = 20; //amps
+    public static final double ELEVATOR_GEAR_CIRCUMFERENCE = 1.432 * Math.PI;//FIX THIS
+	public static final int ELEVATOR_PEAK_CURRENT = 30; //amps
     public static final double ELEVATOR_KP = 0.25;
     public static final double ELEVATOR_KI = 0;
     public static final double ELEVATOR_KD = 0.01;
@@ -47,7 +47,7 @@ public class Constants {
 	 * Miscellaneous Constants
 	 */
 	public static final int INTAKE_PEAK_CURRENT = 8;
-	public static final int ARM_PEAK_CURRENT = 10;
+	public static final int ARM_PEAK_CURRENT = 13;
 	public static final int MAX_ARM_ENC_UNITS = 900;
 	public static final double MAX_ARM_ANGLE = 360.0 * MAX_ARM_ENC_UNITS / 4096;
 
