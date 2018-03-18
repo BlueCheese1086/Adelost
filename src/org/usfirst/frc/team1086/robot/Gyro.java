@@ -3,6 +3,7 @@ package org.usfirst.frc.team1086.robot;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -11,7 +12,8 @@ public class Gyro implements PIDSource {
 
     public Gyro(){
         try {
-            gyro = new AHRS(SerialPort.Port.kUSB1);
+            //gyro = new AHRS(SerialPort.Port.kUSB1);
+            gyro = new AHRS(SPI.Port.kMXP);
             System.out.println("VMX successfully instantiated");
             Globals.logger.print("Event", "VMX successfully instantiated");
         } catch(Exception e){
@@ -22,7 +24,8 @@ public class Gyro implements PIDSource {
     }
 
     public double getAngle(){
-        return gyro.getYaw();
+        //return gyro.getYaw();
+        return gyro.getRoll();
     }
     public double getNormalizedAngle(){
         return Utils.normalizeAngle(getAngle());

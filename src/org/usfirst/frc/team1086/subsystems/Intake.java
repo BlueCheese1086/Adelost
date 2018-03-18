@@ -37,7 +37,7 @@ public class Intake implements Tickable {
 	}
 		
 	public void motorOff() {
-		run(-0.3);
+		run(-0.25);
 	}
 	
 	public void motorOut() {

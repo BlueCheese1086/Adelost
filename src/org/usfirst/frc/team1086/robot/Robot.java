@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
 	AutonomousManager selectedAuto;
 	ArrayList<Tickable> tickables = new ArrayList<>();
 
-	boolean isCompetition = true;
+	boolean isCompetition = false;
     boolean ranAuto;
 
 	@Override
@@ -85,6 +85,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 	    Globals.logger.print("Event", "Teleop Init");
 	    lights.set(Value.kOn);
+	    balancer.reset();
 		if(!isCompetition) {
 			elevator.reset();
 			arm.reset();

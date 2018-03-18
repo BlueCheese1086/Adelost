@@ -39,16 +39,16 @@ public class Constants {
     public static final double ELEVATOR_HEIGHT = 75;
     public static final double ELEVATOR_GEAR_CIRCUMFERENCE = 1.432 * Math.PI;//FIX THIS
 	public static final int ELEVATOR_PEAK_CURRENT = 30; //amps
-    public static final double ELEVATOR_KP = 0.25;
+    public static final double ELEVATOR_KP = .25;
     public static final double ELEVATOR_KI = 0;
-    public static final double ELEVATOR_KD = 0.01;
+    public static final double ELEVATOR_KD = 0.1;
 
 	/**
 	 * Miscellaneous Constants
 	 */
 	public static final int INTAKE_PEAK_CURRENT = 8;
 	public static final int ARM_PEAK_CURRENT = 13;
-	public static final int MAX_ARM_ENC_UNITS = 900;
+	public static final int MAX_ARM_ENC_UNITS = 1000;
 	public static final double MAX_ARM_ANGLE = 360.0 * MAX_ARM_ENC_UNITS / 4096;
 
 }

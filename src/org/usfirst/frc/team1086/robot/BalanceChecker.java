@@ -23,10 +23,11 @@ public  class BalanceChecker implements Tickable {
 		arm = Globals.arm;
 		elevator = Globals.elevator;
 		normalPitch = navx.getPitch();
-		normalPitch = 0;
 		lastPitch = normalPitch;
 	}
-
+	public void reset(){
+		normalPitch = navx.getPitch();
+	}
 	@Override
 	public void tick() {
 		pitchCurrent = navx.getPitch();
@@ -40,8 +41,8 @@ public  class BalanceChecker implements Tickable {
 	    double pitch = pitchCurrent - normalPitch;
 	    double pitchRate = (-lastPitch + (lastPitch = pitch)) / 0.05;
 	    double multiplier = 0.5 * (1 - Globals.elevator.get() / Constants.ELEVATOR_HEIGHT) + 1;
-        multiplier = Math.max(1.0, Math.min(multiplier, 1.5));
-	    return (pitch > MAX_PITCH_FORWARD * multiplier || pitchRate * 0.1 + pitch > MAX_PITCH_FORWARD * multiplier)
+        multiplier = Math.max(1.0, Math.min(multiplier, 1.75));
+	    return (pitch > MAX_PITCH_FORWARD * multiplier ||pitchRate * 0.1 + pitch > MAX_PITCH_FORWARD * multiplier)
         		|| (pitch < MAX_PITCH_BACKWARDS  * multiplier|| pitchRate * 0.1 + pitch < MAX_PITCH_BACKWARDS * multiplier);
     }
 
