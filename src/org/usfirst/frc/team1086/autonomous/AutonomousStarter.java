@@ -96,7 +96,7 @@ public class AutonomousStarter {
         centerLeftSwitchMP.addSection(new ArmMover(45, 20));
         centerLeftSwitchMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD - Constants.ROBOT_LENGTH, -FieldMap.CENTER_SWITCH_WALL_HORIZONTAL, Pathfinder.d2r(0))
+                new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD - Constants.ROBOT_LENGTH - 5, -FieldMap.CENTER_SWITCH_WALL_HORIZONTAL, Pathfinder.d2r(0))
         }, 15));
         centerLeftSwitchMP.addSection(new Drive(20, 0,0));
         centerLeftSwitchMP.addSection(new ElevatorMover(15, 700));
@@ -138,11 +138,10 @@ public class AutonomousStarter {
         leftLeftSwitchSideMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(FieldMap.LEFT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, FieldMap.LEFT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_WIDTH - 6, Pathfinder.d2r(0))
-        }, 15));
+        }, 20));
         leftLeftSwitchSideMP.addSection(new TurnToAngleSection(90, 1000));
         leftLeftSwitchSideMP.addSection(new Drive(20, 0,0));
-        leftLeftSwitchSideMP.addSection(new ElevatorMover(15, 700));
-        leftLeftSwitchSideMP.addSection(new ArmMover(0, 20));
+        leftLeftSwitchSideMP.addSection(new ElevatorMover(20, 1000));
         leftLeftSwitchSideMP.addSection(new MotionProfiler(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(5, 0, 0)
@@ -223,15 +222,16 @@ public class AutonomousStarter {
         rightRightSwitchBackMP.addSection(new RunIntake(0.3, 500));
 
         leftLeftScaleMP = new AutonomousManager();
-        leftLeftScaleMP.addSection(new MotionProfiler(new Waypoint[]{
+        leftLeftScaleMP.addSection(new RunIntake(-0.25, 20));
+        leftLeftScaleMP.addSection(new ArmMover(45, 20));
+        leftLeftScaleMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(FieldMap.LEFT_SCALE_FORWARD_START_TURN - Constants.ROBOT_HALF_LENGTH, 0, 0),
-                new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 10, FieldMap.LEFT_SCALE_HORIZONTAL - Constants.ROBOT_WIDTH, 45)
-        }));
+                new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 5, FieldMap.LEFT_SCALE_HORIZONTAL - Constants.ROBOT_HALF_WIDTH, 0)
+                //new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 5, FieldMap.LEFT_SCALE_HORIZONTAL - 5, -30)
+        }, 70, 2500));
         leftLeftScaleMP.addSection(new Drive(20, 0, 0));
-        leftLeftScaleMP.addSection(new ArmMover(0, 400));
        // leftLeftScaleMP.addSection(new ElevatorMover(65, 1200));
-        leftLeftScaleMP.addSection(new RunIntake(0.3, 500));
+        leftLeftScaleMP.addSection(new RunIntake(0.5, 500));
 
         rightRightScaleMP = new AutonomousManager();
         rightRightScaleMP.addSection(new MotionProfiler(new Waypoint[]{

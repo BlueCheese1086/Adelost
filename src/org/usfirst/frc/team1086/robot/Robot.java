@@ -70,6 +70,7 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 	    Globals.logger.print("Event", "Autonomous Init");
         ranAuto = true;
+        elevator.reset();
 		arm.armMotor.setSelectedSensorPosition(0, 0, 0);
 		arm.setArmPosition(Constants.MAX_ARM_ANGLE);
 		selectedAuto = autoStarter.start();

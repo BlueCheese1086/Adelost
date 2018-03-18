@@ -19,7 +19,7 @@ public class FieldMap {
     public static final int LEFT_SWITCH_SIDE_WALL_HORIZONTAL = 54;
     public static final int LEFT_SWITCH_BACK_WALL_FORWARD = 197;
     public static final int LEFT_SWITCH_BACK_WALL_HORIZONTAL = 95;
-    public static final int LEFT_SCALE_FORWARD = 300 - 4; //Margin of error
+    public static final int LEFT_SCALE_FORWARD = 300; //Margin of error
     public static final int LEFT_SCALE_FORWARD_START_TURN = LEFT_SWITCH_SIDE_WALL_FORWARD;
     public static final int LEFT_SCALE_HORIZONTAL = 50;
     public static final int LEFT_FAR_SWITCH_FRONT_FORWARD = CENTER_SWITCH_WALL_FORWARD;

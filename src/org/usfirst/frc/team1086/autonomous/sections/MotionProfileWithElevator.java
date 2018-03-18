@@ -7,8 +7,11 @@ public class MotionProfileWithElevator extends CombinedSection {
     MotionProfiler profiler;
     ElevatorMover elev;
     public MotionProfileWithElevator(Waypoint[] points, double elevatorHeight){
+        this(points, elevatorHeight, 1500);
+    }
+    public MotionProfileWithElevator(Waypoint[] points, double elevatorHeight, int startTime){
         duration = -1;
-        this.profiler = new MotionProfiler(points, 1500);
+        this.profiler = new MotionProfiler(points, startTime);
         this.elev = new ElevatorMover(elevatorHeight);
         addSection(profiler, elev);
         addSection(() -> true, profiler);
