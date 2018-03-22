@@ -40,6 +40,7 @@ public class AutonomousStarter {
     AutonomousManager rightLeftSwitchFrontMP;
     AutonomousManager leftRightSwitchBackMP;
     AutonomousManager rightLeftSwitchBackMP;
+    AutonomousManager leftLeftScaleLeftSwitchMP;
 
     /**
      * Initializes the sections of all the auto modes.
@@ -71,6 +72,7 @@ public class AutonomousStarter {
         strategyChooser.addObject("Switch, Scale, or Both (on same side)", Strategy.SWITCH_AND_SCALE_SAME_SIDE);
         strategyChooser.addObject("Switch then Scale", Strategy.SWITCH_THEN_SCALE);
         strategyChooser.addObject("Network Tables Profile", Strategy.NETWORK_PROFILE);
+        strategyChooser.addObject("TWO CUBE!!!", Strategy.EXPERIMENTAL_AUTO);
         SmartDashboard.putData("Strategy picker", strategyChooser);
 
         testAuto = new AutonomousManager();
@@ -93,10 +95,11 @@ public class AutonomousStarter {
         centerLeftSwitchEnc.addSection(new RunIntake(0.3, 500));
 
         centerLeftSwitchMP = new AutonomousManager();
+        centerLeftSwitchMP.addSection(new RunIntake(-0.25, 20));
         centerLeftSwitchMP.addSection(new ArmMover(45, 20));
         centerLeftSwitchMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD - Constants.ROBOT_LENGTH - 5, -FieldMap.CENTER_SWITCH_WALL_HORIZONTAL, Pathfinder.d2r(0))
+                new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD - Constants.ROBOT_LENGTH, -FieldMap.CENTER_SWITCH_WALL_HORIZONTAL, Pathfinder.d2r(0))
         }, 15));
         centerLeftSwitchMP.addSection(new Drive(20, 0,0));
         centerLeftSwitchMP.addSection(new ElevatorMover(15, 700));
@@ -226,11 +229,11 @@ public class AutonomousStarter {
         leftLeftScaleMP.addSection(new ArmMover(45, 20));
         leftLeftScaleMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 5, FieldMap.LEFT_SCALE_HORIZONTAL - Constants.ROBOT_HALF_WIDTH, 0)
+                new Waypoint(FieldMap.LEFT_SCALE_FORWARD_START_TURN, 0, 0),
+                new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 5, FieldMap.LEFT_SCALE_HORIZONTAL - Constants.ROBOT_HALF_WIDTH + 6, 0)
                 //new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 5, FieldMap.LEFT_SCALE_HORIZONTAL - 5, -30)
-        }, 70, 2500));
+        }, 70, 2000));
         leftLeftScaleMP.addSection(new Drive(20, 0, 0));
-       // leftLeftScaleMP.addSection(new ElevatorMover(65, 1200));
         leftLeftScaleMP.addSection(new RunIntake(0.5, 500));
 
         rightRightScaleMP = new AutonomousManager();
@@ -289,6 +292,35 @@ public class AutonomousStarter {
         rightLeftSwitchBackMP.addSection(new ArmMover(0, 400));
         rightLeftSwitchBackMP.addSection(new ElevatorMover(25, 700));
         rightLeftSwitchBackMP.addSection(new RunIntake(0.3, 500));
+
+        leftLeftScaleLeftSwitchMP = new AutonomousManager();
+        leftLeftScaleLeftSwitchMP.addSection(new RunIntake(-0.25, 20));
+        leftLeftScaleLeftSwitchMP.addSection(new ArmMover(45, 20));
+        leftLeftScaleLeftSwitchMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(FieldMap.LEFT_SCALE_FORWARD_START_TURN, 0, 0),
+                new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 5, FieldMap.LEFT_SCALE_HORIZONTAL - Constants.ROBOT_HALF_WIDTH + 6, 0)
+                //new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 5, FieldMap.LEFT_SCALE_HORIZONTAL - 5, -30)
+        }, 70, 2000));
+        leftLeftScaleLeftSwitchMP.addSection(new Drive(20, 0, 0));
+        leftLeftScaleLeftSwitchMP.addSection(new RunIntake(0.5, 500));
+        leftLeftScaleLeftSwitchMP.addSection(new ArmMover(60, 20));
+        leftLeftScaleLeftSwitchMP.addSection(new ElevatorMover(0, 20));
+        leftLeftScaleLeftSwitchMP.addSection(new DriveDistance(-10));
+        leftLeftScaleLeftSwitchMP.addSection(new TurnToAngleSection(180, 1000));
+        leftLeftScaleLeftSwitchMP.addSection(new RunIntake(-.8, 40));
+        leftLeftScaleLeftSwitchMP.addSection(new ArmMover(0, 40));
+        leftLeftScaleLeftSwitchMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(35, -10, 0)
+        }));
+        leftLeftScaleLeftSwitchMP.addSection(new Drive(20, 0.2, 0));
+        leftLeftScaleLeftSwitchMP.addSection(new RunIntake(-.35, 1400));
+        leftLeftScaleLeftSwitchMP.addSection(new DriveDistance(-10, 1000));
+        leftLeftScaleLeftSwitchMP.addSection(new ArmMover(45, 40));
+        leftLeftScaleLeftSwitchMP.addSection(new ElevatorMover(15, 400));
+        leftLeftScaleLeftSwitchMP.addSection(new Drive(2000,0.2, 0));
+        leftLeftScaleLeftSwitchMP.addSection(new RunIntake(.5, 40));
     }
     
     /**
@@ -420,6 +452,8 @@ public class AutonomousStarter {
                         return null; /***********TO BE FIXED************/
                     else return null;/***********TO BE FIXED************/
                 } else return driveForward; /*********TO BE COMPLETED**********/
+            case EXPERIMENTAL_AUTO:
+                return leftLeftScaleLeftSwitchMP;
             case DRIVE_FORWARD:
             default:
                 return driveForward;
@@ -441,5 +475,6 @@ enum Strategy {
     SCALE_OR_SWITCH_SAME_SIDE,
     SWITCH_AND_SCALE_SAME_SIDE,
     SWITCH_THEN_SCALE,
-    NETWORK_PROFILE
+    NETWORK_PROFILE,
+    EXPERIMENTAL_AUTO
 }

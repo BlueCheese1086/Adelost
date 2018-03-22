@@ -45,7 +45,8 @@ public class TurnToAngleSection extends AutonomousSection {
     }
 
     @Override public void finish() {
-
+        drive.drive(0, 0);
+        turnPID.disable();
     }
     public void testError() {
     	if(duration == -1 && (turnPID.getAvgError() < 1 && turnPID.getError() < 1)) {

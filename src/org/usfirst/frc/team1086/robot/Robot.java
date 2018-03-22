@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
 		autoStarter = new AutonomousStarter();
 		autoStarter.initAutoModes();
 		lights = new Relay(0);
-		lights.set(Value.kOn);
+		lights.set(Value.kForward);
 		
 		elevator = Globals.elevator;
 		arm = Globals.arm;
@@ -85,7 +85,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 	    Globals.logger.print("Event", "Teleop Init");
-	    lights.set(Value.kOn);
 	    balancer.reset();
 		if(!isCompetition) {
 			elevator.reset();
@@ -99,6 +98,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		if(dio.get())
+			lights.set(Value.kForward);
+		else lights.set(Value.kOff);
 	    if(!balancer.isSaving() || Globals.im.getTipCorrectionOverride()) {
             tickables.forEach(Tickable::tick);
         } else {

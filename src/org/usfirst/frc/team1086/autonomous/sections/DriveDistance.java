@@ -7,10 +7,13 @@ import org.usfirst.frc.team1086.subsystems.Drivetrain;
 public class DriveDistance extends AutonomousSection {
     Drivetrain drivetrain;
     double distance;
-    public DriveDistance(double distance){
+    public DriveDistance(double distance, int time){
         drivetrain = Globals.drivetrain;
-        this.duration = -1;
+        this.duration = time;
         this.distance = distance;
+    }
+    public DriveDistance(double distance){
+        this(distance, -1);
     }
 
     @Override public void start(){

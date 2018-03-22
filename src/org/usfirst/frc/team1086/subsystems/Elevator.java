@@ -45,6 +45,7 @@ public class Elevator implements Tickable {
     }
     public void reset(){
         targetHeight = 0;
+        elevatorMotor.set(ControlMode.PercentOutput, 0);
     }
     @Override public void tick(){
         if(inputManager.getElevatorOverride()) {

@@ -8,7 +8,7 @@ public class FieldMap {
     /**
      * Coordinates relative to the Center starting position
      */
-    public static final int CENTER_SWITCH_WALL_FORWARD = 143;
+    public static final int CENTER_SWITCH_WALL_FORWARD = 140;
     public static final int CENTER_SWITCH_WALL_HORIZONTAL = 64;
 
     /**
@@ -20,7 +20,7 @@ public class FieldMap {
     public static final int LEFT_SWITCH_BACK_WALL_FORWARD = 197;
     public static final int LEFT_SWITCH_BACK_WALL_HORIZONTAL = 95;
     public static final int LEFT_SCALE_FORWARD = 300; //Margin of error
-    public static final int LEFT_SCALE_FORWARD_START_TURN = LEFT_SWITCH_SIDE_WALL_FORWARD;
+    public static final int LEFT_SCALE_FORWARD_START_TURN = 100;
     public static final int LEFT_SCALE_HORIZONTAL = 50;
     public static final int LEFT_FAR_SWITCH_FRONT_FORWARD = CENTER_SWITCH_WALL_FORWARD;
     public static final int LEFT_FAR_SWITCH_FRONT_HORIZONTAL = DRIVER_STATION_FIELD_WIDTH / 2 + CENTER_SWITCH_WALL_HORIZONTAL;

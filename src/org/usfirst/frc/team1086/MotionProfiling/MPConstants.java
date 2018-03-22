@@ -9,7 +9,7 @@ public class MPConstants {
 
     public static final double DELTA_TIME = 0.02;
     public static final double MAX_VELOCITY = 80;
-    public static final double MAX_ACCELERATION = 120.0;
+    public static final double MAX_ACCELERATION = 80.0;
     public static final double MAX_JERK = 363;
 
     public static final double MP_KP = Globals.isFinal ? 0.12 : 0.08;
