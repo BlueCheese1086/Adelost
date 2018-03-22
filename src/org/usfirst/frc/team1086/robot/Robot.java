@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
 	AutonomousManager selectedAuto;
 	ArrayList<Tickable> tickables = new ArrayList<>();
 
-	boolean isCompetition = false;
+	boolean isCompetition = true;
     boolean ranAuto;
 
 	@Override
