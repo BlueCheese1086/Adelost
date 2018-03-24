@@ -43,7 +43,6 @@ public class AutonomousStarter {
 
     /**
      * Initializes the sections of all the auto modes.
-     * Currently, these are all missing elevator and intake.
      */
     public void initAutoModes() {
         sideChooser.addObject("Robot Left", Side.LEFT);
