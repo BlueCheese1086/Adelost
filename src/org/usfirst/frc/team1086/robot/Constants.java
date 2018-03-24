@@ -23,7 +23,7 @@ public class Constants {
 
 	public static final double TURN_TO_ANGLE_KP = .03;
 	public static final double TURN_TO_ANGLE_KI = 0;
-	public static final double TURN_TO_ANGLE_KD = .06;
+	public static final double TURN_TO_ANGLE_KD = .08;
 	
 	/**
    * Ultrasonic PID

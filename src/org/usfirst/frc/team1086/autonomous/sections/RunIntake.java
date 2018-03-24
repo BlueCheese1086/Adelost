@@ -13,6 +13,6 @@ public class RunIntake extends AutonomousSection {
         Globals.intake.run(power);
     }
     @Override public void finish(){
-        Globals.intake.motorOff();
+
     }
 }

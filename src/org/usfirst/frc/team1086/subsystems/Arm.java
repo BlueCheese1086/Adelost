@@ -21,12 +21,12 @@ public class Arm implements Tickable {
         armMotor.configPeakOutputForward(1, 0);
         armMotor.configPeakOutputReverse(-1, 0);
         armMotor.setSelectedSensorPosition(0, 0, 0);
-        armMotor.config_kP(0, 3, 0);
+        armMotor.config_kP(0, 4, 0);
         armMotor.config_kI(0, 0, 0);
-        armMotor.config_kD(0, 1, 0);
+        armMotor.config_kD(0, 0, 0);
         armMotor.config_kF(0, 0, 0);
-        armMotor.configMotionCruiseVelocity(1000, 0);
-        armMotor.configMotionAcceleration(2000, 0);
+        armMotor.configMotionCruiseVelocity(500, 0);
+        armMotor.configMotionAcceleration(500, 0);
         armMotor.configPeakCurrentLimit(Constants.ARM_PEAK_CURRENT,0);
         armMotor.configContinuousCurrentLimit(Constants.ARM_PEAK_CURRENT,0);
         armMotor.setInverted(true);
@@ -38,7 +38,7 @@ public class Arm implements Tickable {
         if (inputManager.manualArm() != 0){
             armMotor.set(ControlMode.PercentOutput, inputManager.manualArm());
             armMotor.setSelectedSensorPosition(0, 0, 0);
-            armPos = 0;
+            armPos = Constants.MAX_ARM_ENC_UNITS;
             Globals.logger.print("Arm Manual", Double.toString(inputManager.manualArm()));
         }
         else {

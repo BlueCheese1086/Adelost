@@ -28,7 +28,7 @@ public class Elevator implements Tickable {
         elevatorMotor.configPeakOutputForward(1, 0);
         elevatorMotor.configPeakOutputReverse(-1, 0);
         elevatorMotor.configMotionCruiseVelocity(3800, 0);
-        elevatorMotor.configMotionAcceleration(5000, 0);
+        elevatorMotor.configMotionAcceleration(4500, 0);
         elevatorMotor.setSelectedSensorPosition(0, 0, 0);
         elevatorMotor.config_kP(0, Constants.ELEVATOR_KP, 0);
         elevatorMotor.config_kI(0, Constants.ELEVATOR_KI, 0);
@@ -45,6 +45,7 @@ public class Elevator implements Tickable {
     }
     public void reset(){
         targetHeight = 0;
+        elevatorMotor.set(ControlMode.PercentOutput, 0);
     }
     @Override public void tick(){
         if(inputManager.getElevatorOverride()) {
