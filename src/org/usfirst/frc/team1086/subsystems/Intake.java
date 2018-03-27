@@ -26,7 +26,7 @@ public class Intake implements Tickable {
 		if(im.getIntake())
 			motorIn();
 		else if(im.getEvict())
-			motorOut();
+			run(Globals.im.getOuttakeSpeed());
 		else
 			motorOff();
 		Globals.intakeCurrent.setNumber(intake1.getOutputCurrent() / 2 + intake2.getOutputCurrent() / 2);

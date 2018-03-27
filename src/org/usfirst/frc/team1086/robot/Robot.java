@@ -98,7 +98,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		if(dio.get())
+		if(!dio.get())
 			lights.set(Value.kForward);
 		else lights.set(Value.kOff);
 	    if(!balancer.isSaving() || Globals.im.getTipCorrectionOverride()) {
