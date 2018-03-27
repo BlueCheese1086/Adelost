@@ -143,13 +143,13 @@ public class AutonomousStarter {
         leftLeftSwitchSideMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(FieldMap.LEFT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, FieldMap.LEFT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_WIDTH - 6, Pathfinder.d2r(0))
-        }, 20));
+        }, 25));
         leftLeftSwitchSideMP.addSection(new TurnToAngleSection(90, 1000));
         leftLeftSwitchSideMP.addSection(new Drive(20, 0,0));
-        leftLeftSwitchSideMP.addSection(new ElevatorMover(20, 1000));
+        leftLeftSwitchSideMP.addSection(new ElevatorMover(25, 1000));
         leftLeftSwitchSideMP.addSection(new MotionProfiler(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(5, 0, 0)
+                new Waypoint(8, 0, 0)
         }));
         leftLeftSwitchSideMP.addSection(new Drive(20, 0, 0));
         leftLeftSwitchSideMP.addSection(new RunIntake(0.5, 500));
@@ -168,13 +168,13 @@ public class AutonomousStarter {
         rightRightSwitchSideMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(FieldMap.RIGHT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, FieldMap.RIGHT_SWITCH_SIDE_WALL_HORIZONTAL + Constants.ROBOT_WIDTH + 6, Pathfinder.d2r(0))
-        }, 20));
+        }, 25));
         rightRightSwitchSideMP.addSection(new TurnToAngleSection(-90, 1000));
         rightRightSwitchSideMP.addSection(new Drive(20, 0,0));
-        rightRightSwitchSideMP.addSection(new ElevatorMover(20, 1000));
+        rightRightSwitchSideMP.addSection(new ElevatorMover(25, 1000));
         rightRightSwitchSideMP.addSection(new MotionProfiler(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(5, 0, 0)
+                new Waypoint(8, 0, 0)
         }));
         rightRightSwitchSideMP.addSection(new Drive(20, 0, 0));
         rightRightSwitchSideMP.addSection(new RunIntake(0.5, 500));

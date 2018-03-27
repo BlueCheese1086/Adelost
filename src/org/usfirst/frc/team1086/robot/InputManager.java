@@ -69,4 +69,7 @@ public class InputManager {
         return (auxStick.getRawButton(ButtonMap.MANUAL_ARM_DOWN)) ? 0.5 : 0;
 
     }
+    public double getOuttakeSpeed(){
+        return (auxStick.getZ() + 1.0) / 2.0;
+    }
 }
