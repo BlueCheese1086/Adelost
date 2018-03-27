@@ -34,6 +34,8 @@ public class AutonomousStarter {
     AutonomousManager rightLeftSwitchBackMP;
     AutonomousManager leftLeftScaleLeftSwitchMP;
     AutonomousManager rightRightScaleRightSwitchMP;
+    AutonomousManager leftRightScaleMP;
+    AutonomousManager rightLeftScaleMP;
 
     /**
      * Initializes the sections of all the auto modes.
@@ -61,7 +63,8 @@ public class AutonomousStarter {
         strategyChooser.addObject("Scale Regardless of Side (Do not run)", Strategy.SCALE_ALWAYS);
         strategyChooser.addDefault("Switch or Scale (prioritizing switch)", Strategy.SWITCH_OR_SCALE_SAME_SIDE);
         strategyChooser.addObject("Switch or Scale (prioritizing scale)", Strategy.SCALE_OR_SWITCH_SAME_SIDE);
-        strategyChooser.addObject("Scale, Switch, or Both (on same side, ideal side auto)", Strategy.SWITCH_AND_SCALE_SAME_SIDE);
+        strategyChooser.addObject("Scale, Switch, or Both (On same side, ideal side auto)", Strategy.SWITCH_AND_SCALE_SAME_SIDE);
+        strategyChooser.addObject("Scale, Switch, or Both (Both on same side, only cross on scale (experimental) )", Strategy.SWITCH_AND_SCALE);
         strategyChooser.addObject("Switch then Scale (Do not run)", Strategy.SWITCH_THEN_SCALE);
         strategyChooser.addObject("Network Tables Profile", Strategy.NETWORK_PROFILE);
         strategyChooser.addObject("Test Auto", Strategy.EXPERIMENTAL_AUTO);
@@ -297,6 +300,24 @@ public class AutonomousStarter {
         rightRightScaleRightSwitchMP.addSection(new ElevatorMover(15, 400));
         rightRightScaleRightSwitchMP.addSection(new Drive(2000,0.2, 0));
         rightRightScaleRightSwitchMP.addSection(new RunIntake(.5, 40));
+
+        leftRightScaleMP = new AutonomousManager();
+        leftRightScaleMP.addSection(new ArmMover(45, 20));
+        leftRightScaleMP.addSection(new RunIntake(-0.25, 20));
+        leftRightScaleMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(FieldMap.LEFT_SWITCH_BACK_WALL_FORWARD + Constants.ROBOT_HALF_LENGTH, FieldMap.LEFT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_WIDTH - 6, Pathfinder.d2r(0))
+        }));
+        leftRightScaleMP.addSection(new TurnToAngleSection(90));
+
+        rightLeftScaleMP = new AutonomousManager();
+        rightLeftScaleMP.addSection(new ArmMover(45, 20));
+        rightLeftScaleMP.addSection(new RunIntake(-0.25, 20));
+        rightLeftScaleMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(FieldMap.RIGHT_SWITCH_BACK_WALL_FORWARD + Constants.ROBOT_HALF_LENGTH, FieldMap.RIGHT_SWITCH_SIDE_WALL_HORIZONTAL + Constants.ROBOT_WIDTH + 6, Pathfinder.d2r(0))
+        }));
+        rightLeftScaleMP.addSection(new TurnToAngleSection(-90));
     }
     
     /**
@@ -423,7 +444,35 @@ public class AutonomousStarter {
                     else if(startSide == Side.RIGHT)
                         return rightRightSwitchSideMP;
                     else return driveForward;
-                } else return driveForward;
+                } else {
+                    return driveForward;
+                }
+            case SWITCH_AND_SCALE:
+                if(startSide == scaleSide && startSide == switchSide) {
+                    if(startSide == Side.LEFT)
+                        return leftLeftScaleLeftSwitchMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightScaleRightSwitchMP;
+                    else return driveForward;
+                } else if(startSide == scaleSide){
+                    if(startSide == Side.LEFT)
+                        return leftLeftScaleMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightScaleMP;
+                    else return driveForward;
+                } else if(startSide == switchSide){
+                    if(startSide == Side.LEFT)
+                        return leftLeftSwitchSideMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightSwitchSideMP;
+                    else return driveForward;
+                } else {
+                    if(startSide == Side.LEFT)
+                        return leftRightScaleMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightLeftScaleMP;
+                    else return driveForward;
+                }
             case SWITCH_THEN_SCALE:
                 if(startSide == scaleSide && startSide == switchSide) {
                     if(startSide == Side.LEFT)
@@ -452,6 +501,7 @@ enum Strategy {
     SWITCH_OR_SCALE_SAME_SIDE,
     SCALE_OR_SWITCH_SAME_SIDE,
     SWITCH_AND_SCALE_SAME_SIDE,
+    SWITCH_AND_SCALE,
     SWITCH_THEN_SCALE,
     NETWORK_PROFILE,
     EXPERIMENTAL_AUTO
