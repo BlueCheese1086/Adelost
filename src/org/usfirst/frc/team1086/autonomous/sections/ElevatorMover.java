@@ -3,6 +3,12 @@ package org.usfirst.frc.team1086.autonomous.sections;
 import org.usfirst.frc.team1086.autonomous.AutonomousSection;
 import org.usfirst.frc.team1086.robot.Globals;
 
+/**
+ * Moves the elevator to a specified height.
+ * If a duration is not specified, it will run until it reaches the specified height (absolute error < 1 inch).
+ * If a duration is specified, it will run until either it times out or the height is reached.
+ * If it times out, it will continue to move the elevator, but it will no longer wait for it.
+ */
 public class ElevatorMover extends AutonomousSection {
 	double targetHeight;
 	public ElevatorMover(double targetHeight) {

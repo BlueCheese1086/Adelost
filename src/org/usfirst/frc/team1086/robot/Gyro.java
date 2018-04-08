@@ -7,6 +7,9 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Wrapper for VMX-Pi
+ */
 public class Gyro implements PIDSource {
     public AHRS gyro;
 

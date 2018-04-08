@@ -15,6 +15,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PIDController;
 
+/**
+ * Controls the drivetrain of the robot
+ */
 public class Drivetrain implements Tickable {
 	public TalonSRX left1, right1, left2, right2;
 	private InputManager im;
@@ -33,6 +36,8 @@ public class Drivetrain implements Tickable {
 		right2 = new TalonSRX(RobotMap.DRIVE_RIGHT_2);
 		left1.setInverted(true);
 		left1.setInverted(true);
+
+		//Never set the secondary motors... they will not follow the first motor
 		left2.set(ControlMode.Follower, RobotMap.DRIVE_LEFT_1);
 		right2.set(ControlMode.Follower, RobotMap.DRIVE_RIGHT_1);
 	}
@@ -41,13 +46,16 @@ public class Drivetrain implements Tickable {
 		im = Globals.im;
 		em = new EncoderManager();
 		gyro = Globals.gyro;
+
+		//This PID is used to make the robot drive perfectly straight.
 		driveStraightController = new PIDController(Constants.DRIVE_STRAIGHT_KP, Constants.DRIVE_STRAIGHT_KI,
 													Constants.DRIVE_STRAIGHT_KD, gyro, d -> {});
 		driveStraightController.setAbsoluteTolerance(0);
 		driveStraightController.setInputRange(-180, 180);
 		driveStraightController.setOutputRange(-1, 1);
 		driveStraightController.setContinuous(true);
-		
+
+		//This is the PID used to make the robot turn to a specified angle
 		turnToAngleController = new PIDController(Constants.TURN_TO_ANGLE_KP, Constants.TURN_TO_ANGLE_KI,
 												  Constants.TURN_TO_ANGLE_KD, gyro, d -> {});
 		turnToAngleController.setAbsoluteTolerance(1);
@@ -58,8 +66,10 @@ public class Drivetrain implements Tickable {
 	
 	@Override public void tick(){
 		if(im.getSafety())
+			//turn is more complicated, so it was pulled to a separate method
 			drive(im.getDrive(), getTurn());
 		else
+			//Disable the driving straight PID when the safety isn't engaged
 			driveStraightController.disable();
 	}
 
@@ -73,22 +83,31 @@ public class Drivetrain implements Tickable {
 		right1.set(ControlMode.PercentOutput, drive - turn);
 	}
 	public double getTurn(){
+		//If safety isn't engage, disable PID and don't turn
 		if(!im.getSafety()){
 			driveStraightController.disable();
 			return 0;
 		}
+
+		//If we're turning to a certain angle, stop the driving straight (they'll fight) and turn properly
 		else if(turnToAngleController.isEnabled()) {
 			driveStraightController.disable();
 			return turnToAngleController.get();
 		}
+
+		//If the driver is turning, follow the driver's instructions
 		else if(Math.abs(im.getTurn()) > 0.01) {
 			driveStraightController.disable();
 			return im.getTurn();
 		}
+
+		//If none of the above is true and the drive straight controller isn't enabled, enable it
 		else if(!driveStraightController.isEnabled()){
 			driveStraightController.setSetpoint(gyro.getNormalizedAngle());
 			driveStraightController.enable();
 		}
+
+		//If the driver has overriden drive straight, drive according to the driver's turn. Otherwise, drive straight
 		return im.getDriveStraightOverride() ? im.getTurn() : driveStraightController.get();
 	}
 

@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.TimedRobot;
 
+/**
+ * Main robot class. Very little is done here except for managing everything else.
+ */
 public class Robot extends TimedRobot {
 	Drivetrain drivetrain;
 	Elevator elevator;
@@ -54,7 +57,6 @@ public class Robot extends TimedRobot {
 		balancer = Globals.balanceChecker;
 
 		tickables.add(elevator);
-		tickables.add(motionProfiling);
 		tickables.add(drivetrain);
 		tickables.add(balancer);
 		tickables.add(intake);

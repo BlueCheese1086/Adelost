@@ -7,17 +7,30 @@ import org.usfirst.frc.team1086.robot.Globals;
 
 import jaci.pathfinder.Waypoint;
 
+/**
+ * Runs a specified motion profile.
+ * Given a series of waypoints, this will generate a motion profile then have the robot autonomously follow it.
+ */
 public class MotionProfiler extends AutonomousSection implements SectionTrigger {
     Waypoint[] points;
     MotionProfiling mp;
     int triggerTime;
+    /**
+     * Motion profiling can serve as a trigger for other events. triggerTime milliseconds before the end of the
+     * motion profile, it will trigger.
+     * @param points The points to reach
+     * @param triggerTime Milliseconds before the end to trigger
+     */
     public MotionProfiler(Waypoint[] points, int triggerTime){
         this.duration = -1;
         this.triggerTime = triggerTime;
         this.points = points;
         this.mp = Globals.mp;
     }
-
+    /**
+     * Does not trigger
+     * @param points The points to reach
+     */
     public MotionProfiler(Waypoint[] points){
         this(points, -1);
     }
