@@ -9,6 +9,8 @@ public class Constants {
     /**
      * Encoders and Drivetrain constants
      */
+
+	//Experimentally determined... see MotionProfiling.java for how
 	public static final double WHEEL_DIAMETER = Globals.isFinal ? 5 * 1.05 : 5 / 1.04;
 	public static final int ALLOWABLE_ERROR = 0;
 

@@ -5,6 +5,9 @@ import org.usfirst.frc.team1086.robot.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+/**
+ * Controls the Intake.
+ */
 public class Intake implements Tickable {
 	TalonSRX intake1; 
 	TalonSRX intake2;
@@ -12,7 +15,13 @@ public class Intake implements Tickable {
 	public Intake() {
 		intake1 = new TalonSRX(RobotMap.INTAKE_1); 
 		intake2 = new TalonSRX(RobotMap.INTAKE_2);
+
+		//Intake 1 is backwards...
 		intake1.setInverted(true);
+
+		//Put a current limit on the intake motors
+		//Having a different peak current and continuous current allow the intake to
+		//quickly pull in a cube without burning out the motor while holding it
         intake1.configContinuousCurrentLimit(Constants.INTAKE_PEAK_CURRENT, 0);
         intake1.configPeakCurrentLimit(Constants.INTAKE_PEAK_CURRENT * 2, 0);
         intake1.configPeakCurrentDuration(1000, 0);

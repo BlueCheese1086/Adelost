@@ -4,6 +4,12 @@ import org.usfirst.frc.team1086.autonomous.AutonomousSection;
 import org.usfirst.frc.team1086.robot.Globals;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 
+/**
+ * Drive forwards or backwards a specified distance using a PID on the TalonSRXs.
+ * If no time is specified, it runs until the specified diestance is reached (absolute error < 2 inches).
+ * if a time is specified, the section will end when it times out. This does not mean that the robot will
+ * stop driving to the specified distance, just that the section will not wait for it.
+ */
 public class DriveDistance extends AutonomousSection {
     Drivetrain drivetrain;
     double distance;

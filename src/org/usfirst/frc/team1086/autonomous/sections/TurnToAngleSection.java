@@ -7,6 +7,11 @@ import org.usfirst.frc.team1086.robot.Gyro;
 import org.usfirst.frc.team1086.robot.Utils;
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 
+/**
+ * Turns to a specified angle using a PID.
+ * If no timeout is specified, then it runs until the angle has been reached.
+ * If a timeout is specified, it will end when either the angle is reached or it times out.
+ */
 public class TurnToAngleSection extends AutonomousSection {
     PIDController turnPID;
     Drivetrain drive;

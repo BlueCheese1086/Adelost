@@ -13,6 +13,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Controls the elevator for the robot.
+ * Elevator always moves towards its setpoint.
+ * Uses motion magic to generate path to setpoint
+ */
 public class Elevator implements Tickable {
     InputManager inputManager;
     public TalonSRX elevatorMotor;
@@ -21,21 +26,34 @@ public class Elevator implements Tickable {
     public Elevator(){
         inputManager = Globals.im;
         elevatorMotor = new TalonSRX(RobotMap.ELEVATOR_1);
+
+        //Configure the encoder
         elevatorMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         elevatorMotor.setSensorPhase(true);
+        elevatorMotor.setSelectedSensorPosition(0, 0, 0);
+
+        //Set output maximums
         elevatorMotor.configNominalOutputForward(0, 0);
         elevatorMotor.configNominalOutputReverse(0, 0);
         elevatorMotor.configPeakOutputForward(1, 0);
         elevatorMotor.configPeakOutputReverse(-1, 0);
+
+        //Set maximum velocity and acceleration. Though our elevator motors are capable of it,
+        //Never accelerate faster than gravity!!! This will cause the belts to slacken and possibly fall off their guides
         elevatorMotor.configMotionCruiseVelocity(3800, 0);
         elevatorMotor.configMotionAcceleration(4500, 0);
-        elevatorMotor.setSelectedSensorPosition(0, 0, 0);
+
+        //Configure the PID
         elevatorMotor.config_kP(0, Constants.ELEVATOR_KP, 0);
         elevatorMotor.config_kI(0, Constants.ELEVATOR_KI, 0);
         elevatorMotor.config_kD(0, Constants.ELEVATOR_KD, 0);
+      
+        //Set up the current limits
         elevatorMotor.configPeakCurrentDuration(1000, 0);
         elevatorMotor.configPeakCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
         elevatorMotor.configContinuousCurrentLimit(Constants.ELEVATOR_CONTINUOUS_CURRENT, 0);
+
+        //Set up the other motor to follow the first
         elevatorFollower = new TalonSRX(RobotMap.ELEVATOR_2);
         elevatorFollower.set(ControlMode.Follower, RobotMap.ELEVATOR_1);
         elevatorFollower.configPeakCurrentDuration(1000, 0);
@@ -52,10 +70,12 @@ public class Elevator implements Tickable {
     @Override public void tick(){
         if(inputManager.getElevatorOverride()) {
             if (inputManager.getElevatorSafety()) {
+                //If the driver has overriden the motion profiling and the safety is pressed, just move it with the driver's speed
                 elevatorMotor.set(ControlMode.PercentOutput, inputManager.getElevator());
             }
         } else {
             if (inputManager.getElevatorSafety()) {
+                //Update the setpoints if safety is enabled...
                 if (inputManager.getElevatorGround())
                     targetHeight = 1;
                 else if (inputManager.getElevatorScale())
@@ -65,7 +85,11 @@ public class Elevator implements Tickable {
                 else
                     targetHeight += inputManager.getElevator() * Constants.ELEVATOR_HEIGHT / 50;
             }
+
+            //Cap the target height
             targetHeight = Math.max(Math.min(targetHeight, Constants.ELEVATOR_HEIGHT), 0);
+
+            //Move to the target height
             elevatorMotor.set(ControlMode.MotionMagic, inchesToEnc(targetHeight));
         }
     }

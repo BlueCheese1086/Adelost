@@ -3,6 +3,9 @@ package org.usfirst.frc.team1086.autonomous.sections;
 import jaci.pathfinder.Waypoint;
 import org.usfirst.frc.team1086.autonomous.CombinedSection;
 
+/**
+ * Runs a motion profile and moves the elevator to a specified height at the end (simultaneously)
+ */
 public class MotionProfileWithElevator extends CombinedSection {
     MotionProfiler profiler;
     ElevatorMover elev;

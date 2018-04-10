@@ -6,6 +6,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * "Stolen" from Jaci's Pathfinder.
+ * Modified to log progress along the way and calculate time remaining
+ */
 public class EncoderFollower {
     private File file;
     private BufferedWriter bw;

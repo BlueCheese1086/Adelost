@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team1086.subsystems.Drivetrain;
 
+/**
+ * Manages the encoders and driving a specified distance with a PID
+ */
 public class EncoderManager {
     Drivetrain drive;
     double leftSetpoint, rightSetpoint;
@@ -13,9 +16,6 @@ public class EncoderManager {
         drive = Globals.drivetrain;
         drive.left1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         drive.right1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-
-        //drive.left1.setSensorPhase(true);
-        //drive.right1.setSensorPhase(true);
 
         drive.left1.configNominalOutputForward(0, 0);
         drive.left1.configNominalOutputReverse(0, 0);

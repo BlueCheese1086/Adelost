@@ -8,6 +8,12 @@ import org.usfirst.frc.team1086.robot.Tickable;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+/**
+ * Controls the climber and the kicker.
+ * The climber itself consists of two motors that operate the winch.
+ * The "kicker" deploys the climber by pulling a pin.
+ * "kicking" is when the pin is pulled, and "unkicking" is when the string holding the pin is loosened
+ */
 public class Climber implements Tickable {
 	InputManager inputManager;
     TalonSRX climberMotor1, climberMotor2, kicker;

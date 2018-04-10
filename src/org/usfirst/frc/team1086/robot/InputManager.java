@@ -3,6 +3,9 @@ package org.usfirst.frc.team1086.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Utility;
 
+/**
+ * Manages inputs for code. Not truly necessary, but it clears a lot up.
+ */
 public class InputManager {
 
     Joystick leftStick;
