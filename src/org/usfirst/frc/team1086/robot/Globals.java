@@ -2,6 +2,7 @@ package org.usfirst.frc.team1086.robot;
 
 import java.io.File;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import org.usfirst.frc.team1086.CameraCalculator.PixyCamera;
 import org.usfirst.frc.team1086.MotionProfiling.MotionProfiling;
 import org.usfirst.frc.team1086.subsystems.Arm;
@@ -26,25 +27,12 @@ public class Globals {
 	public static PixyCamera pixy;
 	public static BalanceChecker balanceChecker;
 	public static InputManager im;
+	public static DigitalInput cubeDetector;
 	public static NetworkTableEntry heading, speed, acceleration, left1Output, right1Output, intakeCurrent,
 			left2Output, right2Output, elevatorHeight, armLocation, armCurrent, elevatorCurrent;
 	public static MotionProfiling mp;
 
 	public static void init() {
-		File least = new File("/home/lvuser/logs/0");
-		if (least.exists()) {
-			for (int i = 1; i < 10; i++) {
-				File file = new File("/home/lvuser/logs/" + i);
-				if (file.lastModified() == 0L) {
-					least = file;
-					break;
-				} else if (file.lastModified() > least.lastModified()) {
-					least=file;
-				}
-			}
-		}
-		logger=new Logger(least);
-	
         im = new InputManager();
 		drivetrain = new Drivetrain();
 		gyro = new Gyro();
@@ -55,6 +43,7 @@ public class Globals {
 		climber = new Climber();
 		mp = new MotionProfiling();
 		balanceChecker = new BalanceChecker();
+		cubeDetector = new DigitalInput(0);
 		drivetrain.init();
 
 		NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
