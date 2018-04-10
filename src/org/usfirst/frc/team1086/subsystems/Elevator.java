@@ -47,16 +47,18 @@ public class Elevator implements Tickable {
         elevatorMotor.config_kP(0, Constants.ELEVATOR_KP, 0);
         elevatorMotor.config_kI(0, Constants.ELEVATOR_KI, 0);
         elevatorMotor.config_kD(0, Constants.ELEVATOR_KD, 0);
-
+      
         //Set up the current limits
+        elevatorMotor.configPeakCurrentDuration(1000, 0);
         elevatorMotor.configPeakCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
-        elevatorMotor.configContinuousCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
+        elevatorMotor.configContinuousCurrentLimit(Constants.ELEVATOR_CONTINUOUS_CURRENT, 0);
 
         //Set up the other motor to follow the first
         elevatorFollower = new TalonSRX(RobotMap.ELEVATOR_2);
         elevatorFollower.set(ControlMode.Follower, RobotMap.ELEVATOR_1);
+        elevatorFollower.configPeakCurrentDuration(1000, 0);
         elevatorFollower.configPeakCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
-        elevatorFollower.configContinuousCurrentLimit(Constants.ELEVATOR_PEAK_CURRENT, 0);
+        elevatorFollower.configContinuousCurrentLimit(Constants.ELEVATOR_CONTINUOUS_CURRENT, 0);
     }
     public void start(){
         elevatorMotor.setSelectedSensorPosition(0, 0, 0);

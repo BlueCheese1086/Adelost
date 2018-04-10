@@ -85,6 +85,7 @@ public class Arm implements Tickable {
         Globals.armLocation.setNumber(getArmPosition());
         Globals.armCurrent.setNumber(armMotor.getOutputCurrent());
         Globals.logger.print("General", "-------------------ARM------------------");
+        Globals.logger.print("Arm MM Error", Globals.logger.format(armMotor.getClosedLoopError(0)));
         Globals.logger.print("Arm Motor Set", Globals.logger.format((1 - armPos / Constants.MAX_ARM_ANGLE) * Constants.MAX_ARM_ENC_UNITS));
         Globals.logger.print("Arm Raw Encoder", Globals.logger.format(armMotor.getSelectedSensorPosition(0)));
         Globals.logger.print("Arm Current", Globals.logger.format(armMotor.getOutputCurrent()));

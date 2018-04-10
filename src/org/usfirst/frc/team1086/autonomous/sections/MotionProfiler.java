@@ -37,6 +37,7 @@ public class MotionProfiler extends AutonomousSection implements SectionTrigger 
 
     @Override public void start(){
     	super.start();
+    	Globals.drivetrain.em.resetEncoders();
         mp.setWaypoints(points);
         mp.init();
     }
