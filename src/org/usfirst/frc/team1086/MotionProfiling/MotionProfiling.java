@@ -11,8 +11,6 @@ import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
 
-import java.nio.file.Path;
-
 public class MotionProfiling implements Tickable {
     Waypoint[] points;
     EncoderFollower left, right;
@@ -22,6 +20,7 @@ public class MotionProfiling implements Tickable {
     double startHeading = 0;
     double turnOutput = 0;
     double angleDifference = 0;
+    boolean wasReversed = false;
 
     InputManager im;
     Drivetrain drivetrain;
@@ -109,6 +108,7 @@ public class MotionProfiling implements Tickable {
             left.configurePIDVA(MPConstants.MP_KP, MPConstants.MP_KI, MPConstants.MP_KD, MPConstants.MP_KV, MPConstants.MP_KA);
             right.configurePIDVA(MPConstants.MP_KP, MPConstants.MP_KI, MPConstants.MP_KD, MPConstants.MP_KV, MPConstants.MP_KA);
 
+            wasReversed = false;
             turnController.enable();
         }
         else {
@@ -117,19 +117,32 @@ public class MotionProfiling implements Tickable {
     }
     public void run(){
         if(!isFinished()){
+            boolean reversed = Math.abs(left.segment == 0 ?
+                    Pathfinder.r2d(left.getSegment().heading) :
+                    Pathfinder.boundHalfDegrees(Pathfinder.r2d(left.getSegment().heading - left.trajectory.get(left.segment - 1).heading))
+            ) > 90;
             double leftSpeed = left.calculate(drivetrain.left1.getSelectedSensorPosition(0), drivetrain.left1.getSelectedSensorVelocity(0) / 4096.0 * 5 * Math.PI);
-            double rightSpeed = right.calculate(drivetrain.right1.getSelectedSensorPosition(0), drivetrain.right1.getSelectedSensorVelocity(0) /4096.0 * 5 * Math.PI);
+            double rightSpeed = right.calculate(drivetrain.right1.getSelectedSensorPosition(0), drivetrain.right1.getSelectedSensorVelocity(0) / 4096.0 * 5 * Math.PI);
 
             double gyroHeading = gyro.getAngle() - startHeading;
             double desiredHeading = Pathfinder.r2d(left.getHeading());
             angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
+            if(wasReversed != (wasReversed = reversed)){
+                double diff = Math.abs(left.getSegment().position - right.getSegment().position);
+                drivetrain.left1.setSelectedSensorPosition(-((int)(drivetrain.left1.getSelectedSensorPosition(0) + diff)), 0, 0);
+                drivetrain.right1.setSelectedSensorPosition(-((int)(drivetrain.right1.getSelectedSensorPosition(0) + diff)), 0, 0);
+                drivetrain.flipSensors();
+                return;
+            }
+            angleDifference = reversed ? Pathfinder.boundHalfDegrees(angleDifference + 180) : angleDifference;
             double turn = turnController.get();
-            drivetrain.driveMP(leftSpeed, rightSpeed, turn);
+            drivetrain.driveMP(reversed ? -rightSpeed : leftSpeed, reversed ? -leftSpeed : rightSpeed, turn);
         }
         else {
             left.closeFile();
             right.closeFile();
             drivetrain.drive(0,0);
+            drivetrain.correctSensors();
             turnController.disable();
         }
     }

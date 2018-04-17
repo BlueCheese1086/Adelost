@@ -38,15 +38,13 @@ public class Arm implements Tickable {
         if (inputManager.manualArm() != 0){
             armMotor.set(ControlMode.PercentOutput, inputManager.manualArm());
             armMotor.setSelectedSensorPosition(0, 0, 0);
-            armPos = 0;
+            armPos = Constants.MAX_ARM_ENC_UNITS;
             Globals.logger.print("Arm Manual", Double.toString(inputManager.manualArm()));
         }
         else {
             armPos += inputManager.getDeltaArm() * 2;
             armPos = Math.max(Math.min(armPos, Constants.MAX_ARM_ANGLE), 0);
             armMotor.set(ControlMode.MotionMagic, (1 - armPos / Constants.MAX_ARM_ANGLE) * Constants.MAX_ARM_ENC_UNITS);
-            System.out.println("Error: " + ((1 - armPos / Constants.MAX_ARM_ANGLE) * Constants.MAX_ARM_ENC_UNITS - armMotor.getSelectedSensorPosition(0)));
-            System.out.println("Output: " + armMotor.getMotorOutputPercent());
         }
     }
     public void setArmPosition(double angle) {

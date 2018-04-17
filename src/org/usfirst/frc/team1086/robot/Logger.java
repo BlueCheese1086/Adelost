@@ -43,7 +43,9 @@ public class Logger {
 	public void finish() {
 		try {
 			out.flush();
-		} catch(Exception e) {}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public String format(double d) {

@@ -22,6 +22,7 @@ public class Drivetrain implements Tickable {
 	private Gyro gyro;
 	public PIDController driveStraightController;
 	public PIDController turnToAngleController;
+	boolean sensorFlip = false;
 	
 	/**
 	 * Initializer for the Drivetrain class.
@@ -102,7 +103,14 @@ public class Drivetrain implements Tickable {
 		left1.set(ControlMode.PercentOutput, left - turn);
 		right1.set(ControlMode.PercentOutput, right + turn);
 	}
-
+	public void flipSensors(){
+		left1.setSensorPhase(sensorFlip = !sensorFlip);
+		right1.setSensorPhase(sensorFlip);
+	}
+	public void correctSensors(){
+		left1.setSensorPhase(sensorFlip = false);
+		right1.setSensorPhase(false);
+	}
 	public void log(){
 		Globals.left1Output.setDouble(left1.getOutputCurrent());
 		Globals.left2Output.setDouble(left2.getOutputCurrent());

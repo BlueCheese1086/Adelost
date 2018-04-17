@@ -22,18 +22,10 @@ public class AutonomousStarter {
 
     AutonomousManager testAuto;
     AutonomousManager driveForward;
-    AutonomousManager centerLeftSwitchEnc;
     AutonomousManager centerLeftSwitchMP;
-    AutonomousManager centerRightSwitchEnc;
     AutonomousManager centerRightSwitchMP;
-    AutonomousManager leftLeftSwitchSideEnc;
     AutonomousManager leftLeftSwitchSideMP;
-    AutonomousManager rightRightSwitchSideEnc;
     AutonomousManager rightRightSwitchSideMP;
-    AutonomousManager leftLeftSwitchBackEnc;
-    AutonomousManager leftLeftSwitchBackMP;
-    AutonomousManager rightRightSwitchBackEnc;
-    AutonomousManager rightRightSwitchBackMP;
     AutonomousManager leftLeftScaleMP;
     AutonomousManager rightRightScaleMP;
     AutonomousManager leftRightSwitchFrontMP;
@@ -42,10 +34,11 @@ public class AutonomousStarter {
     AutonomousManager rightLeftSwitchBackMP;
     AutonomousManager leftLeftScaleLeftSwitchMP;
     AutonomousManager rightRightScaleRightSwitchMP;
+    AutonomousManager leftRightScaleMP;
+    AutonomousManager rightLeftScaleMP;
 
     /**
      * Initializes the sections of all the auto modes.
-     * Currently, these are all missing elevator and intake.
      */
     public void initAutoModes() {
         sideChooser.addObject("Robot Left", Side.LEFT);
@@ -70,7 +63,8 @@ public class AutonomousStarter {
         strategyChooser.addObject("Scale Regardless of Side (Do not run)", Strategy.SCALE_ALWAYS);
         strategyChooser.addDefault("Switch or Scale (prioritizing switch)", Strategy.SWITCH_OR_SCALE_SAME_SIDE);
         strategyChooser.addObject("Switch or Scale (prioritizing scale)", Strategy.SCALE_OR_SWITCH_SAME_SIDE);
-        strategyChooser.addObject("Scale, Switch, or Both (on same side, ideal side auto)", Strategy.SWITCH_AND_SCALE_SAME_SIDE);
+        strategyChooser.addObject("Scale, Switch, or Both (On same side, ideal side auto)", Strategy.SWITCH_AND_SCALE_SAME_SIDE);
+        strategyChooser.addObject("Scale, Switch, or Both (Both on same side, only cross on scale (experimental) )", Strategy.SWITCH_AND_SCALE);
         strategyChooser.addObject("Switch then Scale (Do not run)", Strategy.SWITCH_THEN_SCALE);
         strategyChooser.addObject("Network Tables Profile", Strategy.NETWORK_PROFILE);
         strategyChooser.addObject("Test Auto", Strategy.EXPERIMENTAL_AUTO);
@@ -84,17 +78,6 @@ public class AutonomousStarter {
         driveForward.addSection(new Drive(4000, 0.4, 0));
         driveForward.addSection(new Drive(20, 0, 0));
 
-        centerLeftSwitchEnc = new AutonomousManager();
-        centerLeftSwitchEnc.addSection(new DriveDistance(50));
-        centerLeftSwitchEnc.addSection(new TurnToAngleSection(-90));
-        centerLeftSwitchEnc.addSection(new DriveDistance(FieldMap.CENTER_SWITCH_WALL_HORIZONTAL));
-        centerLeftSwitchEnc.addSection(new TurnToAngleSection(90));
-        centerLeftSwitchEnc.addSection(new DriveDistance(FieldMap.CENTER_SWITCH_WALL_FORWARD - 50));
-        centerLeftSwitchEnc.addSection(new Drive(20, 0,0 ));
-        centerLeftSwitchEnc.addSection(new ArmMover(0, 400));
-        centerLeftSwitchEnc.addSection(new ElevatorMover(25, 700));
-        centerLeftSwitchEnc.addSection(new RunIntake(0.3, 500));
-
         centerLeftSwitchMP = new AutonomousManager();
         centerLeftSwitchMP.addSection(new RunIntake(-0.25, 20));
         centerLeftSwitchMP.addSection(new ArmMover(45, 20));
@@ -103,19 +86,26 @@ public class AutonomousStarter {
                 new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD - Constants.ROBOT_LENGTH, -FieldMap.CENTER_SWITCH_WALL_HORIZONTAL, Pathfinder.d2r(0))
         }, 15));
         centerLeftSwitchMP.addSection(new Drive(20, 0,0));
-        centerLeftSwitchMP.addSection(new ElevatorMover(15, 700));
-        centerLeftSwitchMP.addSection(new RunIntake(0.5, 500));
-
-        centerRightSwitchEnc = new AutonomousManager();
-        centerRightSwitchEnc.addSection(new DriveDistance(50));
-        centerRightSwitchEnc.addSection(new TurnToAngleSection(90));
-        centerRightSwitchEnc.addSection(new DriveDistance(FieldMap.CENTER_SWITCH_WALL_HORIZONTAL));
-        centerRightSwitchEnc.addSection(new TurnToAngleSection(-90));
-        centerRightSwitchEnc.addSection(new DriveDistance(FieldMap.CENTER_SWITCH_WALL_FORWARD - 50 - Constants.ROBOT_LENGTH));
-        centerRightSwitchEnc.addSection(new Drive(20, 0,0 ));
-        centerRightSwitchEnc.addSection(new ArmMover(0, 400));
-        centerRightSwitchEnc.addSection(new ElevatorMover(25, 700));
-        centerRightSwitchEnc.addSection(new RunIntake(0.3, 500));
+        centerLeftSwitchMP.addSection(new RunIntake(0.5, 300));
+        centerLeftSwitchMP.addSection(new DriveDistance(-15, 2000));
+        centerLeftSwitchMP.addSection(new ArmMover(0, 20));
+        centerLeftSwitchMP.addSection(new ElevatorMover(0, 20));
+        centerLeftSwitchMP.addSection(new Drive(20, 0,0));
+        /*centerLeftSwitchMP.addSection(new TurnToAngleSection(180, 1000));
+        centerLeftSwitchMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(90, -68, 0)
+        }));
+        centerLeftSwitchMP.addSection(new TurnToAngleSection(180, 1000));
+        centerLeftSwitchMP.addSection(new RunIntake(-.7, 40));
+        centerLeftSwitchMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(60, 0, 0)
+        }));
+        centerLeftSwitchMP.addSection(new Drive(20, 0.2, 0));
+        centerLeftSwitchMP.addSection(new RunIntake(-0.7, 1500, true));
+        centerLeftSwitchMP.addSection(new Drive(20, 0, 0));
+        centerLeftSwitchMP.addSection(new RunIntake(-.25, 20));*/
 
         centerRightSwitchMP = new AutonomousManager();
         centerRightSwitchMP.addSection(new RunIntake(-0.25, 20));
@@ -125,17 +115,26 @@ public class AutonomousStarter {
                 new Waypoint(FieldMap.CENTER_SWITCH_WALL_FORWARD - Constants.ROBOT_LENGTH, FieldMap.CENTER_SWITCH_WALL_HORIZONTAL, Pathfinder.d2r(0))
         }, 15));
         centerRightSwitchMP.addSection(new Drive(20, 0,0));
-        centerRightSwitchMP.addSection(new ElevatorMover(15, 700));
-        centerRightSwitchMP.addSection(new RunIntake(0.5, 500));
-
-        leftLeftSwitchSideEnc = new AutonomousManager();
-        leftLeftSwitchSideEnc.addSection(new DriveDistance(FieldMap.LEFT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH));
-        leftLeftSwitchSideEnc.addSection(new TurnToAngleSection(90));
-        leftLeftSwitchSideEnc.addSection(new DriveDistance(FieldMap.LEFT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_HALF_WIDTH));
-        leftLeftSwitchSideEnc.addSection(new Drive(20, 0, 0));
-        leftLeftSwitchSideEnc.addSection(new ArmMover(0, 400));
-        leftLeftSwitchSideEnc.addSection(new ElevatorMover(25, 700));
-        leftLeftSwitchSideEnc.addSection(new RunIntake(0.3, 500));
+        centerRightSwitchMP.addSection(new RunIntake(0.5, 300));
+        centerRightSwitchMP.addSection(new DriveDistance(-15, 2000));
+        centerRightSwitchMP.addSection(new ArmMover(0, 20));
+        centerRightSwitchMP.addSection(new ElevatorMover(0, 20));
+        centerRightSwitchMP.addSection(new Drive(20, 0,0));
+        /*centerRightSwitchMP.addSection(new TurnToAngleSection(180, 1000));
+        centerRightSwitchMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(90, 68, 0)
+        }));
+        centerRightSwitchMP.addSection(new TurnToAngleSection(180, 1000));
+        centerRightSwitchMP.addSection(new RunIntake(-.7, 40));
+        centerRightSwitchMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(60, 0, 0)
+        }));
+        centerRightSwitchMP.addSection(new Drive(20, 0.2, 0));
+        centerRightSwitchMP.addSection(new RunIntake(-0.7, 1500, true));
+        centerRightSwitchMP.addSection(new Drive(20, 0, 0));
+        centerRightSwitchMP.addSection(new RunIntake(-.25, 20));/*/
 
         leftLeftSwitchSideMP = new AutonomousManager();
         leftLeftSwitchSideMP.addSection(new ArmMover(45, 20));
@@ -143,87 +142,38 @@ public class AutonomousStarter {
         leftLeftSwitchSideMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(FieldMap.LEFT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, FieldMap.LEFT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_WIDTH - 6, Pathfinder.d2r(0))
-        }, 20));
+        }, 25));
         leftLeftSwitchSideMP.addSection(new TurnToAngleSection(90, 1000));
         leftLeftSwitchSideMP.addSection(new Drive(20, 0,0));
-        leftLeftSwitchSideMP.addSection(new ElevatorMover(20, 1000));
         leftLeftSwitchSideMP.addSection(new MotionProfiler(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(5, 0, 0)
+                new Waypoint(8, 0, 0)
         }));
         leftLeftSwitchSideMP.addSection(new Drive(20, 0, 0));
-        leftLeftSwitchSideMP.addSection(new RunIntake(0.5, 500));
-
-        rightRightSwitchSideEnc = new AutonomousManager();
-        rightRightSwitchSideEnc.addSection(new DriveDistance(FieldMap.RIGHT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH));
-        rightRightSwitchSideEnc.addSection(new TurnToAngleSection(-90));
-        rightRightSwitchSideEnc.addSection(new DriveDistance(FieldMap.RIGHT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_HALF_WIDTH));
-        rightRightSwitchSideEnc.addSection(new Drive(20, 0, 0));
-        rightRightSwitchSideEnc.addSection(new ArmMover(0, 400));
-        rightRightSwitchSideEnc.addSection(new ElevatorMover(25, 700));
-        rightRightSwitchSideEnc.addSection(new RunIntake(0.3, 500));
+        leftLeftSwitchSideMP.addSection(new RunIntake(0.5, 300));
+        leftLeftSwitchSideMP.addSection(new DriveDistance(-15, 2000));
+        leftLeftSwitchSideMP.addSection(new ArmMover(0, 20));
+        leftLeftSwitchSideMP.addSection(new ElevatorMover(0, 20));
+        leftLeftSwitchSideMP.addSection(new Drive(20, 0, 0));
 
         rightRightSwitchSideMP = new AutonomousManager();
         rightRightSwitchSideMP.addSection(new ArmMover(45, 20));
         rightRightSwitchSideMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(FieldMap.RIGHT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, FieldMap.RIGHT_SWITCH_SIDE_WALL_HORIZONTAL + Constants.ROBOT_WIDTH + 6, Pathfinder.d2r(0))
-        }, 20));
+        }, 25));
         rightRightSwitchSideMP.addSection(new TurnToAngleSection(-90, 1000));
         rightRightSwitchSideMP.addSection(new Drive(20, 0,0));
-        rightRightSwitchSideMP.addSection(new ElevatorMover(20, 1000));
         rightRightSwitchSideMP.addSection(new MotionProfiler(new Waypoint[]{
                 new Waypoint(0, 0, 0),
-                new Waypoint(5, 0, 0)
+                new Waypoint(8, 0, 0)
         }));
         rightRightSwitchSideMP.addSection(new Drive(20, 0, 0));
-        rightRightSwitchSideMP.addSection(new RunIntake(0.5, 500));
-
-        leftLeftSwitchBackEnc = new AutonomousManager();
-        leftLeftSwitchBackEnc.addSection(new DriveDistance(FieldMap.LEFT_SWITCH_BACK_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH));
-        leftLeftSwitchBackEnc.addSection(new TurnToAngleSection(90));
-        leftLeftSwitchBackEnc.addSection(new DriveDistance(FieldMap.LEFT_SWITCH_BACK_WALL_HORIZONTAL - Constants.ROBOT_HALF_WIDTH));
-        leftLeftSwitchBackEnc.addSection(new TurnToAngleSection(90));
-        leftLeftSwitchBackEnc.addSection(new Drive(20, 0, 0));
-        leftLeftSwitchBackEnc.addSection(new ArmMover(0, 400));
-        leftLeftSwitchBackEnc.addSection(new ElevatorMover(25, 700));
-        leftLeftSwitchBackEnc.addSection(new RunIntake(0.3, 500));
-
-        leftLeftSwitchBackMP = new AutonomousManager();
-        leftLeftSwitchBackMP.addSection(new MotionProfiler(new Waypoint[]{
-                new Waypoint(0, 0, 0),
-                new Waypoint(FieldMap.LEFT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, 0, 0),
-                new Waypoint(FieldMap.LEFT_SWITCH_BACK_WALL_FORWARD + Constants.ROBOT_HALF_WIDTH, FieldMap.LEFT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_HALF_LENGTH, Pathfinder.d2r(90)),
-                new Waypoint(FieldMap.LEFT_SWITCH_BACK_WALL_FORWARD + Constants.ROBOT_HALF_WIDTH, FieldMap.LEFT_SWITCH_BACK_WALL_HORIZONTAL - Constants.ROBOT_HALF_LENGTH, Pathfinder.d2r(90))
-        }));
-        leftLeftSwitchBackMP.addSection(new TurnToAngleSection(90));
-        leftLeftSwitchBackMP.addSection(new Drive(20, 0, 0));
-        leftLeftSwitchBackMP.addSection(new ArmMover(0, 400));
-        leftLeftSwitchBackMP.addSection(new ElevatorMover(25, 700));
-        leftLeftSwitchBackMP.addSection(new RunIntake(0.3, 500));
-
-        rightRightSwitchBackEnc = new AutonomousManager();
-        rightRightSwitchBackEnc.addSection(new DriveDistance(FieldMap.RIGHT_SWITCH_BACK_WALL_FORWARD));
-        rightRightSwitchBackEnc.addSection(new TurnToAngleSection(-90));
-        rightRightSwitchBackEnc.addSection(new DriveDistance(FieldMap.RIGHT_SWITCH_BACK_WALL_HORIZONTAL - Constants.ROBOT_HALF_WIDTH));
-        rightRightSwitchBackEnc.addSection(new TurnToAngleSection(-90));
-        rightRightSwitchBackEnc.addSection(new Drive(20, 0, 0));
-        rightRightSwitchBackEnc.addSection(new ArmMover(0, 400));
-        rightRightSwitchBackEnc.addSection(new ElevatorMover(25, 700));
-        rightRightSwitchBackEnc.addSection(new RunIntake(0.3, 500));
-
-        rightRightSwitchBackMP = new AutonomousManager();
-        rightRightSwitchBackMP.addSection(new MotionProfiler(new Waypoint[]{
-                new Waypoint(0, 0, 0),
-                new Waypoint(FieldMap.RIGHT_SWITCH_SIDE_WALL_FORWARD - Constants.ROBOT_HALF_LENGTH, 0, 0),
-                new Waypoint(FieldMap.RIGHT_SWITCH_BACK_WALL_FORWARD + Constants.ROBOT_HALF_WIDTH, FieldMap.RIGHT_SWITCH_SIDE_WALL_HORIZONTAL + Constants.ROBOT_HALF_LENGTH, Pathfinder.d2r(-90)),
-                new Waypoint(FieldMap.RIGHT_SWITCH_BACK_WALL_FORWARD + Constants.ROBOT_HALF_WIDTH, FieldMap.RIGHT_SWITCH_BACK_WALL_HORIZONTAL + Constants.ROBOT_HALF_LENGTH, Pathfinder.d2r(-90))
-        }));
-        rightRightSwitchBackMP.addSection(new TurnToAngleSection(-90));
-        rightRightSwitchBackMP.addSection(new Drive(20, 0, 0));
-        rightRightSwitchBackMP.addSection(new ArmMover(0, 400));
-        rightRightSwitchBackMP.addSection(new ElevatorMover(25, 700));
-        rightRightSwitchBackMP.addSection(new RunIntake(0.3, 500));
+        rightRightSwitchSideMP.addSection(new RunIntake(0.5, 300));
+        rightRightSwitchSideMP.addSection(new DriveDistance(-15, 2000));
+        rightRightSwitchSideMP.addSection(new ArmMover(0));
+        rightRightSwitchSideMP.addSection(new ElevatorMover(0));
+        rightRightSwitchSideMP.addSection(new Drive(20, 0, 0));
 
         leftLeftScaleMP = new AutonomousManager();
         leftLeftScaleMP.addSection(new RunIntake(-0.25, 20));
@@ -231,10 +181,34 @@ public class AutonomousStarter {
         leftLeftScaleMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(FieldMap.LEFT_SCALE_FORWARD_START_TURN, 0, 0),
-                new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 5, FieldMap.LEFT_SCALE_HORIZONTAL - Constants.ROBOT_HALF_WIDTH + 6, 0)
+                new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 2, FieldMap.LEFT_SCALE_HORIZONTAL - Constants.ROBOT_HALF_WIDTH + 12, 0)
         }, 70, 2000));
         leftLeftScaleMP.addSection(new Drive(20, 0, 0));
-        leftLeftScaleMP.addSection(new RunIntake(0.5, 500));
+        leftLeftScaleMP.addSection(new RunIntake(0.5, 200));
+        leftLeftScaleMP.addSection(new ArmMover(60, 20));
+        leftLeftScaleMP.addSection(new ElevatorMover(0, 20));
+        leftLeftScaleMP.addSection(new DriveDistance(-10));
+        leftLeftScaleMP.addSection(new TurnToAngleSection(180, 1000));
+        leftLeftScaleMP.addSection(new RunIntake(-.8, 40));
+        leftLeftScaleMP.addSection(new ArmMover(0, 40));
+        leftLeftScaleMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(35, -10, 0)
+        }));
+        leftLeftScaleMP.addSection(new Drive(20, 0.2, 0));
+        leftLeftScaleMP.addSection(new RunIntake(-.35, 1400, true));
+        leftLeftScaleMP.addSection(new ArmMover(45, 20));
+        leftLeftScaleMP.addSection(new DriveDistance(-10, 1000));
+        leftLeftScaleMP.addSection(new TurnToAngleSection(180, 1000));
+        leftLeftScaleMP.addSection(new Drive(20, 0, 0));
+        /*
+        leftLeftScaleMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(35, -5, 0)
+        }, 70));
+        leftLeftScaleMP.addSection(new Drive(20, 0, 0));
+        leftLeftScaleMP.addSection(new RunIntake(0.5, 500)); */
+
 
         rightRightScaleMP = new AutonomousManager();
         rightRightScaleMP.addSection(new RunIntake(-0.25, 20));
@@ -242,10 +216,33 @@ public class AutonomousStarter {
         rightRightScaleMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(FieldMap.RIGHT_SCALE_FORWARD_START_TURN, 0, 0),
-                new Waypoint(FieldMap.RIGHT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 5, FieldMap.RIGHT_SCALE_HORIZONTAL + Constants.ROBOT_HALF_WIDTH - 6, 0)
+                new Waypoint(FieldMap.RIGHT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 2, FieldMap.RIGHT_SCALE_HORIZONTAL + Constants.ROBOT_HALF_WIDTH - 12, 0)
         }, 70, 2000));
         rightRightScaleMP.addSection(new Drive(20, 0, 0));
         rightRightScaleMP.addSection(new RunIntake(0.5, 500));
+        rightRightScaleMP.addSection(new ArmMover(60, 20));
+        rightRightScaleMP.addSection(new ElevatorMover(0, 20));
+        rightRightScaleMP.addSection(new DriveDistance(-10));
+        rightRightScaleMP.addSection(new TurnToAngleSection(180, 1000));
+        rightRightScaleMP.addSection(new RunIntake(-.8, 40));
+        rightRightScaleMP.addSection(new ArmMover(0, 40));
+        rightRightScaleMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(35, 10, 0)
+        }));
+        rightRightScaleMP.addSection(new Drive(20, 0.2, 0));
+        rightRightScaleMP.addSection(new RunIntake(-.35, 1400, true));
+        rightRightScaleMP.addSection(new ArmMover(45, 20));
+        rightRightScaleMP.addSection(new DriveDistance(-10, 1000));
+        rightRightScaleMP.addSection(new TurnToAngleSection(180, 1000));
+        /*
+        rightRightScaleMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(35, 5, 0)
+        }, 70));
+        rightRightScaleMP.addSection(new Drive(20, 0, 0));
+        rightRightScaleMP.addSection(new RunIntake(0.5, 500)); */
+        rightRightScaleMP.addSection(new Drive(20, 0, 0));
 
         leftRightSwitchFrontMP = new AutonomousManager();
         leftRightSwitchFrontMP.addSection(new ArmMover(45, 20));
@@ -255,7 +252,11 @@ public class AutonomousStarter {
                 new Waypoint(FieldMap.LEFT_FAR_SWITCH_FRONT_FORWARD - Constants.ROBOT_LENGTH, FieldMap.LEFT_FAR_SWITCH_FRONT_HORIZONTAL - Constants.ROBOT_HALF_WIDTH, 0)
         }, 15, 1000));
         leftRightSwitchFrontMP.addSection(new Drive(20, 0, 0));
-        leftRightSwitchFrontMP.addSection(new RunIntake(0.5, 500));
+        leftRightSwitchFrontMP.addSection(new RunIntake(0.5, 300));
+        leftRightSwitchFrontMP.addSection(new DriveDistance(-15, 2000));
+        leftRightSwitchFrontMP.addSection(new ArmMover(0));
+        leftRightSwitchFrontMP.addSection(new ElevatorMover(0));
+        leftRightSwitchFrontMP.addSection(new Drive(20, 0, 0));
 
         rightLeftSwitchFrontMP = new AutonomousManager();
         rightLeftSwitchFrontMP.addSection(new ArmMover(45, 20));
@@ -266,6 +267,10 @@ public class AutonomousStarter {
         }, 15, 1000));
         rightLeftSwitchFrontMP.addSection(new Drive(20, 0, 0));
         rightLeftSwitchFrontMP.addSection(new RunIntake(0.5, 500));
+        rightLeftSwitchFrontMP.addSection(new DriveDistance(-15, 2000));
+        rightLeftSwitchFrontMP.addSection(new ArmMover(0));
+        rightLeftSwitchFrontMP.addSection(new ElevatorMover(0));
+        rightLeftSwitchFrontMP.addSection(new Drive(20, 0, 0));
 
         leftRightSwitchBackMP = new AutonomousManager();
         leftRightSwitchBackMP.addSection(new MotionProfiler(new Waypoint[]{
@@ -299,10 +304,10 @@ public class AutonomousStarter {
         leftLeftScaleLeftSwitchMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(FieldMap.LEFT_SCALE_FORWARD_START_TURN, 0, 0),
-                new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 5, FieldMap.LEFT_SCALE_HORIZONTAL - Constants.ROBOT_HALF_WIDTH + 6, 0)
+                new Waypoint(FieldMap.LEFT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 2, FieldMap.LEFT_SCALE_HORIZONTAL - Constants.ROBOT_HALF_WIDTH + 12, 0)
         }, 70, 2000));
         leftLeftScaleLeftSwitchMP.addSection(new Drive(20, 0, 0));
-        leftLeftScaleLeftSwitchMP.addSection(new RunIntake(0.5, 500));
+        leftLeftScaleLeftSwitchMP.addSection(new RunIntake(0.5, 200));
         leftLeftScaleLeftSwitchMP.addSection(new ArmMover(60, 20));
         leftLeftScaleLeftSwitchMP.addSection(new ElevatorMover(0, 20));
         leftLeftScaleLeftSwitchMP.addSection(new DriveDistance(-10));
@@ -314,12 +319,13 @@ public class AutonomousStarter {
                 new Waypoint(35, -10, 0)
         }));
         leftLeftScaleLeftSwitchMP.addSection(new Drive(20, 0.2, 0));
-        leftLeftScaleLeftSwitchMP.addSection(new RunIntake(-.35, 1400));
+        leftLeftScaleLeftSwitchMP.addSection(new RunIntake(-.35, 1400, true));
         leftLeftScaleLeftSwitchMP.addSection(new DriveDistance(-10, 1000));
         leftLeftScaleLeftSwitchMP.addSection(new ArmMover(45, 40));
         leftLeftScaleLeftSwitchMP.addSection(new ElevatorMover(15, 400));
         leftLeftScaleLeftSwitchMP.addSection(new Drive(2000,0.2, 0));
         leftLeftScaleLeftSwitchMP.addSection(new RunIntake(.5, 40));
+        leftLeftScaleLeftSwitchMP.addSection(new Drive(20, 0, 0));
 
         rightRightScaleRightSwitchMP = new AutonomousManager();
         rightRightScaleRightSwitchMP.addSection(new RunIntake(-0.25, 20));
@@ -327,10 +333,10 @@ public class AutonomousStarter {
         rightRightScaleRightSwitchMP.addSection(new MotionProfileWithElevator(new Waypoint[]{
                 new Waypoint(0, 0, 0),
                 new Waypoint(FieldMap.RIGHT_SCALE_FORWARD_START_TURN, 0, 0),
-                new Waypoint(FieldMap.RIGHT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 5, FieldMap.RIGHT_SCALE_HORIZONTAL + Constants.ROBOT_HALF_WIDTH - 6, 0)
+                new Waypoint(FieldMap.RIGHT_SCALE_FORWARD - Constants.ROBOT_LENGTH - 2, FieldMap.RIGHT_SCALE_HORIZONTAL + Constants.ROBOT_HALF_WIDTH - 12, 0)
         }, 70, 2000));
         rightRightScaleRightSwitchMP.addSection(new Drive(20, 0, 0));
-        rightRightScaleRightSwitchMP.addSection(new RunIntake(0.5, 500));
+        rightRightScaleRightSwitchMP.addSection(new RunIntake(0.5, 200));
         rightRightScaleRightSwitchMP.addSection(new ArmMover(60, 20));
         rightRightScaleRightSwitchMP.addSection(new ElevatorMover(0, 20));
         rightRightScaleRightSwitchMP.addSection(new DriveDistance(-10));
@@ -342,12 +348,45 @@ public class AutonomousStarter {
                 new Waypoint(35, 10, 0)
         }));
         rightRightScaleRightSwitchMP.addSection(new Drive(20, 0.2, 0));
-        rightRightScaleRightSwitchMP.addSection(new RunIntake(-.35, 1400));
+        rightRightScaleRightSwitchMP.addSection(new RunIntake(-.35, 1400, true));
         rightRightScaleRightSwitchMP.addSection(new DriveDistance(-10, 1000));
         rightRightScaleRightSwitchMP.addSection(new ArmMover(45, 40));
         rightRightScaleRightSwitchMP.addSection(new ElevatorMover(15, 400));
         rightRightScaleRightSwitchMP.addSection(new Drive(2000,0.2, 0));
         rightRightScaleRightSwitchMP.addSection(new RunIntake(.5, 40));
+        rightRightScaleRightSwitchMP.addSection(new Drive(20, 0, 0));
+
+        leftRightScaleMP = new AutonomousManager();
+        leftRightScaleMP.addSection(new ArmMover(45, 20));
+        leftRightScaleMP.addSection(new RunIntake(-0.25, 20));
+        leftRightScaleMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(FieldMap.LEFT_SWITCH_BACK_WALL_FORWARD + Constants.ROBOT_HALF_LENGTH, FieldMap.LEFT_SWITCH_SIDE_WALL_HORIZONTAL - Constants.ROBOT_WIDTH - 12, Pathfinder.d2r(0))
+        }));
+        leftRightScaleMP.addSection(new TurnToAngleSection(90, 1000));
+        leftRightScaleMP.addSection(new Drive(20, 0, 0));
+        leftRightScaleMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(160, 0, 0)
+        }));
+        leftRightScaleMP.addSection(new TurnToAngleSection(-90, 1000));
+        leftRightScaleMP.addSection(new Drive(20, 0, 0));
+
+        rightLeftScaleMP = new AutonomousManager();
+        rightLeftScaleMP.addSection(new ArmMover(45, 20));
+        rightLeftScaleMP.addSection(new RunIntake(-0.25, 20));
+        rightLeftScaleMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(FieldMap.RIGHT_SWITCH_BACK_WALL_FORWARD + Constants.ROBOT_HALF_LENGTH, FieldMap.RIGHT_SWITCH_SIDE_WALL_HORIZONTAL + Constants.ROBOT_WIDTH + 12, Pathfinder.d2r(0))
+        }));
+        rightLeftScaleMP.addSection(new TurnToAngleSection(-90, 1000));
+        rightLeftScaleMP.addSection(new Drive(20, 0, 0));
+        rightLeftScaleMP.addSection(new MotionProfiler(new Waypoint[]{
+                new Waypoint(0, 0, 0),
+                new Waypoint(160, 0, 0)
+        }));
+        rightLeftScaleMP.addSection(new TurnToAngleSection(90, 1000));
+        rightLeftScaleMP.addSection(new Drive(20, 0, 0));
     }
     
     /**
@@ -474,12 +513,41 @@ public class AutonomousStarter {
                     else if(startSide == Side.RIGHT)
                         return rightRightSwitchSideMP;
                     else return driveForward;
-                } else return driveForward;
+                } else {
+                    return driveForward;
+                }
+            case SWITCH_AND_SCALE:
+                if(startSide == scaleSide && startSide == switchSide) {
+                    if(startSide == Side.LEFT)
+                        return leftLeftScaleLeftSwitchMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightScaleRightSwitchMP;
+                    else return driveForward;
+                } else if(startSide == scaleSide){
+                    if(startSide == Side.LEFT)
+                        return leftLeftScaleMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightScaleMP;
+                    else return driveForward;
+                } else if(startSide == switchSide){
+                    if(startSide == Side.LEFT)
+                        return leftLeftSwitchSideMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightRightSwitchSideMP;
+                    else return driveForward;
+                } else {
+                    if(startSide == Side.LEFT)
+                        return leftRightScaleMP;
+                    else if(startSide == Side.RIGHT)
+                        return rightLeftScaleMP;
+                    else return driveForward;
+                }
             case SWITCH_THEN_SCALE:
                 if(startSide == scaleSide && startSide == switchSide) {
                     if(startSide == Side.LEFT)
                         return null; /***********TO BE FIXED************/
-                    else return null;/***********TO BE FIXED************/
+                    else return null;/***********TO BE FIX++E
+                     D************/
                 } else return driveForward; /*********TO BE COMPLETED**********/
             case EXPERIMENTAL_AUTO:
                 return leftLeftScaleLeftSwitchMP;
@@ -503,6 +571,7 @@ enum Strategy {
     SWITCH_OR_SCALE_SAME_SIDE,
     SCALE_OR_SWITCH_SAME_SIDE,
     SWITCH_AND_SCALE_SAME_SIDE,
+    SWITCH_AND_SCALE,
     SWITCH_THEN_SCALE,
     NETWORK_PROFILE,
     EXPERIMENTAL_AUTO

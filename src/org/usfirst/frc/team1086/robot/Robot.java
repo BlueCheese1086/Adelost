@@ -22,7 +22,6 @@ public class Robot extends TimedRobot {
 	Intake intake;
 	Arm arm;
 	Logger logger;
-	DigitalInput dio;
 	Climber climber;
 	MotionProfiling motionProfiling;
 	Relay lights;
@@ -38,7 +37,6 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		Globals.init();
 		drivetrain = Globals.drivetrain;
-		dio = new DigitalInput(0);
 		drivetrain.em.resetEncoders();
 		logger = Globals.logger;
 		autoStarter = new AutonomousStarter();
@@ -98,7 +96,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		if(dio.get())
+		if(!Globals.cubeDetector.get())
 			lights.set(Value.kForward);
 		else lights.set(Value.kOff);
 	    if(!balancer.isSaving() || Globals.im.getTipCorrectionOverride()) {
@@ -113,7 +111,7 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 	    teleopPeriodic();
 	}
-	
+
 	@Override public void disabledInit() {
 		logger.finish();
 	}
