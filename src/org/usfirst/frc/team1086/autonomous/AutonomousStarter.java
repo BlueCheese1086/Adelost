@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
+
 import org.usfirst.frc.team1086.autonomous.sections.*;
 import org.usfirst.frc.team1086.robot.Constants;
 import org.usfirst.frc.team1086.robot.FieldMap;
@@ -45,7 +46,7 @@ public class AutonomousStarter {
         sideChooser.addObject("Robot Center", Side.CENTER);
         sideChooser.addObject("Robot Right", Side.RIGHT);
         SmartDashboard.putData("Robot side chooser", sideChooser);
-
+        
         switchSideChooser.addObject("Switch Left", Side.LEFT);
         switchSideChooser.addObject("Switch Right", Side.RIGHT);
         switchSideChooser.addDefault("Read from FMS", null);
@@ -398,6 +399,7 @@ public class AutonomousStarter {
      * modes we haven't written yet.
  1    */
     public AutonomousManager start() {
+    	System.out.println("Side "+ sideChooser.getSelected());
         Globals.logger.print("Event", "Autonomous Starter start");
         String gameData = DriverStation.getInstance().getGameSpecificMessage();
         Globals.logger.print("Autonomous Randomization Data", gameData);
@@ -418,6 +420,9 @@ public class AutonomousStarter {
             }
         }
         startSide = sideChooser.getSelected();
+        startSide= Side.RIGHT;
+        //TODO REMOVE!!!
+        System.out.println("SIDEEEE!!!"+sideChooser.getSelected());
         Globals.logger.print("Autonomous Start Side", startSide == Side.LEFT ? "Left" : startSide == Side.CENTER ? "Center" : "Right");
         selectedStrategy = strategyChooser.getSelected();
         scaleSide = scaleSideChooser.getSelected() != null ? scaleSideChooser.getSelected() : scaleSide;

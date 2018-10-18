@@ -1,10 +1,12 @@
 package org.usfirst.frc.team1086.MotionProfiling;
-import jaci.pathfinder.*;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import org.usfirst.frc.team1086.logger.Logger;
+
+import jaci.pathfinder.Trajectory;
 
 /**
  * "Stolen" from Jaci's Pathfinder.
@@ -15,11 +17,12 @@ public class EncoderFollower {
     private BufferedWriter bw;
     private double encoder_offset, encoder_tick_count, wheel_circumference;
     private double kp, ki, kd, kv, ka;
-
+    private Logger log;
     private double last_error, heading;
-
+    Trajectory.Segment lastSegment;
     int segment;
     Trajectory trajectory;
+    double lastCalculatedVal=10.86, lastVelocity=10.86, lastDistance=10.86;
 
     public EncoderFollower(Trajectory traj, String filePath) {
         this(traj);
@@ -30,6 +33,20 @@ public class EncoderFollower {
             bw.newLine();
             bw.flush();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            log = new Logger();
+            System.out.println("Initializing the logger");
+            log.initSQL("jdbc:postgresql://192.168.1.248/postgres", "postgres", "Hypercam");
+            log.addStatement("Distance", () ->{return ""+this.lastDistance;});
+            log.addStatement("Position", ()->{return ""+this.lastSegment.position;});
+            log.addStatement("Velocity", ()->{return ""+this.lastSegment.velocity;});
+            log.addStatement("Acceleration", ()->{return ""+this.lastSegment.acceleration;});
+            log.addStatement("Enc_Velocity", ()->{return ""+this.lastVelocity;});
+            log.addStatement("Output", ()->{return ""+this.lastCalculatedVal;});
+            
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -53,7 +70,16 @@ public class EncoderFollower {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        try {
+        	this.lastDistance=distance_covered;
+        	this.lastSegment=seg;
+        	this.lastCalculatedVal=calculate_value;
+        	this.lastVelocity=vel;
+        	
+        	log.logToSQL();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return calculate_value;
     }
 

@@ -69,6 +69,7 @@ public class Robot extends TimedRobot {
     }
 	@Override
 	public void autonomousInit() {
+		System.out.println("Running auto init!");
 		Globals.logger = new Logger("Auto");
 	    Globals.logger.print("Event", "Autonomous Init");
         ranAuto = true;
